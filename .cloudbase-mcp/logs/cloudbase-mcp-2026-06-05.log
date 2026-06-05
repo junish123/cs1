@@ -7391,3 +7391,34 @@
   "eventCode": "toolkit_lifecycle",
   "deviceId": "33785118..."
 }
+[2026-06-05T17:15:03.568+00:00] [DEBUG] 工具执行成功: envQuery {
+  "duration": 378
+}
+[2026-06-05T17:15:03.568+00:00] [DEBUG] [telemetry] 工具调用 envId 获取结果 {
+  "toolName": "envQuery",
+  "envId": "cs20260605-d7ge3qv3adead64a3",
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T17:15:03.569+00:00] [DEBUG] [telemetry] 工具调用上报参数 {
+  "toolName": "envQuery",
+  "eventData": {
+    "toolName": "envQuery",
+    "success": "true",
+    "duration": 378,
+    "envId": "cs20260605-d7ge3qv3adead64a3",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2",
+    "inputParams": "[已包含]",
+    "ide": "codebuddy"
+  },
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID"
+}
+[2026-06-05T17:15:03.589+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_tool_call",
+  "deviceId": "33785118..."
+}
