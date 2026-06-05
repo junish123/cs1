@@ -17,36 +17,34 @@ let isLoggedIn = false;
 
 // 初始化
 async function init() {
-  console.log('开始初始化...');
-  
   try {
+    console.log('开始初始化 CloudBase...');
+    
     // 初始化 CloudBase
     app = cloudbase.init({
       env: CLOUDBASE_ENV
     });
     
-    console.log('CloudBase 初始化成功，环境ID:', CLOUDBASE_ENV);
-    
     // 获取数据库实例
     db = app.database();
-    isCloudBaseReady = true;
     
-    console.log('数据库实例创建成功');
+    isCloudBaseReady = true;
+    console.log('CloudBase 初始化成功');
     
     // 检查登录状态
     checkLoginStatus();
     
     // 绑定事件
     bindEvents();
-    
-    console.log('应用初始化完成');
   } catch (error) {
     console.error('CloudBase 初始化失败:', error);
     showError('系统初始化失败，请刷新页面重试');
     // 即使没有 CloudBase，也允许本地登录
+    isCloudBaseReady = false;
     checkLoginStatus();
     bindEvents();
   }
+}
 }
 
 // 检查登录状态
@@ -116,18 +114,47 @@ function bindEvents() {
 }
 
 // 登录处理
-function handleLogin(e) {
+async function handleLogin(e) {
   e.preventDefault();
-  console.log('开始登录处理...');
   
-  const usernameInput = document.getElementById('adminUsername');
-  const passwordInput = document.getElementById('adminPassword');
+  const username = document.getElementById('adminUsername').value.trim();
+  const password = document.getElementById('adminPassword').value;
   
-  if (!usernameInput || !passwordInput) {
-    console.error('找不到输入框元素');
-    alert('页面加载错误，请刷新重试');
+  console.log('尝试登录:', username);
+  
+  if (!username || !password) {
+    alert('请输入账号和密码');
     return;
   }
+  
+  if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+    console.log('登录验证成功');
+    
+    // 创建会话
+    const session = {
+      username: username,
+      expires: Date.now() + 24 * 60 * 60 * 1000 // 24小时过期
+    };
+    localStorage.setItem('adminSession', JSON.stringify(session));
+    
+    isLoggedIn = true;
+    showDashboard();
+    
+    // 如果 CloudBase 已初始化，加载数据
+    if (isCloudBaseReady && db) {
+      try {
+        await loadDashboardData();
+      } catch (error) {
+        console.error('加载数据失败:', error);
+      }
+    } else {
+      console.log('CloudBase 未就绪，跳过数据加载');
+    }
+  } else {
+    console.log('登录验证失败');
+    alert('账号或密码错误');
+  }
+}
   
   const username = usernameInput.value.trim();
   const password = passwordInput.value.trim();
@@ -262,10 +289,50 @@ function navigateTo(page) {
 
 // 加载仪表盘数据
 async function loadDashboardData() {
-  if (!isCloudBaseReady) {
-    console.warn('CloudBase 未就绪');
+  if (!isCloudBaseReady || !db) {
+    console.log('CloudBase 未就绪，无法加载数据');
     return;
   }
+  
+  try {
+    console.log('开始加载仪表盘数据...');
+    
+    // 获取会员总数
+    const membersCount = await db.collection('members').count();
+    document.getElementById('statTotalMembers').textContent = membersCount.total || 0;
+    
+    // 获取今日新增
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayMembers = await db.collection('members')
+      .where({
+        createTime: db.command.gte(today)
+      })
+      .count();
+    document.getElementById('statNewMembers').textContent = todayMembers.total || 0;
+    
+    // 获取总积分
+    const members = await db.collection('members').get();
+    const totalPoints = members.data.reduce((sum, m) => sum + (m.points || 0), 0);
+    document.getElementById('statTotalPoints').textContent = formatNumber(totalPoints);
+    
+    // 获取优惠券领取数
+    const couponCount = await db.collection('user_coupons').count();
+    document.getElementById('statCouponCount').textContent = couponCount.total || 0;
+    
+    // 加载最近会员
+    await loadRecentMembers();
+    
+    console.log('仪表盘数据加载完成');
+  } catch (error) {
+    console.error('加载仪表盘数据失败:', error);
+    // 显示默认数据
+    document.getElementById('statTotalMembers').textContent = '0';
+    document.getElementById('statNewMembers').textContent = '0';
+    document.getElementById('statTotalPoints').textContent = '0';
+    document.getElementById('statCouponCount').textContent = '0';
+  }
+}
   
   console.log('加载仪表盘数据...');
   
