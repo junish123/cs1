@@ -3912,3 +3912,87 @@
   "eventCode": "toolkit_lifecycle",
   "deviceId": "6d5f2493..."
 }
+[2026-06-05T16:11:01.013+00:00] [DEBUG] [cache] Using default TTL {
+  "ttlMs": 86400000
+}
+[2026-06-05T16:11:01.049+00:00] [DEBUG] 检测到 IDE 集成环境 {
+  "ide": "codebuddy"
+}
+[2026-06-05T16:11:01.049+00:00] [DEBUG] report_init {
+  "enabled": true,
+  "deviceId": "947e43d6...",
+  "ide": "codebuddy"
+}
+[2026-06-05T16:11:01.057+00:00] [INFO] Integration IDE: codebuddy
+[2026-06-05T16:11:01.076+00:00] [DEBUG] [cache] evaluated cache meta {
+  "ageMs": 18243280,
+  "ttlMs": 86400000,
+  "valid": true
+}
+[2026-06-05T16:11:01.077+00:00] [DEBUG] [downloadResources] 使用缓存（快速路径）
+[2026-06-05T16:11:01.092+00:00] [INFO] TencentCloudBase MCP Server running on stdio
+[2026-06-05T16:11:01.093+00:00] [DEBUG] [telemetry] 生命周期事件 envId 获取结果 {
+  "event": "start",
+  "envId": "unknown",
+  "envIdSource": "default",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T16:11:01.093+00:00] [DEBUG] [telemetry] 生命周期事件上报参数 {
+  "event": "start",
+  "eventData": {
+    "event": "start",
+    "envId": "unknown",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2",
+    "ide": "codebuddy"
+  },
+  "envIdSource": "default"
+}
+[2026-06-05T16:11:01.121+00:00] [DEBUG] 开始执行工具: downloadRemoteFile {
+  "args": {
+    "url": "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+    "relativePath": "miniprogram/images/default-avatar.png"
+  }
+}
+[2026-06-05T16:11:01.122+00:00] [INFO] 📁 项目根目录: /tmp/workspace/682880f0-0e39-4f06-847c-dcfc4c2a649f
+[2026-06-05T16:11:01.122+00:00] [INFO] 📁 相对路径: miniprogram/images/default-avatar.png
+[2026-06-05T16:11:01.122+00:00] [INFO] 📁 最终路径: /tmp/workspace/682880f0-0e39-4f06-847c-dcfc4c2a649f/miniprogram/images/default-avatar.png
+[2026-06-05T16:11:01.158+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_lifecycle",
+  "deviceId": "947e43d6..."
+}
+[2026-06-05T16:11:01.920+00:00] [DEBUG] 工具执行成功: downloadRemoteFile {
+  "duration": 799
+}
+[2026-06-05T16:11:01.920+00:00] [DEBUG] [telemetry] 工具调用 envId 获取结果 {
+  "toolName": "downloadRemoteFile",
+  "envId": "unknown",
+  "envIdSource": "default",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T16:11:01.921+00:00] [DEBUG] [telemetry] 工具调用上报参数 {
+  "toolName": "downloadRemoteFile",
+  "eventData": {
+    "toolName": "downloadRemoteFile",
+    "success": "true",
+    "duration": 799,
+    "envId": "unknown",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2",
+    "inputParams": "[已包含]",
+    "ide": "codebuddy"
+  },
+  "envIdSource": "default"
+}
+[2026-06-05T16:11:01.930+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_tool_call",
+  "deviceId": "947e43d6..."
+}
