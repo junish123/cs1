@@ -20,21 +20,15 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath": "images/home.png",
-        "selectedIconPath": "images/home-active.png"
+        "text": "首页"
       },
       {
         "pagePath": "pages/coupons/coupons",
-        "text": "优惠券",
-        "iconPath": "images/coupon.png",
-        "selectedIconPath": "images/coupon-active.png"
+        "text": "优惠券"
       },
       {
         "pagePath": "pages/member/member",
-        "text": "我的",
-        "iconPath": "images/user.png",
-        "selectedIconPath": "images/user-active.png"
+        "text": "我的"
       }
     ]
   },
