@@ -1,0 +1,442 @@
+.container {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding-bottom: 40rpx;
+}
+
+/* 停车状态卡片 */
+.parking-status-card {
+  margin: 20rpx;
+  background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+  border-radius: 20rpx;
+  padding: 30rpx;
+  color: #fff;
+}
+
+.status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.status-title {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.status-time {
+  font-size: 28rpx;
+  color: #4CC9F0;
+}
+
+.status-info {
+  background: rgba(255,255,255,0.1);
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+.info-label {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.7);
+}
+
+.info-value {
+  font-size: 26rpx;
+}
+
+.info-value.price {
+  color: #E94560;
+  font-weight: bold;
+}
+
+.pay-btn {
+  background: linear-gradient(135deg, #E94560, #FF6B6B);
+  border-radius: 40rpx;
+  padding: 24rpx 0;
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+/* 区块样式 */
+.section {
+  margin: 20rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  color: #E94560;
+  font-size: 26rpx;
+}
+
+.add-btn .iconfont {
+  margin-right: 6rpx;
+}
+
+.view-all {
+  font-size: 26rpx;
+  color: #999;
+}
+
+/* 车辆列表 */
+.vehicle-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.vehicle-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx;
+  background: #f8f8f8;
+  border-radius: 12rpx;
+  border: 2rpx solid transparent;
+}
+
+.vehicle-card.default {
+  border-color: #E94560;
+  background: rgba(233, 69, 96, 0.05);
+}
+
+.vehicle-info {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.plate-number {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.vehicle-type {
+  font-size: 24rpx;
+  color: #666;
+  background: #e0e0e0;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+}
+
+.default-tag {
+  font-size: 22rpx;
+  color: #fff;
+  background: #E94560;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+}
+
+.vehicle-actions {
+  display: flex;
+  gap: 24rpx;
+}
+
+.action-text {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.action-text.delete {
+  color: #E94560;
+}
+
+/* 停车记录 */
+.record-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.record-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.record-item:last-child {
+  border-bottom: none;
+}
+
+.record-left {
+  flex: 1;
+}
+
+.record-plate {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.record-time {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 4rpx;
+}
+
+.record-location {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.record-right {
+  text-align: right;
+}
+
+.record-fee {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #E94560;
+  margin-bottom: 8rpx;
+}
+
+.record-status {
+  font-size: 24rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+}
+
+.record-status.paid {
+  color: #06D6A0;
+  background: rgba(6, 214, 160, 0.1);
+}
+
+.record-status.unpaid {
+  color: #E94560;
+  background: rgba(233, 69, 96, 0.1);
+}
+
+/* 空状态 */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 0;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.empty .iconfont {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+  color: #ddd;
+}
+
+/* 弹窗样式 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+}
+
+.modal-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  position: relative;
+  width: 100%;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  padding: 30rpx;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.modal-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.modal-close {
+  font-size: 48rpx;
+  color: #999;
+  line-height: 1;
+}
+
+/* 缴费弹窗 */
+.pay-info {
+  padding: 20rpx 0;
+}
+
+.pay-plate {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+.pay-amount {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.amount-label {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.amount-value {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.coupon-section {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.coupon-label {
+  font-size: 28rpx;
+  color: #666;
+  flex: 1;
+}
+
+.coupon-value {
+  font-size: 28rpx;
+  color: #E94560;
+  margin-right: 10rpx;
+}
+
+.final-amount {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+}
+
+.final-label {
+  font-size: 30rpx;
+  color: #333;
+  font-weight: bold;
+}
+
+.final-value {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #E94560;
+}
+
+.pay-action {
+  margin-top: 30rpx;
+}
+
+.confirm-pay-btn {
+  background: linear-gradient(135deg, #E94560, #FF6B6B);
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  border: none;
+}
+
+/* 表单样式 */
+.form-content {
+  padding: 20rpx 0;
+}
+
+.form-item {
+  margin-bottom: 30rpx;
+}
+
+.form-label {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 16rpx;
+}
+
+.form-input {
+  height: 80rpx;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 30rpx;
+}
+
+.picker-value {
+  height: 80rpx;
+  line-height: 80rpx;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 30rpx;
+  color: #333;
+}
+
+.form-actions {
+  margin-top: 40rpx;
+}
+
+.confirm-btn {
+  background: linear-gradient(135deg, #E94560, #FF6B6B);
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  border: none;
+}

@@ -1,0 +1,136 @@
+<view class="container">
+  <!-- 当前停车状态卡片 -->
+  <view class="parking-status-card" wx:if="{{currentParking}}">
+    <view class="status-header">
+      <text class="status-title">正在停车中</text>
+      <text class="status-time">{{currentParking.duration}}</text>
+    </view>
+    <view class="status-info">
+      <view class="info-item">
+        <text class="info-label">车牌号</text>
+        <text class="info-value">{{currentParking.plateNumber}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">入场时间</text>
+        <text class="info-value">{{currentParking.entryTime}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">预计费用</text>
+        <text class="info-value price">¥{{currentParking.estimatedFee}}</text>
+      </view>
+    </view>
+    <view class="pay-btn" bindtap="payParkingFee">
+      <text>立即缴费</text>
+    </view>
+  </view>
+
+  <!-- 车牌管理 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">我的车辆</text>
+      <view class="add-btn" bindtap="addVehicle">
+        <text class="iconfont icon-plus"></text>
+        <text>添加车辆</text>
+      </view>
+    </view>
+    <view class="vehicle-list">
+      <view class="vehicle-card {{item.isDefault ? 'default' : ''}}" wx:for="{{vehicles}}" wx:key="id">
+        <view class="vehicle-info">
+          <text class="plate-number">{{item.plateNumber}}</text>
+          <text class="vehicle-type">{{item.type}}</text>
+          <text class="default-tag" wx:if="{{item.isDefault}}">默认</text>
+        </view>
+        <view class="vehicle-actions">
+          <text class="action-text" wx:if="{{!item.isDefault}}" bindtap="setDefault" data-id="{{item.id}}">设为默认</text>
+          <text class="action-text delete" bindtap="deleteVehicle" data-id="{{item.id}}">删除</text>
+        </view>
+      </view>
+    </view>
+    <view class="empty" wx:if="{{vehicles.length === 0}}">
+      <text class="iconfont icon-car"></text>
+      <text>暂无绑定车辆</text>
+    </view>
+  </view>
+
+  <!-- 停车记录 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">停车记录</text>
+      <text class="view-all" bindtap="viewAllRecords">查看全部 ></text>
+    </view>
+    <view class="record-list">
+      <view class="record-item" wx:for="{{parkingRecords}}" wx:key="id">
+        <view class="record-left">
+          <text class="record-plate">{{item.plateNumber}}</text>
+          <text class="record-time">{{item.entryTime}} - {{item.exitTime}}</text>
+          <text class="record-location">{{item.location}}</text>
+        </view>
+        <view class="record-right">
+          <text class="record-fee">¥{{item.fee}}</text>
+          <text class="record-status {{item.status}}">{{item.statusText}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="empty" wx:if="{{parkingRecords.length === 0}}">
+      <text class="iconfont icon-record"></text>
+      <text>暂无停车记录</text>
+    </view>
+  </view>
+
+  <!-- 缴费弹窗 -->
+  <view class="modal" wx:if="{{showPayModal}}">
+    <view class="modal-mask" bindtap="closePayModal"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">停车缴费</text>
+        <text class="modal-close" bindtap="closePayModal">×</text>
+      </view>
+      <view class="pay-info">
+        <view class="pay-plate">{{payInfo.plateNumber}}</view>
+        <view class="pay-amount">
+          <text class="amount-label">应付金额</text>
+          <text class="amount-value">¥{{payInfo.amount}}</text>
+        </view>
+        <view class="coupon-section" bindtap="selectCoupon">
+          <text class="coupon-label">优惠券</text>
+          <text class="coupon-value" wx:if="{{selectedCoupon}}">-{{selectedCoupon.amount}}元</text>
+          <text class="coupon-value" wx:else>{{availableCoupons.length > 0 ? availableCoupons.length + '张可用' : '暂无可用'}}</text>
+          <text class="iconfont icon-arrow-right"></text>
+        </view>
+        <view class="final-amount">
+          <text class="final-label">实付金额</text>
+          <text class="final-value">¥{{payInfo.finalAmount}}</text>
+        </view>
+      </view>
+      <view class="pay-action">
+        <button class="confirm-pay-btn" bindtap="confirmPay">确认支付</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 添加车辆弹窗 -->
+  <view class="modal" wx:if="{{showAddModal}}">
+    <view class="modal-mask" bindtap="closeAddModal"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">添加车辆</text>
+        <text class="modal-close" bindtap="closeAddModal">×</text>
+      </view>
+      <view class="form-content">
+        <view class="form-item">
+          <text class="form-label">车牌号码</text>
+          <input class="form-input" placeholder="请输入车牌号" value="{{newPlateNumber}}" bindinput="onPlateInput" maxlength="8"/>
+        </view>
+        <view class="form-item">
+          <text class="form-label">车辆类型</text>
+          <picker bindchange="onTypeChange" value="{{typeIndex}}" range="{{vehicleTypes}}">
+            <view class="picker-value">{{vehicleTypes[typeIndex]}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="form-actions">
+        <button class="confirm-btn" bindtap="confirmAdd">确认添加</button>
+      </view>
+    </view>
+  </view>
+</view>

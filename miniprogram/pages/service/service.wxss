@@ -1,0 +1,353 @@
+.container {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding-bottom: 40rpx;
+}
+
+/* 头部样式 */
+.service-header {
+  background: linear-gradient(135deg, #1A1A2E 0%, #16213E 50%, #0F3460 100%);
+  padding: 40rpx 30rpx;
+  color: #fff;
+}
+
+.header-content {
+  margin-bottom: 30rpx;
+}
+
+.header-title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.header-subtitle {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.7);
+}
+
+.service-stats {
+  display: flex;
+  justify-content: space-around;
+  background: rgba(255,255,255,0.1);
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-num {
+  display: block;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #4CC9F0;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.7);
+}
+
+/* 区块样式 */
+.section {
+  margin: 20rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.history-link {
+  font-size: 26rpx;
+  color: #999;
+}
+
+/* 快捷服务 */
+.quick-services {
+  display: flex;
+  justify-content: space-around;
+}
+
+.service-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx;
+}
+
+.service-icon {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16rpx;
+}
+
+.service-icon.phone {
+  background: linear-gradient(135deg, #E94560, #FF6B6B);
+}
+
+.service-icon.chat {
+  background: linear-gradient(135deg, #4361EE, #3A0CA3);
+}
+
+.service-icon.faq {
+  background: linear-gradient(135deg, #06D6A0, #118AB2);
+}
+
+.service-icon .iconfont {
+  font-size: 48rpx;
+  color: #fff;
+}
+
+.service-name {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.service-desc {
+  font-size: 22rpx;
+  color: #999;
+}
+
+/* 反馈类型 */
+.feedback-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.type-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 16rpx 24rpx;
+  background: #f5f5f5;
+  border-radius: 32rpx;
+  font-size: 26rpx;
+  color: #666;
+  border: 2rpx solid transparent;
+}
+
+.type-item.active {
+  background: rgba(233, 69, 96, 0.1);
+  color: #E94560;
+  border-color: #E94560;
+}
+
+.type-item .iconfont {
+  font-size: 28rpx;
+}
+
+/* 反馈表单 */
+.feedback-form {
+  margin-top: 20rpx;
+}
+
+.form-item {
+  position: relative;
+  margin-bottom: 24rpx;
+}
+
+.feedback-textarea {
+  width: 100%;
+  height: 240rpx;
+  background: #f8f8f8;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.word-count {
+  position: absolute;
+  right: 20rpx;
+  bottom: 20rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 图片上传 */
+.upload-section {
+  margin-bottom: 24rpx;
+}
+
+.upload-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.upload-item {
+  position: relative;
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.upload-item image {
+  width: 100%;
+  height: 100%;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40rpx;
+  height: 40rpx;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 32rpx;
+  text-align: center;
+  line-height: 36rpx;
+  border-radius: 0 12rpx 0 12rpx;
+}
+
+.upload-btn {
+  width: 160rpx;
+  height: 160rpx;
+  border: 2rpx dashed #ddd;
+  border-radius: 12rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f8f8f8;
+}
+
+.upload-btn .iconfont {
+  font-size: 48rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+
+.upload-text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 联系方式 */
+.contact-item {
+  background: #f8f8f8;
+  border-radius: 12rpx;
+  padding: 20rpx;
+}
+
+.item-label {
+  display: block;
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 12rpx;
+}
+
+.contact-input {
+  width: 100%;
+  height: 60rpx;
+  font-size: 28rpx;
+  background: transparent;
+}
+
+/* 提交按钮 */
+.submit-btn {
+  background: linear-gradient(135deg, #E94560, #FF6B6B);
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-top: 40rpx;
+  border: none;
+}
+
+.submit-btn.disabled {
+  background: #ccc;
+}
+
+/* 常见问题 */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-item {
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+}
+
+.faq-q {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+  margin-right: 20rpx;
+}
+
+.faq-header .iconfont {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.faq-content {
+  padding-bottom: 24rpx;
+}
+
+.faq-a {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 服务时间 */
+.service-time {
+  margin: 20rpx;
+  padding: 24rpx;
+  background: rgba(233, 69, 96, 0.05);
+  border-radius: 12rpx;
+  text-align: center;
+}
+
+.time-title {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 12rpx;
+}
+
+.time-info {
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 6rpx;
+}

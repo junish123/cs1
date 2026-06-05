@@ -1,0 +1,106 @@
+<view class="container">
+  <!-- 签到头部 -->
+  <view class="signin-header">
+    <view class="header-bg"></view>
+    <view class="points-display">
+      <text class="points-label">我的积分</text>
+      <text class="points-value">{{memberInfo.points || 0}}</text>
+    </view>
+    <view class="signin-btn {{hasSignedToday ? 'signed' : ''}}" bindtap="doSignIn">
+      <text class="btn-text">{{hasSignedToday ? '已签到' : '立即签到'}}</text>
+      <text class="btn-points" wx:if="{{!hasSignedToday}}">+{{todayPoints}}积分</text>
+    </view>
+  </view>
+
+  <!-- 连续签到 -->
+  <view class="section">
+    <view class="consecutive-days">
+      <text class="days-num">{{consecutiveDays}}</text>
+      <text class="days-text">天</text>
+    </view>
+    <text class="consecutive-tip">连续签到，积分翻倍</text>
+    
+    <!-- 签到进度 -->
+    <view class="signin-progress">
+      <view class="progress-item {{item.signed ? 'signed' : ''}} {{item.today ? 'today' : ''}}" 
+            wx:for="{{weekSignin}}" 
+            wx:key="day">
+        <view class="day-circle">
+          <text class="iconfont {{item.signed ? 'icon-check' : ''}}"></text>
+        </view>
+        <text class="day-label">{{item.label}}</text>
+        <text class="day-points" wx:if="{{item.bonus}}">+{{item.points}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 签到日历 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">签到日历</text>
+      <view class="month-selector">
+        <text class="iconfont icon-arrow-left" bindtap="prevMonth"></text>
+        <text class="current-month">{{currentYear}}年{{currentMonth}}月</text>
+        <text class="iconfont icon-arrow-right" bindtap="nextMonth"></text>
+      </view>
+    </view>
+    
+    <!-- 星期标题 -->
+    <view class="week-header">
+      <text wx:for="{{weekDays}}" wx:key="*this">{{item}}</text>
+    </view>
+    
+    <!-- 日期网格 -->
+    <view class="calendar-grid">
+      <view class="calendar-day {{item.empty ? 'empty' : ''}} {{item.signed ? 'signed' : ''}} {{item.today ? 'today' : ''}}" 
+            wx:for="{{calendarDays}}" 
+            wx:key="date">
+        <text class="day-num">{{item.day}}</text>
+        <text class="sign-mark" wx:if="{{item.signed}}">✓</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 签到奖励 -->
+  <view class="section">
+    <view class="section-title">签到奖励</view>
+    <view class="reward-list">
+      <view class="reward-item {{consecutiveDays >= item.days ? 'achieved' : ''}}" wx:for="{{rewards}}" wx:key="days">
+        <view class="reward-icon">
+          <text class="iconfont icon-gift"></text>
+        </view>
+        <view class="reward-info">
+          <text class="reward-title">连续签到{{item.days}}天</text>
+          <text class="reward-desc">{{item.desc}}</text>
+        </view>
+        <view class="reward-status">
+          <text wx:if="{{consecutiveDays >= item.days}}">已达成</text>
+          <text wx:else>还差{{item.days - consecutiveDays}}天</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 积分规则 -->
+  <view class="section">
+    <view class="section-title">签到规则</view>
+    <view class="rules-list">
+      <view class="rule-item">
+        <text class="rule-num">1</text>
+        <text class="rule-text">每日签到可获得基础积分，连续签到积分翻倍</text>
+      </view>
+      <view class="rule-item">
+        <text class="rule-num">2</text>
+        <text class="rule-text">连续签到7天可获得额外大礼包奖励</text>
+      </view>
+      <view class="rule-item">
+        <text class="rule-num">3</text>
+        <text class="rule-text">断签后连续天数将重新计算</text>
+      </view>
+      <view class="rule-item">
+        <text class="rule-num">4</text>
+        <text class="rule-text">积分可用于兑换优惠券和停车券</text>
+      </view>
+    </view>
+  </view>
+</view>

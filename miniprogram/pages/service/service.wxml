@@ -1,0 +1,145 @@
+<view class="container">
+  <!-- 客服头部 -->
+  <view class="service-header">
+    <view class="header-content">
+      <text class="header-title">客服中心</text>
+      <text class="header-subtitle">我们随时为您服务</text>
+    </view>
+    <view class="service-stats">
+      <view class="stat-item">
+        <text class="stat-num">24h</text>
+        <text class="stat-label">在线服务</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-num">99%</text>
+        <text class="stat-label">问题解决率</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-num">5min</text>
+        <text class="stat-label">平均响应</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷服务 -->
+  <view class="section">
+    <view class="section-title">快捷服务</view>
+    <view class="quick-services">
+      <view class="service-item" bindtap="makePhoneCall">
+        <view class="service-icon phone">
+          <text class="iconfont icon-phone"></text>
+        </view>
+        <text class="service-name">电话客服</text>
+        <text class="service-desc">400-888-8888</text>
+      </view>
+      <view class="service-item" bindtap="openOnlineChat">
+        <view class="service-icon chat">
+          <text class="iconfont icon-message"></text>
+        </view>
+        <text class="service-name">在线客服</text>
+        <text class="service-desc">即时沟通</text>
+      </view>
+      <view class="service-item" bindtap="goToFAQ">
+        <view class="service-icon faq">
+          <text class="iconfont icon-help"></text>
+        </view>
+        <text class="service-name">常见问题</text>
+        <text class="service-desc">自助解答</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 留言反馈 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">留言反馈</text>
+      <text class="history-link" bindtap="viewFeedbackHistory">历史记录 ></text>
+    </view>
+    
+    <!-- 反馈类型 -->
+    <view class="feedback-types">
+      <view class="type-item {{feedbackType === 'complaint' ? 'active' : ''}}" bindtap="selectType" data-type="complaint">
+        <text class="iconfont icon-warning"></text>
+        <text>投诉建议</text>
+      </view>
+      <view class="type-item {{feedbackType === 'consult' ? 'active' : ''}}" bindtap="selectType" data-type="consult">
+        <text class="iconfont icon-question"></text>
+        <text>业务咨询</text>
+      </view>
+      <view class="type-item {{feedbackType === 'bug' ? 'active' : ''}}" bindtap="selectType" data-type="bug">
+        <text class="iconfont icon-bug"></text>
+        <text>问题反馈</text>
+      </view>
+      <view class="type-item {{feedbackType === 'other' ? 'active' : ''}}" bindtap="selectType" data-type="other">
+        <text class="iconfont icon-more"></text>
+        <text>其他</text>
+      </view>
+    </view>
+
+    <!-- 反馈表单 -->
+    <view class="feedback-form">
+      <view class="form-item">
+        <textarea 
+          class="feedback-textarea" 
+          placeholder="请详细描述您的问题或建议，我们将尽快处理..."
+          value="{{feedbackContent}}"
+          bindinput="onContentInput"
+          maxlength="500"
+        />
+        <text class="word-count">{{feedbackContent.length}}/500</text>
+      </view>
+      
+      <!-- 图片上传 -->
+      <view class="upload-section">
+        <view class="upload-list">
+          <view class="upload-item" wx:for="{{uploadImages}}" wx:key="index">
+            <image src="{{item}}" mode="aspectFill" bindtap="previewImage" data-url="{{item}}"/>
+            <text class="delete-btn" bindtap="deleteImage" data-index="{{index}}">×</text>
+          </view>
+          <view class="upload-btn" bindtap="chooseImage" wx:if="{{uploadImages.length < 6}}">
+            <text class="iconfont icon-camera"></text>
+            <text class="upload-text">{{uploadImages.length}}/6</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 联系方式 -->
+      <view class="form-item contact-item">
+        <text class="item-label">联系方式（选填）</text>
+        <input 
+          class="contact-input" 
+          placeholder="请输入手机号，方便我们联系您"
+          value="{{contactPhone}}"
+          bindinput="onPhoneInput"
+          type="number"
+          maxlength="11"
+        />
+      </view>
+
+      <button class="submit-btn {{canSubmit ? '' : 'disabled'}}" bindtap="submitFeedback">提交反馈</button>
+    </view>
+  </view>
+
+  <!-- 常见问题 -->
+  <view class="section">
+    <view class="section-title">常见问题</view>
+    <view class="faq-list">
+      <view class="faq-item" wx:for="{{faqList}}" wx:key="id" bindtap="toggleFAQ" data-id="{{item.id}}">
+        <view class="faq-header">
+          <text class="faq-q">Q: {{item.question}}</text>
+          <text class="iconfont {{item.expanded ? 'icon-arrow-up' : 'icon-arrow-down'}}"></text>
+        </view>
+        <view class="faq-content" wx:if="{{item.expanded}}">
+          <text class="faq-a">{{item.answer}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 服务时间 -->
+  <view class="service-time">
+    <text class="time-title">服务时间</text>
+    <text class="time-info">在线客服：9:00-22:00</text>
+    <text class="time-info">电话客服：24小时</text>
+  </view>
+</view>

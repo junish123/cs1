@@ -81,8 +81,9 @@
     </view>
   </view>
 
-  <!-- 功能列表 -->
+  <!-- 会员功能 -->
   <view class="section">
+    <view class="section-title">会员服务</view>
     <view class="menu-list">
       <view class="menu-item" bindtap="goToVipLevel">
         <view class="menu-icon" style="background: linear-gradient(135deg, #FFD700, #FFA500);">
@@ -90,51 +91,51 @@
         </view>
         <view class="menu-content">
           <text class="menu-title">会员等级</text>
-          <text class="menu-desc">当前等级特权</text>
+          <text class="menu-desc">等级权益与升级规则</text>
+        </view>
+        <text class="iconfont icon-arrow-right"></text>
+      </view>
+      
+      <view class="menu-item" bindtap="goToSignIn">
+        <view class="menu-icon" style="background: linear-gradient(135deg, #E94560, #FF6B6B);">
+          <text class="iconfont icon-calendar"></text>
+        </view>
+        <view class="menu-content">
+          <text class="menu-title">每日签到</text>
+          <text class="menu-desc">签到领积分，连续翻倍</text>
         </view>
         <text class="iconfont icon-arrow-right"></text>
       </view>
       
       <view class="menu-item" bindtap="goToPointDetail">
-        <view class="menu-icon" style="background: linear-gradient(135deg, #E94560, #FF6B6B);">
+        <view class="menu-icon" style="background: linear-gradient(135deg, #F72585, #B5179E);">
           <text class="iconfont icon-points"></text>
         </view>
         <view class="menu-content">
           <text class="menu-title">积分明细</text>
-          <text class="menu-desc">查看积分记录</text>
-        </view>
-        <text class="iconfont icon-arrow-right"></text>
-      </view>
-      
-      <view class="menu-item" bindtap="goToAddress">
-        <view class="menu-icon" style="background: linear-gradient(135deg, #4361EE, #3A0CA3);">
-          <text class="iconfont icon-location"></text>
-        </view>
-        <view class="menu-content">
-          <text class="menu-title">收货地址</text>
-          <text class="menu-desc">管理收货地址</text>
+          <text class="menu-desc">查看积分收支记录</text>
         </view>
         <text class="iconfont icon-arrow-right"></text>
       </view>
       
       <view class="menu-item" bindtap="goToParking">
-        <view class="menu-icon" style="background: linear-gradient(135deg, #06D6A0, #118AB2);">
+        <view class="menu-icon" style="background: linear-gradient(135deg, #4361EE, #3A0CA3);">
           <text class="iconfont icon-parking"></text>
         </view>
         <view class="menu-content">
-          <text class="menu-title">停车缴费</text>
-          <text class="menu-desc">快速缴费离场</text>
+          <text class="menu-title">停车服务</text>
+          <text class="menu-desc">缴费、记录、车牌管理</text>
         </view>
         <text class="iconfont icon-arrow-right"></text>
       </view>
       
-      <view class="menu-item" bindtap="goToFamily">
-        <view class="menu-icon" style="background: linear-gradient(135deg, #F72585, #B5179E);">
-          <text class="iconfont icon-family"></text>
+      <view class="menu-item" bindtap="goToInvite">
+        <view class="menu-icon" style="background: linear-gradient(135deg, #06D6A0, #118AB2);">
+          <text class="iconfont icon-share"></text>
         </view>
         <view class="menu-content">
-          <text class="menu-title">亲友圈</text>
-          <text class="menu-desc">共享会员权益</text>
+          <text class="menu-title">邀请好友</text>
+          <text class="menu-desc">邀请得积分奖励</text>
         </view>
         <text class="iconfont icon-arrow-right"></text>
       </view>
@@ -145,21 +146,13 @@
   <view class="section">
     <view class="section-title">更多服务</view>
     <view class="service-grid">
-      <view class="service-item" bindtap="goToFeedback">
-        <text class="iconfont icon-feedback"></text>
-        <text class="service-name">意见反馈</text>
-      </view>
-      <view class="service-item" bindtap="goToHelp">
-        <text class="iconfont icon-help"></text>
-        <text class="service-name">帮助中心</text>
+      <view class="service-item" bindtap="goToService">
+        <text class="iconfont icon-service"></text>
+        <text class="service-name">客服中心</text>
       </view>
       <view class="service-item" bindtap="goToSetting">
         <text class="iconfont icon-setting"></text>
         <text class="service-name">设置</text>
-      </view>
-      <view class="service-item" bindtap="goToAbout">
-        <text class="iconfont icon-info"></text>
-        <text class="service-name">关于我们</text>
       </view>
     </view>
   </view>

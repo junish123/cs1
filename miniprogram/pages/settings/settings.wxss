@@ -1,0 +1,277 @@
+.container {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding-bottom: 40rpx;
+}
+
+/* 用户信息 */
+.user-section {
+  background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+  padding: 40rpx 30rpx;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(255,255,255,0.2);
+  margin-right: 24rpx;
+}
+
+.user-detail {
+  flex: 1;
+}
+
+.user-name {
+  display: block;
+  font-size: 36rpx;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.user-phone {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.7);
+}
+
+/* 区块样式 */
+.section {
+  margin: 20rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+
+.section-title {
+  font-size: 28rpx;
+  color: #999;
+  margin-bottom: 16rpx;
+  padding-left: 10rpx;
+}
+
+/* 菜单列表 */
+.menu-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 10rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item.switch-item {
+  padding: 20rpx 10rpx;
+}
+
+.menu-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.menu-icon {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+  font-size: 28rpx;
+  color: #fff;
+}
+
+.menu-icon.icon-phone { background: linear-gradient(135deg, #E94560, #FF6B6B); }
+.menu-icon.icon-lock { background: linear-gradient(135deg, #4361EE, #3A0CA3); }
+.menu-icon.icon-wechat { background: linear-gradient(135deg, #06D6A0, #118AB2); }
+.menu-icon.icon-bell { background: linear-gradient(135deg, #F72585, #B5179E); }
+.menu-icon.icon-gift { background: linear-gradient(135deg, #F8961E, #F3722C); }
+.menu-icon.icon-points { background: linear-gradient(135deg, #FFD700, #FFA500); }
+.menu-icon.icon-car { background: linear-gradient(135deg, #4CC9F0, #4895EF); }
+.menu-icon.icon-eye { background: linear-gradient(135deg, #9B5DE5, #7209B7); }
+.menu-icon.icon-location { background: linear-gradient(135deg, #00BBF9, #00F5D4); }
+.menu-icon.icon-file { background: linear-gradient(135deg, #577590, #415A77); }
+.menu-icon.icon-shield { background: linear-gradient(135deg, #06D6A0, #118AB2); }
+.menu-icon.icon-info { background: linear-gradient(135deg, #F8961E, #F3722C); }
+.menu-icon.icon-delete { background: linear-gradient(135deg, #E94560, #FF6B6B); }
+
+.menu-title {
+  font-size: 30rpx;
+  color: #333;
+}
+
+.menu-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-desc {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+.menu-right {
+  display: flex;
+  align-items: center;
+}
+
+.menu-value {
+  font-size: 26rpx;
+  color: #999;
+  margin-right: 10rpx;
+}
+
+.menu-right .iconfont {
+  font-size: 24rpx;
+  color: #ccc;
+}
+
+/* 退出登录 */
+.logout-section {
+  margin: 40rpx 20rpx;
+}
+
+.logout-btn {
+  background: #fff;
+  color: #E94560;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  border: none;
+}
+
+/* 弹窗样式 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+}
+
+.modal-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  position: relative;
+  width: 100%;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  padding: 30rpx;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.modal-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.modal-close {
+  font-size: 48rpx;
+  color: #999;
+  line-height: 1;
+}
+
+/* 表单样式 */
+.form-content {
+  padding: 20rpx 0;
+}
+
+.form-item {
+  margin-bottom: 30rpx;
+}
+
+.form-label {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 16rpx;
+}
+
+.form-input {
+  height: 80rpx;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+  font-size: 30rpx;
+}
+
+.code-item {
+  margin-bottom: 0;
+}
+
+.code-input-wrapper {
+  display: flex;
+  gap: 20rpx;
+}
+
+.code-input {
+  flex: 1;
+}
+
+.code-btn {
+  width: 200rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  background: linear-gradient(135deg, #E94560, #FF6B6B);
+  color: #fff;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.code-btn.disabled {
+  background: #ccc;
+}
+
+.form-actions {
+  margin-top: 40rpx;
+}
+
+.confirm-btn {
+  background: linear-gradient(135deg, #E94560, #FF6B6B);
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  border: none;
+}

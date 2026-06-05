@@ -109,26 +109,22 @@ Page({
   },
 
   goToParking() {
-    wx.showToast({ title: '停车功能开发中', icon: 'none' });
+    wx.navigateTo({ url: '/pages/parking/parking' });
   },
 
-  goToFamily() {
-    wx.showToast({ title: '亲友圈功能开发中', icon: 'none' });
+  goToSignIn() {
+    wx.navigateTo({ url: '/pages/signin/signin' });
   },
 
-  goToFeedback() {
-    wx.showToast({ title: '反馈功能开发中', icon: 'none' });
-  },
-
-  goToHelp() {
-    wx.showToast({ title: '帮助功能开发中', icon: 'none' });
+  goToService() {
+    wx.navigateTo({ url: '/pages/service/service' });
   },
 
   goToSetting() {
-    wx.showToast({ title: '设置功能开发中', icon: 'none' });
+    wx.navigateTo({ url: '/pages/settings/settings' });
   },
 
-  goToAbout() {
-    wx.showToast({ title: '关于功能开发中', icon: 'none' });
+  goToInvite() {
+    wx.showToast({ title: '邀请好友功能开发中', icon: 'none' });
   }
 });

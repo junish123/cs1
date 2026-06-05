@@ -1,0 +1,215 @@
+<view class="container">
+  <!-- 用户信息 -->
+  <view class="user-section">
+    <view class="user-info">
+      <image class="user-avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"/>
+      <view class="user-detail">
+        <text class="user-name">{{userInfo.nickName || '微信用户'}}</text>
+        <text class="user-phone">{{maskedPhone}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 账号设置 -->
+  <view class="section">
+    <view class="section-title">账号设置</view>
+    <view class="menu-list">
+      <view class="menu-item" bindtap="changePhone">
+        <view class="menu-left">
+          <text class="iconfont icon-phone menu-icon"></text>
+          <text class="menu-title">修改手机号</text>
+        </view>
+        <view class="menu-right">
+          <text class="menu-value">{{maskedPhone}}</text>
+          <text class="iconfont icon-arrow-right"></text>
+        </view>
+      </view>
+      
+      <view class="menu-item" bindtap="changePassword">
+        <view class="menu-left">
+          <text class="iconfont icon-lock menu-icon"></text>
+          <text class="menu-title">修改密码</text>
+        </view>
+        <view class="menu-right">
+          <text class="iconfont icon-arrow-right"></text>
+        </view>
+      </view>
+      
+      <view class="menu-item" bindtap="bindWechat">
+        <view class="menu-left">
+          <text class="iconfont icon-wechat menu-icon"></text>
+          <text class="menu-title">微信绑定</text>
+        </view>
+        <view class="menu-right">
+          <text class="menu-value">已绑定</text>
+          <text class="iconfont icon-arrow-right"></text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 消息通知 -->
+  <view class="section">
+    <view class="section-title">消息通知</view>
+    <view class="menu-list">
+      <view class="menu-item switch-item">
+        <view class="menu-left">
+          <text class="iconfont icon-bell menu-icon"></text>
+          <view class="menu-content">
+            <text class="menu-title">活动推送</text>
+            <text class="menu-desc">接收商场活动、优惠信息</text>
+          </view>
+        </view>
+        <switch checked="{{notification.activity}}" bindchange="toggleNotification" data-type="activity" color="#E94560"/>
+      </view>
+      
+      <view class="menu-item switch-item">
+        <view class="menu-left">
+          <text class="iconfont icon-gift menu-icon"></text>
+          <view class="menu-content">
+            <text class="menu-title">优惠券到期提醒</text>
+            <text class="menu-desc">优惠券即将过期时提醒</text>
+          </view>
+        </view>
+        <switch checked="{{notification.coupon}}" bindchange="toggleNotification" data-type="coupon" color="#E94560"/>
+      </view>
+      
+      <view class="menu-item switch-item">
+        <view class="menu-left">
+          <text class="iconfont icon-points menu-icon"></text>
+          <view class="menu-content">
+            <text class="menu-title">积分变动提醒</text>
+            <text class="menu-desc">积分获得或消费时提醒</text>
+          </view>
+        </view>
+        <switch checked="{{notification.points}}" bindchange="toggleNotification" data-type="points" color="#E94560"/>
+      </view>
+      
+      <view class="menu-item switch-item">
+        <view class="menu-left">
+          <text class="iconfont icon-car menu-icon"></text>
+          <view class="menu-content">
+            <text class="menu-title">停车缴费提醒</text>
+            <text class="menu-desc">停车缴费、优惠券到期提醒</text>
+          </view>
+        </view>
+        <switch checked="{{notification.parking}}" bindchange="toggleNotification" data-type="parking" color="#E94560"/>
+      </view>
+    </view>
+  </view>
+
+  <!-- 隐私设置 -->
+  <view class="section">
+    <view class="section-title">隐私设置</view>
+    <view class="menu-list">
+      <view class="menu-item switch-item">
+        <view class="menu-left">
+          <text class="iconfont icon-eye menu-icon"></text>
+          <view class="menu-content">
+            <text class="menu-title">公开会员信息</text>
+            <text class="menu-desc">允许其他用户查看我的会员等级</text>
+          </view>
+        </view>
+        <switch checked="{{privacy.publicInfo}}" bindchange="togglePrivacy" data-type="publicInfo" color="#E94560"/>
+      </view>
+      
+      <view class="menu-item switch-item">
+        <view class="menu-left">
+          <text class="iconfont icon-location menu-icon"></text>
+          <view class="menu-content">
+            <text class="menu-title">位置信息</text>
+            <text class="menu-desc">允许获取位置用于附近门店推荐</text>
+          </view>
+        </view>
+        <switch checked="{{privacy.location}}" bindchange="togglePrivacy" data-type="location" color="#E94560"/>
+      </view>
+    </view>
+  </view>
+
+  <!-- 关于我们 -->
+  <view class="section">
+    <view class="section-title">关于</view>
+    <view class="menu-list">
+      <view class="menu-item" bindtap="viewUserAgreement">
+        <view class="menu-left">
+          <text class="iconfont icon-file menu-icon"></text>
+          <text class="menu-title">用户协议</text>
+        </view>
+        <view class="menu-right">
+          <text class="iconfont icon-arrow-right"></text>
+        </view>
+      </view>
+      
+      <view class="menu-item" bindtap="viewPrivacyPolicy">
+        <view class="menu-left">
+          <text class="iconfont icon-shield menu-icon"></text>
+          <text class="menu-title">隐私政策</text>
+        </view>
+        <view class="menu-right">
+          <text class="iconfont icon-arrow-right"></text>
+        </view>
+      </view>
+      
+      <view class="menu-item" bindtap="viewAbout">
+        <view class="menu-left">
+          <text class="iconfont icon-info menu-icon"></text>
+          <text class="menu-title">关于我们</text>
+        </view>
+        <view class="menu-right">
+          <text class="menu-value">v1.0.0</text>
+          <text class="iconfont icon-arrow-right"></text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 清除缓存 -->
+  <view class="section">
+    <view class="menu-list">
+      <view class="menu-item" bindtap="clearCache">
+        <view class="menu-left">
+          <text class="iconfont icon-delete menu-icon"></text>
+          <text class="menu-title">清除缓存</text>
+        </view>
+        <view class="menu-right">
+          <text class="menu-value">{{cacheSize}}</text>
+          <text class="iconfont icon-arrow-right"></text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-section">
+    <button class="logout-btn" bindtap="logout">退出登录</button>
+  </view>
+
+  <!-- 修改手机号弹窗 -->
+  <view class="modal" wx:if="{{showPhoneModal}}">
+    <view class="modal-mask" bindtap="closePhoneModal"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">修改手机号</text>
+        <text class="modal-close" bindtap="closePhoneModal">×</text>
+      </view>
+      <view class="form-content">
+        <view class="form-item">
+          <text class="form-label">新手机号</text>
+          <input class="form-input" type="number" placeholder="请输入新手机号" value="{{newPhone}}" bindinput="onPhoneInput" maxlength="11"/>
+        </view>
+        <view class="form-item code-item">
+          <text class="form-label">验证码</text>
+          <view class="code-input-wrapper">
+            <input class="form-input code-input" type="number" placeholder="请输入验证码" value="{{verifyCode}}" bindinput="onCodeInput" maxlength="6"/>
+            <button class="code-btn {{countdown > 0 ? 'disabled' : ''}}" bindtap="sendCode" disabled="{{countdown > 0}}">
+              {{countdown > 0 ? countdown + 's' : '获取验证码'}}
+            </button>
+          </view>
+        </view>
+      </view>
+      <view class="form-actions">
+        <button class="confirm-btn" bindtap="confirmChangePhone">确认修改</button>
+      </view>
+    </view>
+  </view>
+</view>

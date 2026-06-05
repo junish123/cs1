@@ -55,8 +55,20 @@
   <!-- 快捷功能区 -->
   <view class="quick-actions">
     <view class="action-grid">
-      <view class="action-item" bindtap="scanCode">
+      <view class="action-item" bindtap="goToSignIn">
+        <view class="action-icon" style="background: linear-gradient(135deg, #FFD700, #FFA500);">
+          <text class="iconfont icon-calendar"></text>
+        </view>
+        <text class="action-text">每日签到</text>
+      </view>
+      <view class="action-item" bindtap="goToCouponCenter">
         <view class="action-icon" style="background: linear-gradient(135deg, #E94560, #FF6B6B);">
+          <text class="iconfont icon-coupon"></text>
+        </view>
+        <text class="action-text">领券中心</text>
+      </view>
+      <view class="action-item" bindtap="scanCode">
+        <view class="action-icon" style="background: linear-gradient(135deg, #06D6A0, #118AB2);">
           <text class="iconfont icon-scan"></text>
         </view>
         <text class="action-text">扫码积分</text>
@@ -73,17 +85,17 @@
         </view>
         <text class="action-text">积分商城</text>
       </view>
-      <view class="action-item" bindtap="goToVipLevel">
-        <view class="action-icon" style="background: linear-gradient(135deg, #4CC9F0, #4895EF);">
-          <text class="iconfont icon-vip"></text>
-        </view>
-        <text class="action-text">会员等级</text>
-      </view>
       <view class="action-item" bindtap="goToMallGuide">
-        <view class="action-icon" style="background: linear-gradient(135deg, #06D6A0, #118AB2);">
+        <view class="action-icon" style="background: linear-gradient(135deg, #4CC9F0, #4895EF);">
           <text class="iconfont icon-map"></text>
         </view>
         <text class="action-text">商场导览</text>
+      </view>
+      <view class="action-item" bindtap="goToVipLevel">
+        <view class="action-icon" style="background: linear-gradient(135deg, #9B5DE5, #7209B7);">
+          <text class="iconfont icon-vip"></text>
+        </view>
+        <text class="action-text">会员等级</text>
       </view>
       <view class="action-item" bindtap="goToRecords">
         <view class="action-icon" style="background: linear-gradient(135deg, #F8961E, #F3722C);">

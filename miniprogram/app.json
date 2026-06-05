@@ -8,7 +8,11 @@
     "pages/discover/discover",
     "pages/pointDetail/pointDetail",
     "pages/vipLevel/vipLevel",
-    "pages/mallGuide/mallGuide"
+    "pages/mallGuide/mallGuide",
+    "pages/parking/parking",
+    "pages/service/service",
+    "pages/signin/signin",
+    "pages/settings/settings"
   ],
   "window": {
     "backgroundTextStyle": "light",

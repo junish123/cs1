@@ -99,9 +99,19 @@ Page({
     });
   },
 
+  // 每日签到
+  goToSignIn() {
+    wx.navigateTo({ url: '/pages/signin/signin' });
+  },
+
+  // 领券中心
+  goToCouponCenter() {
+    wx.switchTab({ url: '/pages/coupons/coupons' });
+  },
+
   // 页面跳转方法
   goToParking() {
-    wx.showToast({ title: '停车功能开发中', icon: 'none' });
+    wx.navigateTo({ url: '/pages/parking/parking' });
   },
 
   goToPointShop() {
