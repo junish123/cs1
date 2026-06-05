@@ -57,3 +57,117 @@
   "eventCode": "toolkit_lifecycle",
   "deviceId": "8f7f15dc..."
 }
+[2026-06-05T11:32:05.839+00:00] [DEBUG] [cache] Using default TTL {
+  "ttlMs": 86400000
+}
+[2026-06-05T11:32:05.875+00:00] [DEBUG] report_init {
+  "enabled": true,
+  "deviceId": "b1d2cc85...",
+  "ide": "none"
+}
+[2026-06-05T11:32:05.904+00:00] [DEBUG] [cache] evaluated cache meta {
+  "ageMs": 1508108,
+  "ttlMs": 86400000,
+  "valid": true
+}
+[2026-06-05T11:32:05.906+00:00] [DEBUG] [downloadResources] 使用缓存（快速路径）
+[2026-06-05T11:32:05.920+00:00] [INFO] TencentCloudBase MCP Server running on stdio
+[2026-06-05T11:32:05.920+00:00] [DEBUG] [telemetry] 生命周期事件 envId 获取结果 {
+  "event": "start",
+  "envId": "cs20260605-d7ge3qv3adead64a3",
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T11:32:05.921+00:00] [DEBUG] [telemetry] 生命周期事件上报参数 {
+  "event": "start",
+  "eventData": {
+    "event": "start",
+    "envId": "cs20260605-d7ge3qv3adead64a3",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2"
+  },
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID"
+}
+[2026-06-05T11:32:06.005+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_lifecycle",
+  "deviceId": "b1d2cc85..."
+}
+[2026-06-05T11:32:17.229+00:00] [DEBUG] [cache] Using default TTL {
+  "ttlMs": 86400000
+}
+[2026-06-05T11:32:17.262+00:00] [DEBUG] report_init {
+  "enabled": true,
+  "deviceId": "b1d2cc85...",
+  "ide": "none"
+}
+[2026-06-05T11:32:17.286+00:00] [DEBUG] [cache] evaluated cache meta {
+  "ageMs": 1519490,
+  "ttlMs": 86400000,
+  "valid": true
+}
+[2026-06-05T11:32:17.288+00:00] [DEBUG] [downloadResources] 使用缓存（快速路径）
+[2026-06-05T11:32:17.301+00:00] [INFO] TencentCloudBase MCP Server running on stdio
+[2026-06-05T11:32:17.301+00:00] [DEBUG] [telemetry] 生命周期事件 envId 获取结果 {
+  "event": "start",
+  "envId": "cs20260605-d7ge3qv3adead64a3",
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T11:32:17.302+00:00] [DEBUG] [telemetry] 生命周期事件上报参数 {
+  "event": "start",
+  "eventData": {
+    "event": "start",
+    "envId": "cs20260605-d7ge3qv3adead64a3",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2"
+  },
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID"
+}
+[2026-06-05T11:32:17.330+00:00] [DEBUG] 开始执行工具: downloadTemplate {
+  "args": {
+    "template": "miniprogram",
+    "ide": "codebuddy"
+  }
+}
+[2026-06-05T11:32:17.369+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_lifecycle",
+  "deviceId": "b1d2cc85..."
+}
+[2026-06-05T11:32:18.558+00:00] [DEBUG] 工具执行成功: downloadTemplate {
+  "duration": 1228
+}
+[2026-06-05T11:32:18.559+00:00] [DEBUG] [telemetry] 工具调用 envId 获取结果 {
+  "toolName": "downloadTemplate",
+  "envId": "cs20260605-d7ge3qv3adead64a3",
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T11:32:18.559+00:00] [DEBUG] [telemetry] 工具调用上报参数 {
+  "toolName": "downloadTemplate",
+  "eventData": {
+    "toolName": "downloadTemplate",
+    "success": "true",
+    "duration": 1229,
+    "envId": "cs20260605-d7ge3qv3adead64a3",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2",
+    "inputParams": "[已包含]"
+  },
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID"
+}
+[2026-06-05T11:32:18.571+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_tool_call",
+  "deviceId": "b1d2cc85..."
+}
