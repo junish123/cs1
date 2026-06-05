@@ -3,166 +3,369 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>积分管理 - 商场会员管理系统</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>积分配置 - 商场会员管理系统</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    :root { --primary: #E94560; --secondary: #1A1A2E; }
-    body { font-family: 'Source Sans Pro', sans-serif; background: #F5F7FA; }
-    .sidebar { background: linear-gradient(180deg, var(--secondary) 0%, #16213E 100%); }
-    .nav-item:hover, .nav-item.active { background: rgba(233, 69, 96, 0.2); border-left: 4px solid var(--primary); }
-    .card { background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-    .btn-primary { background: linear-gradient(135deg, var(--primary) 0%, #FF6B6B 100%); }
-    .income { color: #10B981; }
-    .expense { color: var(--primary); }
+    :root { --primary-dark: #1A1A2E; --accent-coral: #E94560; --bg-light: #F8F9FA; --card-white: #FFFFFF; --text-primary: #2C3E50; --text-secondary: #6C757D; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Source Sans Pro', sans-serif; background-color: var(--bg-light); color: var(--text-primary); }
+    .font-display { font-family: 'Playfair Display', serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    
+    .sidebar { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: linear-gradient(180deg, #1A1A2E 0%, #16213E 100%); color: white; z-index: 1000; overflow-y: auto; display: flex; flex-direction: column; }
+    .sidebar-header { padding: 30px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sidebar-logo { font-size: 24px; font-weight: 700; color: white; }
+    .sidebar-logo span { color: var(--accent-coral); }
+    .nav-menu { padding: 20px 0; flex: 1; }
+    .nav-item { display: flex; align-items: center; padding: 16px 24px; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s ease; border-left: 3px solid transparent; }
+    .nav-item:hover, .nav-item.active { background: rgba(233, 69, 96, 0.1); color: white; border-left-color: var(--accent-coral); }
+    .nav-item i { width: 24px; margin-right: 12px; font-size: 18px; }
+    .nav-section { padding: 8px 24px; font-size: 11px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; margin-top: 16px; }
+    
+    .main-content { margin-left: 260px; min-height: 100vh; padding: 30px; }
+    .page-header { margin-bottom: 30px; }
+    .page-title { font-size: 32px; font-weight: 600; color: var(--primary-dark); margin-bottom: 8px; }
+    .page-subtitle { color: var(--text-secondary); font-size: 16px; }
+    
+    .card { background: var(--card-white); border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 24px; margin-bottom: 24px; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .card-title { font-size: 18px; font-weight: 600; color: var(--primary-dark); }
+    
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; border: none; outline: none; }
+    .btn-primary { background: var(--accent-coral); color: white; }
+    .btn-primary:hover { background: #D63D56; }
+    .btn-success { background: #10B981; color: white; }
+    .btn-secondary { background: #F1F5F9; color: var(--text-primary); }
+    .btn-sm { padding: 8px 16px; font-size: 13px; }
+    
+    .form-input { width: 100%; padding: 12px 16px; border: 2px solid #E2E8F0; border-radius: 8px; font-size: 14px; transition: all 0.3s ease; }
+    .form-input:focus { outline: none; border-color: var(--accent-coral); }
+    
+    .form-group { margin-bottom: 24px; }
+    .form-label { display: block; font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+    .form-help { font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    
+    .config-section { border-bottom: 1px solid #F1F5F9; padding-bottom: 24px; margin-bottom: 24px; }
+    .config-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .section-title { font-size: 18px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .section-title i { color: var(--accent-coral); }
+    
+    .input-group { display: flex; align-items: center; gap: 12px; }
+    .input-group .form-input { flex: 1; }
+    .input-suffix { font-size: 14px; color: var(--text-secondary); white-space: nowrap; }
+    
+    .rule-item { display: flex; align-items: center; gap: 16px; padding: 16px; background: #F8F9FA; border-radius: 12px; margin-bottom: 12px; }
+    .rule-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .rule-icon.signin { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; }
+    .rule-icon.consume { background: linear-gradient(135deg, #E94560, #FF6B6B); color: white; }
+    .rule-icon.validity { background: linear-gradient(135deg, #06D6A0, #118AB2); color: white; }
+    .rule-content { flex: 1; }
+    .rule-title { font-weight: 600; margin-bottom: 4px; }
+    .rule-desc { font-size: 13px; color: var(--text-secondary); }
+    
+    .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 26px; }
+    .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+    input:checked + .slider { background-color: var(--accent-coral); }
+    input:checked + .slider:before { transform: translateX(24px); }
+    
+    @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .main-content { margin-left: 0; } .form-row { grid-template-columns: 1fr; } }
   </style>
 </head>
-<body class="min-h-screen">
-  <div class="flex h-screen">
-    <aside class="sidebar w-64 text-white flex flex-col">
-      <div class="p-6 border-b border-gray-700">
-        <h1 class="text-2xl font-bold flex items-center">
-          <i class="fas fa-crown mr-3 text-yellow-400"></i>印象城会员管理
-        </h1>
-      </div>
-      <nav class="flex-1 py-4">
-        <a href="index.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-home w-6"></i><span>仪表盘</span></a>
-        <a href="members.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-users w-6"></i><span>会员管理</span></a>
-        <a href="coupons.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-ticket-alt w-6"></i><span>优惠券管理</span></a>
-        <a href="points.html" class="nav-item active flex items-center px-6 py-3 text-gray-300"><i class="fas fa-coins w-6"></i><span>积分管理</span></a>
-        <a href="orders.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-shopping-bag w-6"></i><span>订单管理</span></a>
-        <a href="events.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-calendar-alt w-6"></i><span>活动管理</span></a>
-        <a href="reports.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-chart-bar w-6"></i><span>数据报表</span></a>
-      </nav>
-    </aside>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo font-display">VIP<span>Manager</span></div>
+      <p style="color: rgba(255,255,255,0.6); font-size: 13px; margin-top: 8px;">商场会员管理系统</p>
+    </div>
+    <nav class="nav-menu">
+      <a href="index.html" class="nav-item"><i class="fas fa-chart-line"></i> 数据统计</a>
+      <div class="nav-section">会员管理</div>
+      <a href="members.html" class="nav-item"><i class="fas fa-users"></i> 会员列表</a>
+      <div class="nav-section">营销管理</div>
+      <a href="coupons.html" class="nav-item"><i class="fas fa-ticket-alt"></i> 卡券管理</a>
+      <a href="points.html" class="nav-item active"><i class="fas fa-coins"></i> 积分配置</a>
+      <div class="nav-section">商城管理</div>
+      <a href="stores.html" class="nav-item"><i class="fas fa-store"></i> 门店管理</a>
+    </nav>
+    <div style="padding: 20px 24px; border-top: 1px solid rgba(255,255,255,0.1);">
+      <button class="btn btn-secondary" style="width: 100%; background: rgba(255,255,255,0.1); color: white; border: none;" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> 退出登录
+      </button>
+    </div>
+  </aside>
 
-    <main class="flex-1 overflow-auto">
-      <header class="bg-white shadow-sm px-8 py-4 flex justify-between items-center">
-        <h2 class="text-2xl font-bold text-gray-800">积分管理</h2>
-        <button onclick="manualAdjust()" class="btn-primary text-white px-4 py-2 rounded-lg">
-          <i class="fas fa-sliders-h mr-2"></i>手动调整
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title font-display">积分配置</h1>
+      <p class="page-subtitle">签到积分、消费比例、积分有效期配置</p>
+    </div>
+
+    <form id="pointsConfigForm">
+      <!-- 签到积分配置 -->
+      <div class="card">
+        <div class="section-title"><i class="fas fa-calendar-check"></i> 签到积分配置</div>
+        
+        <div class="rule-item">
+          <div class="rule-icon signin"><i class="fas fa-calendar-day"></i></div>
+          <div class="rule-content">
+            <div class="rule-title">每日签到基础积分</div>
+            <div class="rule-desc">会员每日签到的基础积分奖励</div>
+          </div>
+          <div class="input-group" style="width: 200px;">
+            <input type="number" class="form-input" value="10" min="1">
+            <span class="input-suffix">积分/天</span>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-icon" style="background: linear-gradient(135deg, #4361EE, #3A0CA3); color: white;"><i class="fas fa-fire"></i></div>
+          <div class="rule-content">
+            <div class="rule-title">连续签到奖励</div>
+            <div class="rule-desc">开启后连续签到可获得额外积分</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div style="margin-left: 64px; padding: 16px; background: #F8F9FA; border-radius: 12px; margin-top: 12px;">
+          <div class="form-row">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">连续3天奖励</label>
+              <div class="input-group">
+                <input type="number" class="form-input" value="15" min="1">
+                <span class="input-suffix">积分</span>
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">连续7天奖励</label>
+              <div class="input-group">
+                <input type="number" class="form-input" value="30" min="1">
+                <span class="input-suffix">积分</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 消费积分配置 -->
+      <div class="card">
+        <div class="section-title"><i class="fas fa-shopping-cart"></i> 消费积分配置</div>
+        
+        <div class="rule-item">
+          <div class="rule-icon consume"><i class="fas fa-percentage"></i></div>
+          <div class="rule-content">
+            <div class="rule-title">基础消费积分比例</div>
+            <div class="rule-desc">每消费1元获得的积分数量</div>
+          </div>
+          <div class="input-group" style="width: 200px;">
+            <input type="number" class="form-input" value="1" min="0" step="0.1">
+            <span class="input-suffix">积分/元</span>
+          </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <div style="font-weight: 600; margin-bottom: 16px;">会员等级积分倍数</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">普通会员</label>
+              <div class="input-group">
+                <input type="number" class="form-input" value="1" min="1" step="0.1">
+                <span class="input-suffix">倍</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">银卡会员</label>
+              <div class="input-group">
+                <input type="number" class="form-input" value="1.2" min="1" step="0.1">
+                <span class="input-suffix">倍</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">金卡会员</label>
+              <div class="input-group">
+                <input type="number" class="form-input" value="1.5" min="1" step="0.1">
+                <span class="input-suffix">倍</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">钻石会员</label>
+              <div class="input-group">
+                <input type="number" class="form-input" value="2" min="1" step="0.1">
+                <span class="input-suffix">倍</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 24px;">
+          <label class="form-label">不参与积分商品类型</label>
+          <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="checkbox"> 储值卡充值
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="checkbox" checked> 停车缴费
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="checkbox"> 积分兑换
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="checkbox"> 优惠券抵扣部分
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 积分有效期配置 -->
+      <div class="card">
+        <div class="section-title"><i class="fas fa-clock"></i> 积分有效期配置</div>
+        
+        <div class="rule-item">
+          <div class="rule-icon validity"><i class="fas fa-hourglass-half"></i></div>
+          <div class="rule-content">
+            <div class="rule-title">积分有效期设置</div>
+            <div class="rule-desc">设置积分获取后的有效期限</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">有效期时长</label>
+              <div class="input-group">
+                <input type="number" class="form-input" value="12" min="1">
+                <select class="form-input" style="width: 100px; flex: none;">
+                  <option>个月</option>
+                  <option>天</option>
+                  <option>年</option>
+                </select>
+              </div>
+              <div class="form-help">积分自获得之日起12个月内有效</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">过期提醒</label>
+              <div class="input-group">
+                <input type="number" class="form-input" value="30" min="1">
+                <span class="input-suffix">天前提醒</span>
+              </div>
+              <div class="form-help">积分过期前30天发送提醒通知</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 24px;">
+          <label class="form-label">积分过期处理方式</label>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <label style="display: flex; align-items: center; gap: 12px; padding: 16px; background: #F8F9FA; border-radius: 12px; cursor: pointer;">
+              <input type="radio" name="expireAction" value="clear" checked>
+              <div>
+                <div style="font-weight: 600;">直接清零</div>
+                <div style="font-size: 13px; color: var(--text-secondary);">过期积分自动清零，不可恢复</div>
+              </div>
+            </label>
+            <label style="display: flex; align-items: center; gap: 12px; padding: 16px; background: #F8F9FA; border-radius: 12px; cursor: pointer;">
+              <input type="radio" name="expireAction" value="extend">
+              <div>
+                <div style="font-weight: 600;">自动延期</div>
+                <div style="font-size: 13px; color: var(--text-secondary);">过期后自动延期30天，延期仅限一次</div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 其他积分获取方式 -->
+      <div class="card">
+        <div class="section-title"><i class="fas fa-plus-circle"></i> 其他积分获取方式</div>
+        
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+          <div class="rule-item" style="margin-bottom: 0;">
+            <div class="rule-icon" style="background: linear-gradient(135deg, #F72585, #B5179E); color: white;"><i class="fas fa-user-plus"></i></div>
+            <div class="rule-content">
+              <div class="rule-title">新用户注册</div>
+              <div class="rule-desc">首次注册成为会员</div>
+            </div>
+            <div class="input-group" style="width: 120px;">
+              <input type="number" class="form-input" value="100" min="0">
+              <span class="input-suffix">分</span>
+            </div>
+          </div>
+          
+          <div class="rule-item" style="margin-bottom: 0;">
+            <div class="rule-icon" style="background: linear-gradient(135deg, #4CC9F0, #4895EF); color: white;"><i class="fas fa-share-alt"></i></div>
+            <div class="rule-content">
+              <div class="rule-title">邀请好友</div>
+              <div class="rule-desc">好友成功注册</div>
+            </div>
+            <div class="input-group" style="width: 120px;">
+              <input type="number" class="form-input" value="50" min="0">
+              <span class="input-suffix">分/人</span>
+            </div>
+          </div>
+          
+          <div class="rule-item" style="margin-bottom: 0;">
+            <div class="rule-icon" style="background: linear-gradient(135deg, #9B5DE5, #7209B7); color: white;"><i class="fas fa-user-edit"></i></div>
+            <div class="rule-content">
+              <div class="rule-title">完善资料</div>
+              <div class="rule-desc">首次完善个人信息</div>
+            </div>
+            <div class="input-group" style="width: 120px;">
+              <input type="number" class="form-input" value="50" min="0">
+              <span class="input-suffix">分</span>
+            </div>
+          </div>
+          
+          <div class="rule-item" style="margin-bottom: 0;">
+            <div class="rule-icon" style="background: linear-gradient(135deg, #F8961E, #F3722C); color: white;"><i class="fas fa-birthday-cake"></i></div>
+            <div class="rule-content">
+              <div class="rule-title">生日奖励</div>
+              <div class="rule-desc">会员生日当天</div>
+            </div>
+            <div class="input-group" style="width: 120px;">
+              <input type="number" class="form-input" value="200" min="0">
+              <span class="input-suffix">分</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 保存按钮 -->
+      <div style="display: flex; justify-content: flex-end; gap: 16px; margin-top: 30px;">
+        <button type="button" class="btn btn-secondary" onclick="resetConfig()">重置配置</button>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-save"></i> 保存配置
         </button>
-      </header>
-
-      <div class="p-8 space-y-6">
-        <!-- 积分统计 -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div class="card p-6">
-            <p class="text-gray-500 text-sm">积分池总量</p>
-            <p class="text-3xl font-bold text-yellow-600 mt-2">45.2M</p>
-          </div>
-          <div class="card p-6">
-            <p class="text-gray-500 text-sm">今日发放</p>
-            <p class="text-3xl font-bold text-green-600 mt-2">+28,560</p>
-          </div>
-          <div class="card p-6">
-            <p class="text-gray-500 text-sm">今日消耗</p>
-            <p class="text-3xl font-bold text-red-600 mt-2">-15,230</p>
-          </div>
-          <div class="card p-6">
-            <p class="text-gray-500 text-sm">积分兑换率</p>
-            <p class="text-3xl font-bold text-blue-600 mt-2">68.5%</p>
-          </div>
-        </div>
-
-        <!-- 积分趋势 -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div class="card p-6">
-            <h3 class="text-lg font-bold mb-4">积分收支趋势</h3>
-            <canvas id="pointsTrendChart" height="200"></canvas>
-          </div>
-          <div class="card p-6">
-            <h3 class="text-lg font-bold mb-4">积分来源分布</h3>
-            <canvas id="pointsSourceChart" height="200"></canvas>
-          </div>
-        </div>
-
-        <!-- 积分流水 -->
-        <div class="card p-6">
-          <h3 class="text-lg font-bold mb-4">积分流水</h3>
-          <div class="overflow-x-auto">
-            <table class="w-full">
-              <thead class="bg-gray-50">
-                <tr>
-                  <th class="px-4 py-3 text-left text-sm font-semibold">时间</th>
-                  <th class="px-4 py-3 text-left text-sm font-semibold">会员</th>
-                  <th class="px-4 py-3 text-left text-sm font-semibold">类型</th>
-                  <th class="px-4 py-3 text-left text-sm font-semibold">积分变动</th>
-                  <th class="px-4 py-3 text-left text-sm font-semibold">余额</th>
-                  <th class="px-4 py-3 text-left text-sm font-semibold">来源/用途</th>
-                </tr>
-              </thead>
-              <tbody id="pointsTable"></tbody>
-            </table>
-          </div>
-        </div>
       </div>
-    </main>
-  </div>
+    </form>
+  </main>
 
   <script>
-    const pointsRecords = [
-      { id: 1, time: '2026-06-06 14:30:25', member: '张三', type: 'income', change: 299, balance: 2879, source: '消费奖励 - 优衣库' },
-      { id: 2, time: '2026-06-06 13:15:10', member: '李四', type: 'expense', change: -500, balance: 8400, source: '积分兑换 - 50元优惠券' },
-      { id: 3, time: '2026-06-06 12:00:00', member: '王五', type: 'income', change: 10, balance: 590, source: '每日签到' },
-      { id: 4, time: '2026-06-06 11:30:45', member: '赵六', type: 'income', change: 1500, balance: 27100, source: '消费奖励 - 金卡双倍' },
-      { id: 5, time: '2026-06-06 10:20:15', member: '钱七', type: 'expense', change: -200, balance: 3000, source: '积分商城 - 兑换礼品' },
-    ];
-
-    function renderPointsTable() {
-      const tbody = document.getElementById('pointsTable');
-      tbody.innerHTML = pointsRecords.map(record => `
-        <tr class="border-b hover:bg-gray-50">
-          <td class="px-4 py-3 text-gray-500">${record.time}</td>
-          <td class="px-4 py-3 font-semibold">${record.member}</td>
-          <td class="px-4 py-3">
-            <span class="px-2 py-1 rounded text-xs ${record.type === 'income' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}">
-              ${record.type === 'income' ? '收入' : '支出'}
-            </span>
-          </td>
-          <td class="px-4 py-3 font-bold ${record.type}">${record.type === 'income' ? '+' : ''}${record.change}</td>
-          <td class="px-4 py-3 text-yellow-600 font-semibold">${record.balance}</td>
-          <td class="px-4 py-3 text-gray-600">${record.source}</td>
-        </tr>
-      `).join('');
+    function logout() { localStorage.removeItem('adminLoggedIn'); window.location.href = 'index.html'; }
+    
+    document.getElementById('pointsConfigForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('配置保存成功！');
+    });
+    
+    function resetConfig() {
+      if (confirm('确定要重置所有配置吗？')) {
+        location.reload();
+      }
     }
-
-    function initCharts() {
-      new Chart(document.getElementById('pointsTrendChart'), {
-        type: 'line',
-        data: {
-          labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-          datasets: [{
-            label: '发放', data: [15000, 18000, 22000, 19000, 25000, 35000, 28000],
-            borderColor: '#10B981', backgroundColor: 'rgba(16, 185, 129, 0.1)', fill: true
-          }, {
-            label: '消耗', data: [8000, 10000, 12000, 11000, 15000, 22000, 18000],
-            borderColor: '#E94560', backgroundColor: 'rgba(233, 69, 96, 0.1)', fill: true
-          }]
-        },
-        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
-      });
-
-      new Chart(document.getElementById('pointsSourceChart'), {
-        type: 'doughnut',
-        data: {
-          labels: ['消费奖励', '签到奖励', '活动赠送', '邀请奖励', '其他'],
-          datasets: [{
-            data: [45, 20, 18, 12, 5],
-            backgroundColor: ['#E94560', '#FFD700', '#4361EE', '#10B981', '#9CA3AF']
-          }]
-        },
-        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
-      });
-    }
-
-    function manualAdjust() {
-      alert('手动调整积分功能');
-    }
-
-    renderPointsTable();
-    initCharts();
   </script>
 </body>
 </html>

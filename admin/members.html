@@ -4,167 +4,399 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>会员管理 - 商场会员管理系统</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    :root { --primary: #E94560; --secondary: #1A1A2E; --accent: #FFD700; }
-    body { font-family: 'Source Sans Pro', sans-serif; background: #F5F7FA; }
-    .sidebar { background: linear-gradient(180deg, var(--secondary) 0%, #16213E 100%); }
-    .nav-item:hover, .nav-item.active { background: rgba(233, 69, 96, 0.2); border-left: 4px solid var(--primary); }
-    .card { background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-    .btn-primary { background: linear-gradient(135deg, var(--primary) 0%, #FF6B6B 100%); }
-    .level-normal { background: #CD7F32; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
-    .level-silver { background: #C0C0C0; color: #333; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
-    .level-gold { background: linear-gradient(135deg, #FFD700, #FFA500); color: #333; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
-    .level-black { background: #1A1A2E; color: #FFD700; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+    :root {
+      --primary-dark: #1A1A2E;
+      --accent-coral: #E94560;
+      --bg-light: #F8F9FA;
+      --card-white: #FFFFFF;
+      --text-primary: #2C3E50;
+      --text-secondary: #6C757D;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Source Sans Pro', sans-serif; background-color: var(--bg-light); color: var(--text-primary); }
+    .font-display { font-family: 'Playfair Display', serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    
+    .sidebar {
+      position: fixed; left: 0; top: 0; width: 260px; height: 100vh;
+      background: linear-gradient(180deg, #1A1A2E 0%, #16213E 100%);
+      color: white; z-index: 1000; overflow-y: auto; display: flex; flex-direction: column;
+    }
+    .sidebar-header { padding: 30px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sidebar-logo { font-size: 24px; font-weight: 700; color: white; }
+    .sidebar-logo span { color: var(--accent-coral); }
+    .nav-menu { padding: 20px 0; flex: 1; }
+    .nav-item {
+      display: flex; align-items: center; padding: 16px 24px;
+      color: rgba(255,255,255,0.7); text-decoration: none;
+      transition: all 0.3s ease; border-left: 3px solid transparent;
+    }
+    .nav-item:hover, .nav-item.active { background: rgba(233, 69, 96, 0.1); color: white; border-left-color: var(--accent-coral); }
+    .nav-item i { width: 24px; margin-right: 12px; font-size: 18px; }
+    .nav-section { padding: 8px 24px; font-size: 11px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; margin-top: 16px; }
+    
+    .main-content { margin-left: 260px; min-height: 100vh; padding: 30px; }
+    .page-header { margin-bottom: 30px; }
+    .page-title { font-size: 32px; font-weight: 600; color: var(--primary-dark); margin-bottom: 8px; }
+    .page-subtitle { color: var(--text-secondary); font-size: 16px; }
+    
+    .card { background: var(--card-white); border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 24px; margin-bottom: 24px; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .card-title { font-size: 18px; font-weight: 600; color: var(--primary-dark); }
+    
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; border: none; outline: none; }
+    .btn-primary { background: var(--accent-coral); color: white; }
+    .btn-primary:hover { background: #D63D56; }
+    .btn-success { background: #10B981; color: white; }
+    .btn-secondary { background: #F1F5F9; color: var(--text-primary); }
+    .btn-sm { padding: 8px 16px; font-size: 13px; }
+    
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table th { text-align: left; padding: 16px; font-size: 13px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #F1F5F9; }
+    .data-table td { padding: 16px; border-bottom: 1px solid #F1F5F9; }
+    .data-table tr:hover { background: #FAFBFC; }
+    
+    .tag { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .tag-success { background: #D1FAE5; color: #059669; }
+    .tag-warning { background: #FEF3C7; color: #D97706; }
+    .tag-purple { background: #F3E8FF; color: #9333EA; }
+    .tag-info { background: #DBEAFE; color: #2563EB; }
+    
+    .form-input { width: 100%; padding: 12px 16px; border: 2px solid #E2E8F0; border-radius: 8px; font-size: 14px; transition: all 0.3s ease; }
+    .form-input:focus { outline: none; border-color: var(--accent-coral); }
+    
+    .search-box { display: flex; gap: 12px; margin-bottom: 20px; }
+    .filter-bar { display: flex; gap: 12px; margin-bottom: 20px; }
+    
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; }
+    .modal.active { display: flex; }
+    .modal-content { background: white; border-radius: 16px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+    .modal-header { padding: 24px; border-bottom: 1px solid #F1F5F9; display: flex; justify-content: space-between; align-items: center; }
+    .modal-title { font-size: 20px; font-weight: 600; color: var(--primary-dark); }
+    .modal-close { font-size: 28px; color: #999; cursor: pointer; background: none; border: none; }
+    .modal-body { padding: 24px; }
+    .modal-footer { padding: 24px; border-top: 1px solid #F1F5F9; display: flex; justify-content: flex-end; gap: 12px; }
+    
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    
+    .member-info { display: flex; align-items: center; gap: 12px; }
+    .member-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #E94560, #FF6B6B); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+    
+    .action-btns { display: flex; gap: 8px; }
+    .action-btn { padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; border: none; }
+    
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); }
+      .main-content { margin-left: 0; }
+      .form-row { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
-<body class="min-h-screen">
-  <div class="flex h-screen">
-    <aside class="sidebar w-64 text-white flex flex-col">
-      <div class="p-6 border-b border-gray-700">
-        <h1 class="text-2xl font-bold flex items-center">
-          <i class="fas fa-crown mr-3 text-yellow-400"></i>印象城会员管理
-        </h1>
-      </div>
-      <nav class="flex-1 py-4">
-        <a href="index.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-home w-6"></i><span>仪表盘</span></a>
-        <a href="members.html" class="nav-item active flex items-center px-6 py-3 text-gray-300"><i class="fas fa-users w-6"></i><span>会员管理</span></a>
-        <a href="coupons.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-ticket-alt w-6"></i><span>优惠券管理</span></a>
-        <a href="points.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-coins w-6"></i><span>积分管理</span></a>
-        <a href="orders.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-shopping-bag w-6"></i><span>订单管理</span></a>
-        <a href="events.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-calendar-alt w-6"></i><span>活动管理</span></a>
-        <a href="reports.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-chart-bar w-6"></i><span>数据报表</span></a>
-      </nav>
-    </aside>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo font-display">VIP<span>Manager</span></div>
+      <p style="color: rgba(255,255,255,0.6); font-size: 13px; margin-top: 8px;">商场会员管理系统</p>
+    </div>
+    <nav class="nav-menu">
+      <a href="index.html" class="nav-item">
+        <i class="fas fa-chart-line"></i> 数据统计
+      </a>
+      <div class="nav-section">会员管理</div>
+      <a href="members.html" class="nav-item active">
+        <i class="fas fa-users"></i> 会员列表
+      </a>
+      <div class="nav-section">营销管理</div>
+      <a href="coupons.html" class="nav-item">
+        <i class="fas fa-ticket-alt"></i> 卡券管理
+      </a>
+      <a href="points.html" class="nav-item">
+        <i class="fas fa-coins"></i> 积分配置
+      </a>
+      <div class="nav-section">商城管理</div>
+      <a href="stores.html" class="nav-item">
+        <i class="fas fa-store"></i> 门店管理
+      </a>
+    </nav>
+    <div style="padding: 20px 24px; border-top: 1px solid rgba(255,255,255,0.1);">
+      <button class="btn btn-secondary" style="width: 100%; background: rgba(255,255,255,0.1); color: white; border: none;" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> 退出登录
+      </button>
+    </div>
+  </aside>
 
-    <main class="flex-1 overflow-auto">
-      <header class="bg-white shadow-sm px-8 py-4 flex justify-between items-center">
-        <h2 class="text-2xl font-bold text-gray-800">会员管理</h2>
-        <button onclick="exportMembers()" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
-          <i class="fas fa-download mr-2"></i>导出会员
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title font-display">会员列表管理</h1>
+      <p class="page-subtitle">查看全部会员信息、积分卡券、手动补积分</p>
+    </div>
+
+    <!-- 统计卡片 -->
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 24px;">
+      <div class="card" style="margin-bottom: 0;">
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">总会员数</div>
+        <div style="font-size: 32px; font-weight: 700; font-family: 'JetBrains Mono', monospace;">12,580</div>
+      </div>
+      <div class="card" style="margin-bottom: 0;">
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">今日新增</div>
+        <div style="font-size: 32px; font-weight: 700; font-family: 'JetBrains Mono', monospace;">86</div>
+      </div>
+      <div class="card" style="margin-bottom: 0;">
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">银卡会员</div>
+        <div style="font-size: 32px; font-weight: 700; font-family: 'JetBrains Mono', monospace;">8,420</div>
+      </div>
+      <div class="card" style="margin-bottom: 0;">
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">金卡会员</div>
+        <div style="font-size: 32px; font-weight: 700; font-family: 'JetBrains Mono', monospace;">4,160</div>
+      </div>
+    </div>
+
+    <!-- 会员列表 -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">会员列表</h3>
+        <div style="display: flex; gap: 12px;">
+          <input type="text" class="form-input" placeholder="搜索会员手机号/姓名..." style="width: 240px;" id="memberSearch">
+          <select class="form-input" style="width: 120px;">
+            <option>全部等级</option>
+            <option>普通会员</option>
+            <option>银卡会员</option>
+            <option>金卡会员</option>
+            <option>钻石会员</option>
+          </select>
+          <button class="btn btn-primary" onclick="refreshMembers()">
+            <i class="fas fa-sync-alt"></i> 刷新
+          </button>
+        </div>
+      </div>
+      
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>会员信息</th>
+            <th>会员等级</th>
+            <th>积分余额</th>
+            <th>优惠券</th>
+            <th>注册时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="membersTable">
+          <tr>
+            <td>
+              <div class="member-info">
+                <div class="member-avatar">张</div>
+                <div>
+                  <div style="font-weight: 600;">张三</div>
+                  <div style="font-size: 13px; color: var(--text-secondary);">138****8888</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="tag tag-purple">金卡会员</span></td>
+            <td class="font-mono" style="font-weight: 600;">12,580</td>
+            <td class="font-mono">5张</td>
+            <td>2024-01-15</td>
+            <td>
+              <div class="action-btns">
+                <button class="action-btn btn-secondary" onclick="viewMember('1')">查看</button>
+                <button class="action-btn btn-success" onclick="addPoints('1')">补积分</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="member-info">
+                <div class="member-avatar" style="background: linear-gradient(135deg, #4361EE, #3A0CA3);">李</div>
+                <div>
+                  <div style="font-weight: 600;">李四</div>
+                  <div style="font-size: 13px; color: var(--text-secondary);">139****6666</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="tag tag-info">银卡会员</span></td>
+            <td class="font-mono" style="font-weight: 600;">5,230</td>
+            <td class="font-mono">3张</td>
+            <td>2024-01-10</td>
+            <td>
+              <div class="action-btns">
+                <button class="action-btn btn-secondary" onclick="viewMember('2')">查看</button>
+                <button class="action-btn btn-success" onclick="addPoints('2')">补积分</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="member-info">
+                <div class="member-avatar" style="background: linear-gradient(135deg, #06D6A0, #118AB2);">王</div>
+                <div>
+                  <div style="font-weight: 600;">王五</div>
+                  <div style="font-size: 13px; color: var(--text-secondary);">137****9999</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="tag tag-success">普通会员</span></td>
+            <td class="font-mono" style="font-weight: 600;">1,280</td>
+            <td class="font-mono">1张</td>
+            <td>2024-01-08</td>
+            <td>
+              <div class="action-btns">
+                <button class="action-btn btn-secondary" onclick="viewMember('3')">查看</button>
+                <button class="action-btn btn-success" onclick="addPoints('3')">补积分</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <!-- 分页 -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #F1F5F9;">
+        <div style="font-size: 14px; color: var(--text-secondary);">共 12,580 条记录</div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-secondary btn-sm">上一页</button>
+          <button class="btn btn-primary btn-sm">1</button>
+          <button class="btn btn-secondary btn-sm">2</button>
+          <button class="btn btn-secondary btn-sm">3</button>
+          <button class="btn btn-secondary btn-sm">下一页</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 补积分弹窗 -->
+  <div id="addPointsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">手动补积分</h3>
+        <button class="modal-close" onclick="closeModal('addPointsModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">会员信息</label>
+          <div id="targetMemberInfo" style="padding: 12px; background: #F8F9FA; border-radius: 8px;">
+            <div style="font-weight: 600;">张三</div>
+            <div style="font-size: 13px; color: var(--text-secondary);">138****8888</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">当前积分</label>
+          <div class="font-mono" style="font-size: 24px; font-weight: 700; color: var(--accent-coral);">12,580</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">补积分数量</label>
+          <input type="number" class="form-input" id="pointsAmount" placeholder="请输入积分数量" min="1">
+        </div>
+        <div class="form-group">
+          <label class="form-label">补积分原因</label>
+          <select class="form-input">
+            <option>活动奖励</option>
+            <option>客服补偿</option>
+            <option>系统补差</option>
+            <option>其他</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">备注说明</label>
+          <textarea class="form-input" rows="3" placeholder="请输入备注说明（选填）"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('addPointsModal')">取消</button>
+        <button class="btn btn-success" onclick="confirmAddPoints()">
+          <i class="fas fa-plus"></i> 确认补积分
         </button>
-      </header>
+      </div>
+    </div>
+  </div>
 
-      <div class="p-8 space-y-6">
-        <!-- 筛选栏 -->
-        <div class="card p-4">
-          <div class="flex flex-wrap gap-4 items-center">
-            <div class="flex-1 min-w-[200px]">
-              <input type="text" id="searchInput" placeholder="搜索会员姓名/手机号" 
-                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
-            </div>
-            <select id="levelFilter" class="px-4 py-2 border rounded-lg">
-              <option value="">全部等级</option>
-              <option value="1">普通会员</option>
-              <option value="2">银卡会员</option>
-              <option value="3">金卡会员</option>
-              <option value="4">黑卡会员</option>
-            </select>
-            <button onclick="searchMembers()" class="btn-primary text-white px-6 py-2 rounded-lg">
-              <i class="fas fa-search mr-2"></i>搜索
-            </button>
+  <!-- 会员详情弹窗 -->
+  <div id="memberDetailModal" class="modal">
+    <div class="modal-content" style="max-width: 700px;">
+      <div class="modal-header">
+        <h3 class="modal-title">会员详情</h3>
+        <button class="modal-close" onclick="closeModal('memberDetailModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; gap: 24px; margin-bottom: 24px;">
+          <div class="member-avatar" style="width: 80px; height: 80px; font-size: 32px;">张</div>
+          <div>
+            <div style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">张三</div>
+            <div style="color: var(--text-secondary); margin-bottom: 4px;">138****8888</div>
+            <span class="tag tag-purple">金卡会员</span>
           </div>
         </div>
-
-        <!-- 会员统计 -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div class="card p-6 bg-gradient-to-r from-gray-800 to-gray-900 text-white">
-            <p class="text-gray-400 text-sm">总会员数</p>
-            <p class="text-3xl font-bold mt-2">12,580</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px;">
+          <div style="text-align: center; padding: 16px; background: #F8F9FA; border-radius: 12px;">
+            <div style="font-size: 28px; font-weight: 700; color: var(--accent-coral); font-family: 'JetBrains Mono', monospace;">12,580</div>
+            <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">积分余额</div>
           </div>
-          <div class="card p-6 bg-gradient-to-r from-yellow-500 to-orange-500 text-white">
-            <p class="text-white/80 text-sm">今日新增</p>
-            <p class="text-3xl font-bold mt-2">+156</p>
+          <div style="text-align: center; padding: 16px; background: #F8F9FA; border-radius: 12px;">
+            <div style="font-size: 28px; font-weight: 700; color: #4361EE; font-family: 'JetBrains Mono', monospace;">5</div>
+            <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">优惠券</div>
           </div>
-          <div class="card p-6 bg-gradient-to-r from-pink-500 to-red-500 text-white">
-            <p class="text-white/80 text-sm">活跃会员</p>
-            <p class="text-3xl font-bold mt-2">8,420</p>
-          </div>
-          <div class="card p-6 bg-gradient-to-r from-blue-500 to-purple-500 text-white">
-            <p class="text-white/80 text-sm">平均积分</p>
-            <p class="text-3xl font-bold mt-2">3,280</p>
+          <div style="text-align: center; padding: 16px; background: #F8F9FA; border-radius: 12px;">
+            <div style="font-size: 28px; font-weight: 700; color: #10B981; font-family: 'JetBrains Mono', monospace;">¥2,580</div>
+            <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">累计消费</div>
           </div>
         </div>
-
-        <!-- 会员列表 -->
-        <div class="card p-6">
-          <h3 class="text-lg font-bold mb-4">会员列表</h3>
-          <div class="overflow-x-auto">
-            <table class="w-full">
-              <thead class="bg-gray-50">
-                <tr>
-                  <th class="px-4 py-3 text-left text-sm font-semibold">会员信息</th>
-                  <th class="px-4 py-3 text-left text-sm font-semibold">等级</th>
-                  <th class="px-4 py-3 text-left text-sm font-semibold">积分</th>
-                  <th class="px-4 py-3 text-left text-sm font-semibold">累计消费</th>
-                  <th class="px-4 py-3 text-left text-sm font-semibold">注册时间</th>
-                  <th class="px-4 py-3 text-left text-sm font-semibold">操作</th>
-                </tr>
-              </thead>
-              <tbody id="membersTable"></tbody>
-            </table>
+        
+        <div style="margin-bottom: 16px;">
+          <div style="font-weight: 600; margin-bottom: 12px;">会员信息</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 14px;">
+            <div><span style="color: var(--text-secondary);">会员卡号：</span>202401150001</div>
+            <div><span style="color: var(--text-secondary);">注册时间：</span>2024-01-15 10:30:25</div>
+            <div><span style="color: var(--text-secondary);">最近登录：</span>2024-01-20 15:42:18</div>
+            <div><span style="color: var(--text-secondary);">成长值：</span>12,580 / 20,000</div>
           </div>
         </div>
       </div>
-    </main>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('memberDetailModal')">关闭</button>
+        <button class="btn btn-success" onclick="closeModal('memberDetailModal'); addPoints('1')">
+          <i class="fas fa-plus"></i> 补积分
+        </button>
+      </div>
+    </div>
   </div>
 
   <script>
-    const members = [
-      { id: 1, name: '张三', phone: '138****1234', level: 2, points: 2580, spent: 12800, registerTime: '2024-01-15' },
-      { id: 2, name: '李四', phone: '139****5678', level: 3, points: 8900, spent: 35600, registerTime: '2023-08-20' },
-      { id: 3, name: '王五', phone: '137****9012', level: 1, points: 580, spent: 2300, registerTime: '2026-03-10' },
-      { id: 4, name: '赵六', phone: '136****3456', level: 4, points: 25600, spent: 128000, registerTime: '2022-06-01' },
-      { id: 5, name: '钱七', phone: '135****7890', level: 2, points: 3200, spent: 15600, registerTime: '2024-05-20' },
-    ];
-
-    function getLevelBadge(level) {
-      const levels = { 1: { name: '普通会员', class: 'level-normal' }, 2: { name: '银卡会员', class: 'level-silver' }, 3: { name: '金卡会员', class: 'level-gold' }, 4: { name: '黑卡会员', class: 'level-black' } };
-      const info = levels[level] || levels[1];
-      return `<span class="${info.class}">${info.name}</span>`;
+    function logout() {
+      localStorage.removeItem('adminLoggedIn');
+      window.location.href = 'index.html';
     }
-
-    function renderMembers(data = members) {
-      const tbody = document.getElementById('membersTable');
-      tbody.innerHTML = data.map(member => `
-        <tr class="border-b hover:bg-gray-50">
-          <td class="px-4 py-3">
-            <div class="flex items-center">
-              <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center mr-3">
-                <i class="fas fa-user text-gray-500"></i>
-              </div>
-              <div>
-                <p class="font-semibold">${member.name}</p>
-                <p class="text-sm text-gray-500">${member.phone}</p>
-              </div>
-            </div>
-          </td>
-          <td class="px-4 py-3">${getLevelBadge(member.level)}</td>
-          <td class="px-4 py-3 font-semibold text-yellow-600">${member.points.toLocaleString()}</td>
-          <td class="px-4 py-3">¥${member.spent.toLocaleString()}</td>
-          <td class="px-4 py-3 text-gray-500">${member.registerTime}</td>
-          <td class="px-4 py-3">
-            <button class="text-blue-500 hover:text-blue-700 mr-2"><i class="fas fa-edit"></i></button>
-            <button class="text-yellow-500 hover:text-yellow-700 mr-2"><i class="fas fa-plus-circle"></i></button>
-          </td>
-        </tr>
-      `).join('');
+    
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
     }
-
-    function searchMembers() {
-      const keyword = document.getElementById('searchInput').value.toLowerCase();
-      const level = document.getElementById('levelFilter').value;
-      let filtered = members.filter(m => m.name.includes(keyword) || m.phone.includes(keyword));
-      if (level) filtered = filtered.filter(m => m.level == level);
-      renderMembers(filtered);
+    
+    function viewMember(id) {
+      document.getElementById('memberDetailModal').classList.add('active');
     }
-
-    function exportMembers() {
-      alert('会员导出成功！');
+    
+    function addPoints(id) {
+      document.getElementById('addPointsModal').classList.add('active');
     }
-
-    renderMembers();
+    
+    function confirmAddPoints() {
+      const amount = document.getElementById('pointsAmount').value;
+      if (!amount || amount <= 0) {
+        alert('请输入有效的积分数量');
+        return;
+      }
+      alert('补积分成功！');
+      closeModal('addPointsModal');
+    }
+    
+    function refreshMembers() {
+      alert('刷新成功！');
+    }
   </script>
 </body>
 </html>

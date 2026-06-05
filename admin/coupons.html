@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>卡券管理 - 商场会员管理系统</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-dark: #1A1A2E;
+      --accent-coral: #E94560;
+      --bg-light: #F8F9FA;
+      --card-white: #FFFFFF;
+      --text-primary: #2C3E50;
+      --text-secondary: #6C757D;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Source Sans Pro', sans-serif; background-color: var(--bg-light); color: var(--text-primary); }
+    .font-display { font-family: 'Playfair Display', serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    
+    .sidebar { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: linear-gradient(180deg, #1A1A2E 0%, #16213E 100%); color: white; z-index: 1000; overflow-y: auto; display: flex; flex-direction: column; }
+    .sidebar-header { padding: 30px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sidebar-logo { font-size: 24px; font-weight: 700; color: white; }
+    .sidebar-logo span { color: var(--accent-coral); }
+    .nav-menu { padding: 20px 0; flex: 1; }
+    .nav-item { display: flex; align-items: center; padding: 16px 24px; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s ease; border-left: 3px solid transparent; }
+    .nav-item:hover, .nav-item.active { background: rgba(233, 69, 96, 0.1); color: white; border-left-color: var(--accent-coral); }
+    .nav-item i { width: 24px; margin-right: 12px; font-size: 18px; }
+    .nav-section { padding: 8px 24px; font-size: 11px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; margin-top: 16px; }
+    
+    .main-content { margin-left: 260px; min-height: 100vh; padding: 30px; }
+    .page-header { margin-bottom: 30px; }
+    .page-title { font-size: 32px; font-weight: 600; color: var(--primary-dark); margin-bottom: 8px; }
+    .page-subtitle { color: var(--text-secondary); font-size: 16px; }
+    
+    .card { background: var(--card-white); border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 24px; margin-bottom: 24px; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .card-title { font-size: 18px; font-weight: 600; color: var(--primary-dark); }
+    
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; border: none; outline: none; }
+    .btn-primary { background: var(--accent-coral); color: white; }
+    .btn-primary:hover { background: #D63D56; }
+    .btn-success { background: #10B981; color: white; }
+    .btn-danger { background: #EF4444; color: white; }
+    .btn-secondary { background: #F1F5F9; color: var(--text-primary); }
+    .btn-warning { background: #F59E0B; color: white; }
+    .btn-sm { padding: 8px 16px; font-size: 13px; }
+    
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table th { text-align: left; padding: 16px; font-size: 13px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #F1F5F9; }
+    .data-table td { padding: 16px; border-bottom: 1px solid #F1F5F9; }
+    .data-table tr:hover { background: #FAFBFC; }
+    
+    .tag { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .tag-success { background: #D1FAE5; color: #059669; }
+    .tag-warning { background: #FEF3C7; color: #D97706; }
+    .tag-danger { background: #FEE2E2; color: #DC2626; }
+    .tag-info { background: #DBEAFE; color: #2563EB; }
+    .tag-purple { background: #F3E8FF; color: #9333EA; }
+    
+    .form-input { width: 100%; padding: 12px 16px; border: 2px solid #E2E8F0; border-radius: 8px; font-size: 14px; transition: all 0.3s ease; }
+    .form-input:focus { outline: none; border-color: var(--accent-coral); }
+    
+    .tabs { display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 2px solid #F1F5F9; padding-bottom: 12px; }
+    .tab { padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--text-secondary); transition: all 0.3s ease; }
+    .tab:hover { color: var(--accent-coral); }
+    .tab.active { background: rgba(233, 69, 96, 0.1); color: var(--accent-coral); }
+    
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; }
+    .modal.active { display: flex; }
+    .modal-content { background: white; border-radius: 16px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+    .modal-header { padding: 24px; border-bottom: 1px solid #F1F5F9; display: flex; justify-content: space-between; align-items: center; }
+    .modal-title { font-size: 20px; font-weight: 600; color: var(--primary-dark); }
+    .modal-close { font-size: 28px; color: #999; cursor: pointer; background: none; border: none; }
+    .modal-body { padding: 24px; }
+    .modal-footer { padding: 24px; border-top: 1px solid #F1F5F9; display: flex; justify-content: flex-end; gap: 12px; }
+    
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    
+    .action-btns { display: flex; gap: 8px; }
+    .action-btn { padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; border: none; }
+    
+    .coupon-card { display: flex; background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%); border-radius: 12px; padding: 20px; color: white; margin-bottom: 16px; position: relative; overflow: hidden; }
+    .coupon-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at top right, rgba(233,69,96,0.3) 0%, transparent 50%); }
+    .coupon-left { flex: 1; position: relative; z-index: 1; }
+    .coupon-right { width: 100px; display: flex; align-items: center; justify-content: center; border-left: 2px dashed rgba(255,255,255,0.2); position: relative; z-index: 1; }
+    .coupon-amount { font-size: 36px; font-weight: 700; color: #FFD700; }
+    .coupon-unit { font-size: 18px; color: #FFD700; }
+    .coupon-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .coupon-desc { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 12px; }
+    .coupon-meta { display: flex; gap: 16px; font-size: 12px; color: rgba(255,255,255,0.6); }
+    
+    @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .main-content { margin-left: 0; } .form-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo font-display">VIP<span>Manager</span></div>
+      <p style="color: rgba(255,255,255,0.6); font-size: 13px; margin-top: 8px;">商场会员管理系统</p>
+    </div>
+    <nav class="nav-menu">
+      <a href="index.html" class="nav-item"><i class="fas fa-chart-line"></i> 数据统计</a>
+      <div class="nav-section">会员管理</div>
+      <a href="members.html" class="nav-item"><i class="fas fa-users"></i> 会员列表</a>
+      <div class="nav-section">营销管理</div>
+      <a href="coupons.html" class="nav-item active"><i class="fas fa-ticket-alt"></i> 卡券管理</a>
+      <a href="points.html" class="nav-item"><i class="fas fa-coins"></i> 积分配置</a>
+      <div class="nav-section">商城管理</div>
+      <a href="stores.html" class="nav-item"><i class="fas fa-store"></i> 门店管理</a>
+    </nav>
+    <div style="padding: 20px 24px; border-top: 1px solid rgba(255,255,255,0.1);">
+      <button class="btn btn-secondary" style="width: 100%; background: rgba(255,255,255,0.1); color: white; border: none;" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> 退出登录
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title font-display">卡券管理</h1>
+      <p class="page-subtitle">新建券种、批量发券、作废券、核销数据查询</p>
+    </div>
+
+    <!-- 统计卡片 -->
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 24px;">
+      <div class="card" style="margin-bottom: 0;">
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">进行中的券</div>
+        <div style="font-size: 32px; font-weight: 700; font-family: 'JetBrains Mono', monospace;">18</div>
+      </div>
+      <div class="card" style="margin-bottom: 0;">
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">今日领取</div>
+        <div style="font-size: 32px; font-weight: 700; font-family: 'JetBrains Mono', monospace;">342</div>
+      </div>
+      <div class="card" style="margin-bottom: 0;">
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">今日核销</div>
+        <div style="font-size: 32px; font-weight: 700; font-family: 'JetBrains Mono', monospace;">156</div>
+      </div>
+      <div class="card" style="margin-bottom: 0;">
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">核销率</div>
+        <div style="font-size: 32px; font-weight: 700; font-family: 'JetBrains Mono', monospace;">45.6%</div>
+      </div>
+    </div>
+
+    <!-- 标签页 -->
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(this, 'coupons')">优惠券列表</div>
+      <div class="tab" onclick="switchTab(this, 'verify')">核销记录</div>
+      <div class="tab" onclick="switchTab(this, 'stats')">发放统计</div>
+    </div>
+
+    <!-- 优惠券列表 -->
+    <div id="tab-coupons" class="tab-content">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">优惠券列表</h3>
+          <div style="display: flex; gap: 12px;">
+            <button class="btn btn-success" onclick="batchSend()">
+              <i class="fas fa-paper-plane"></i> 批量发券
+            </button>
+            <button class="btn btn-primary" onclick="openCouponModal()">
+              <i class="fas fa-plus"></i> 新建优惠券
+            </button>
+          </div>
+        </div>
+        
+        <!-- 优惠券卡片展示 -->
+        <div class="coupon-card">
+          <div class="coupon-left">
+            <div style="display: flex; align-items: baseline; margin-bottom: 8px;">
+              <span class="coupon-amount">¥50</span>
+              <span style="font-size: 14px; color: rgba(255,255,255,0.7); margin-left: 8px;">满200可用</span>
+            </div>
+            <div class="coupon-title">新春满减券</div>
+            <div class="coupon-desc">全场通用，不可叠加</div>
+            <div class="coupon-meta">
+              <span><i class="fas fa-clock"></i> 有效期至 2024-02-29</span>
+              <span><i class="fas fa-users"></i> 已领 1,234/5,000</span>
+              <span><i class="fas fa-check-circle"></i> 已核销 456</span>
+            </div>
+          </div>
+          <div class="coupon-right">
+            <div style="text-align: center;">
+              <div style="font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 8px;">剩余</div>
+              <div style="font-size: 28px; font-weight: 700;">3,766</div>
+            </div>
+          </div>
+          <div style="position: absolute; top: 16px; right: 16px; z-index: 2;">
+            <span class="tag tag-success" style="background: rgba(16, 185, 129, 0.2); color: #10B981;">进行中</span>
+          </div>
+        </div>
+
+        <div class="coupon-card" style="background: linear-gradient(135deg, #4361EE 0%, #3A0CA3 100%);">
+          <div class="coupon-left">
+            <div style="display: flex; align-items: baseline; margin-bottom: 8px;">
+              <span class="coupon-amount">8.5</span>
+              <span class="coupon-unit">折</span>
+            </div>
+            <div class="coupon-title">会员专享折扣券</div>
+            <div class="coupon-desc">金卡会员专享，最高抵扣100元</div>
+            <div class="coupon-meta">
+              <span><i class="fas fa-clock"></i> 有效期至 2024-03-31</span>
+              <span><i class="fas fa-users"></i> 已领 856/2,000</span>
+              <span><i class="fas fa-check-circle"></i> 已核销 234</span>
+            </div>
+          </div>
+          <div class="coupon-right">
+            <div style="text-align: center;">
+              <div style="font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 8px;">剩余</div>
+              <div style="font-size: 28px; font-weight: 700;">1,144</div>
+            </div>
+          </div>
+          <div style="position: absolute; top: 16px; right: 16px; z-index: 2;">
+            <span class="tag tag-success" style="background: rgba(16, 185, 129, 0.2); color: #10B981;">进行中</span>
+          </div>
+        </div>
+
+        <div class="coupon-card" style="background: linear-gradient(135deg, #6B7280 0%, #374151 100%);">
+          <div class="coupon-left">
+            <div style="display: flex; align-items: baseline; margin-bottom: 8px;">
+              <span class="coupon-amount">¥20</span>
+              <span style="font-size: 14px; color: rgba(255,255,255,0.7); margin-left: 8px;">无门槛</span>
+            </div>
+            <div class="coupon-title">停车抵扣券</div>
+            <div class="coupon-desc">仅限停车缴费使用</div>
+            <div class="coupon-meta">
+              <span><i class="fas fa-clock"></i> 已过期 2024-01-31</span>
+              <span><i class="fas fa-users"></i> 已领 2,500/2,500</span>
+              <span><i class="fas fa-check-circle"></i> 已核销 1,890</span>
+            </div>
+          </div>
+          <div class="coupon-right">
+            <div style="text-align: center;">
+              <div style="font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 8px;">剩余</div>
+              <div style="font-size: 28px; font-weight: 700;">0</div>
+            </div>
+          </div>
+          <div style="position: absolute; top: 16px; right: 16px; z-index: 2;">
+            <span class="tag tag-danger" style="background: rgba(239, 68, 68, 0.2); color: #EF4444;">已结束</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 核销记录 -->
+    <div id="tab-verify" class="tab-content" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">核销记录</h3>
+          <div style="display: flex; gap: 12px;">
+            <input type="date" class="form-input" style="width: 140px;">
+            <span style="align-self: center; color: var(--text-secondary);">至</span>
+            <input type="date" class="form-input" style="width: 140px;">
+            <button class="btn btn-primary btn-sm">查询</button>
+          </div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>核销时间</th>
+              <th>券名称</th>
+              <th>会员</th>
+              <th>核销门店</th>
+              <th>核销金额</th>
+              <th>状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2024-01-20 15:32:18</td>
+              <td>新春满减券</td>
+              <td>张三 (138****8888)</td>
+              <td>优衣库</td>
+              <td class="font-mono">¥50.00</td>
+              <td><span class="tag tag-success">核销成功</span></td>
+            </tr>
+            <tr>
+              <td>2024-01-20 14:28:45</td>
+              <td>会员专享折扣券</td>
+              <td>李四 (139****6666)</td>
+              <td>星巴克</td>
+              <td class="font-mono">¥15.00</td>
+              <td><span class="tag tag-success">核销成功</span></td>
+            </tr>
+            <tr>
+              <td>2024-01-20 12:15:33</td>
+              <td>停车抵扣券</td>
+              <td>王五 (137****9999)</td>
+              <td>停车场</td>
+              <td class="font-mono">¥20.00</td>
+              <td><span class="tag tag-success">核销成功</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 发放统计 -->
+    <div id="tab-stats" class="tab-content" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">发放统计</h3>
+          <select class="form-input" style="width: 120px;">
+            <option>近7天</option>
+            <option>近30天</option>
+            <option>本月</option>
+          </select>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>券名称</th>
+              <th>发放总量</th>
+              <th>已领取</th>
+              <th>领取率</th>
+              <th>已核销</th>
+              <th>核销率</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>新春满减券</td>
+              <td class="font-mono">5,000</td>
+              <td class="font-mono">1,234</td>
+              <td>24.7%</td>
+              <td class="font-mono">456</td>
+              <td><span class="tag tag-success">36.9%</span></td>
+            </tr>
+            <tr>
+              <td>会员专享折扣券</td>
+              <td class="font-mono">2,000</td>
+              <td class="font-mono">856</td>
+              <td>42.8%</td>
+              <td class="font-mono">234</td>
+              <td><span class="tag tag-warning">27.3%</span></td>
+            </tr>
+            <tr>
+              <td>停车抵扣券</td>
+              <td class="font-mono">2,500</td>
+              <td class="font-mono">2,500</td>
+              <td>100%</td>
+              <td class="font-mono">1,890</td>
+              <td><span class="tag tag-success">75.6%</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- 新建优惠券弹窗 -->
+  <div id="couponModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">新建优惠券</h3>
+        <button class="modal-close" onclick="closeModal('couponModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">券名称</label>
+          <input type="text" class="form-input" placeholder="请输入券名称">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">券类型</label>
+            <select class="form-input">
+              <option>代金券</option>
+              <option>折扣券</option>
+              <option>兑换券</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">优惠金额/折扣</label>
+            <input type="number" class="form-input" placeholder="如：50 或 0.85">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">最低消费</label>
+            <input type="number" class="form-input" placeholder="0表示无门槛">
+          </div>
+          <div class="form-group">
+            <label class="form-label">发放数量</label>
+            <input type="number" class="form-input" placeholder="请输入发放数量">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">开始时间</label>
+            <input type="datetime-local" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">结束时间</label>
+            <input type="datetime-local" class="form-input">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">使用说明</label>
+          <textarea class="form-input" rows="3" placeholder="请输入使用说明"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('couponModal')">取消</button>
+        <button class="btn btn-primary" onclick="saveCoupon()">
+          <i class="fas fa-save"></i> 保存
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 批量发券弹窗 -->
+  <div id="batchSendModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">批量发放优惠券</h3>
+        <button class="modal-close" onclick="closeModal('batchSendModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">选择优惠券</label>
+          <select class="form-input">
+            <option>新春满减券 - ¥50</option>
+            <option>会员专享折扣券 - 8.5折</option>
+            <option>停车抵扣券 - ¥20</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">发放对象</label>
+          <div style="display: flex; gap: 16px; margin-bottom: 12px;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="radio" name="target" checked> 全部会员
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="radio" name="target"> 指定会员等级
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="radio" name="target"> 指定会员
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">每人限领</label>
+          <input type="number" class="form-input" value="1" min="1">
+        </div>
+        <div class="form-group">
+          <label class="form-label">发放备注</label>
+          <textarea class="form-input" rows="2" placeholder="选填"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('batchSendModal')">取消</button>
+        <button class="btn btn-success" onclick="confirmBatchSend()">
+          <i class="fas fa-paper-plane"></i> 确认发放
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function logout() { localStorage.removeItem('adminLoggedIn'); window.location.href = 'index.html'; }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+    function openCouponModal() { document.getElementById('couponModal').classList.add('active'); }
+    function batchSend() { document.getElementById('batchSendModal').classList.add('active'); }
+    function saveCoupon() { alert('保存成功！'); closeModal('couponModal'); }
+    function confirmBatchSend() { alert('发放成功！'); closeModal('batchSendModal'); }
+    
+    function switchTab(el, tabId) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+      document.getElementById('tab-' + tabId).style.display = 'block';
+    }
+  </script>
+</body>
+</html>

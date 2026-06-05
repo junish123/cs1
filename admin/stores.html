@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>门店管理 - 商场会员管理系统</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --primary-dark: #1A1A2E; --accent-coral: #E94560; --bg-light: #F8F9FA; --card-white: #FFFFFF; --text-primary: #2C3E50; --text-secondary: #6C757D; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Source Sans Pro', sans-serif; background-color: var(--bg-light); color: var(--text-primary); }
+    .font-display { font-family: 'Playfair Display', serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    
+    .sidebar { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: linear-gradient(180deg, #1A1A2E 0%, #16213E 100%); color: white; z-index: 1000; overflow-y: auto; display: flex; flex-direction: column; }
+    .sidebar-header { padding: 30px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sidebar-logo { font-size: 24px; font-weight: 700; color: white; }
+    .sidebar-logo span { color: var(--accent-coral); }
+    .nav-menu { padding: 20px 0; flex: 1; }
+    .nav-item { display: flex; align-items: center; padding: 16px 24px; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s ease; border-left: 3px solid transparent; }
+    .nav-item:hover, .nav-item.active { background: rgba(233, 69, 96, 0.1); color: white; border-left-color: var(--accent-coral); }
+    .nav-item i { width: 24px; margin-right: 12px; font-size: 18px; }
+    .nav-section { padding: 8px 24px; font-size: 11px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; margin-top: 16px; }
+    
+    .main-content { margin-left: 260px; min-height: 100vh; padding: 30px; }
+    .page-header { margin-bottom: 30px; }
+    .page-title { font-size: 32px; font-weight: 600; color: var(--primary-dark); margin-bottom: 8px; }
+    .page-subtitle { color: var(--text-secondary); font-size: 16px; }
+    
+    .card { background: var(--card-white); border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 24px; margin-bottom: 24px; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .card-title { font-size: 18px; font-weight: 600; color: var(--primary-dark); }
+    
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; border: none; outline: none; }
+    .btn-primary { background: var(--accent-coral); color: white; }
+    .btn-primary:hover { background: #D63D56; }
+    .btn-success { background: #10B981; color: white; }
+    .btn-secondary { background: #F1F5F9; color: var(--text-primary); }
+    .btn-danger { background: #EF4444; color: white; }
+    .btn-sm { padding: 8px 16px; font-size: 13px; }
+    
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table th { text-align: left; padding: 16px; font-size: 13px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #F1F5F9; }
+    .data-table td { padding: 16px; border-bottom: 1px solid #F1F5F9; }
+    .data-table tr:hover { background: #FAFBFC; }
+    
+    .tag { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .tag-success { background: #D1FAE5; color: #059669; }
+    .tag-warning { background: #FEF3C7; color: #D97706; }
+    .tag-info { background: #DBEAFE; color: #2563EB; }
+    .tag-purple { background: #F3E8FF; color: #9333EA; }
+    
+    .form-input { width: 100%; padding: 12px 16px; border: 2px solid #E2E8F0; border-radius: 8px; font-size: 14px; transition: all 0.3s ease; }
+    .form-input:focus { outline: none; border-color: var(--accent-coral); }
+    
+    .tabs { display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 2px solid #F1F5F9; padding-bottom: 12px; }
+    .tab { padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--text-secondary); transition: all 0.3s ease; }
+    .tab:hover { color: var(--accent-coral); }
+    .tab.active { background: rgba(233, 69, 96, 0.1); color: var(--accent-coral); }
+    
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; }
+    .modal.active { display: flex; }
+    .modal-content { background: white; border-radius: 16px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+    .modal-header { padding: 24px; border-bottom: 1px solid #F1F5F9; display: flex; justify-content: space-between; align-items: center; }
+    .modal-title { font-size: 20px; font-weight: 600; color: var(--primary-dark); }
+    .modal-close { font-size: 28px; color: #999; cursor: pointer; background: none; border: none; }
+    .modal-body { padding: 24px; }
+    .modal-footer { padding: 24px; border-top: 1px solid #F1F5F9; display: flex; justify-content: flex-end; gap: 12px; }
+    
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    
+    .floor-card { background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%); border-radius: 16px; padding: 24px; color: white; margin-bottom: 20px; position: relative; overflow: hidden; }
+    .floor-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at top right, rgba(233,69,96,0.2) 0%, transparent 50%); }
+    .floor-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; position: relative; z-index: 1; }
+    .floor-name { font-size: 24px; font-weight: 700; }
+    .floor-desc { font-size: 14px; color: rgba(255,255,255,0.7); position: relative; z-index: 1; }
+    .floor-stats { display: flex; gap: 24px; margin-top: 16px; position: relative; z-index: 1; }
+    .floor-stat { text-align: center; }
+    .floor-stat-value { font-size: 28px; font-weight: 700; color: #4CC9F0; }
+    .floor-stat-label { font-size: 12px; color: rgba(255,255,255,0.6); }
+    
+    .store-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+    .store-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s ease; }
+    .store-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .store-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+    .store-logo { width: 60px; height: 60px; border-radius: 12px; background: linear-gradient(135deg, #E94560, #FF6B6B); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold; }
+    .store-info { flex: 1; }
+    .store-name { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
+    .store-category { font-size: 13px; color: var(--text-secondary); }
+    .store-actions { display: flex; gap: 8px; margin-top: 16px; }
+    
+    .action-btns { display: flex; gap: 8px; }
+    .action-btn { padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; border: none; }
+    
+    @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .main-content { margin-left: 0; } .form-row { grid-template-columns: 1fr; } .store-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo font-display">VIP<span>Manager</span></div>
+      <p style="color: rgba(255,255,255,0.6); font-size: 13px; margin-top: 8px;">商场会员管理系统</p>
+    </div>
+    <nav class="nav-menu">
+      <a href="index.html" class="nav-item"><i class="fas fa-chart-line"></i> 数据统计</a>
+      <div class="nav-section">会员管理</div>
+      <a href="members.html" class="nav-item"><i class="fas fa-users"></i> 会员列表</a>
+      <div class="nav-section">营销管理</div>
+      <a href="coupons.html" class="nav-item"><i class="fas fa-ticket-alt"></i> 卡券管理</a>
+      <a href="points.html" class="nav-item"><i class="fas fa-coins"></i> 积分配置</a>
+      <div class="nav-section">商城管理</div>
+      <a href="stores.html" class="nav-item active"><i class="fas fa-store"></i> 门店管理</a>
+    </nav>
+    <div style="padding: 20px 24px; border-top: 1px solid rgba(255,255,255,0.1);">
+      <button class="btn btn-secondary" style="width: 100%; background: rgba(255,255,255,0.1); color: white; border: none;" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> 退出登录
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title font-display">门店管理</h1>
+      <p class="page-subtitle">楼层门店维护、门店信息、门店优惠上架</p>
+    </div>
+
+    <!-- 统计卡片 -->
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 24px;">
+      <div class="card" style="margin-bottom: 0;">
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">总楼层数</div>
+        <div style="font-size: 32px; font-weight: 700; font-family: 'JetBrains Mono', monospace;">5</div>
+      </div>
+      <div class="card" style="margin-bottom: 0;">
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">入驻门店</div>
+        <div style="font-size: 32px; font-weight: 700; font-family: 'JetBrains Mono', monospace;">128</div>
+      </div>
+      <div class="card" style="margin-bottom: 0;">
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">业态类型</div>
+        <div style="font-size: 32px; font-weight: 700; font-family: 'JetBrains Mono', monospace;">12</div>
+      </div>
+      <div class="card" style="margin-bottom: 0;">
+        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">在售优惠</div>
+        <div style="font-size: 32px; font-weight: 700; font-family: 'JetBrains Mono', monospace;">36</div>
+      </div>
+    </div>
+
+    <!-- 标签页 -->
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(this, 'floors')">楼层管理</div>
+      <div class="tab" onclick="switchTab(this, 'stores')">门店列表</div>
+      <div class="tab" onclick="switchTab(this, 'promotions')">门店优惠</div>
+    </div>
+
+    <!-- 楼层管理 -->
+    <div id="tab-floors" class="tab-content">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">楼层概览</h3>
+          <button class="btn btn-primary" onclick="openFloorModal()">
+            <i class="fas fa-plus"></i> 新增楼层
+          </button>
+        </div>
+        
+        <div class="floor-card">
+          <div class="floor-header">
+            <div>
+              <div class="floor-name">B1 美食天地</div>
+              <div class="floor-desc">汇集各地美食，满足味蕾享受</div>
+            </div>
+            <div class="action-btns">
+              <button class="action-btn btn-secondary" onclick="editFloor('B1')">编辑</button>
+              <button class="action-btn btn-danger">删除</button>
+            </div>
+          </div>
+          <div class="floor-stats">
+            <div class="floor-stat">
+              <div class="floor-stat-value">28</div>
+              <div class="floor-stat-label">入驻门店</div>
+            </div>
+            <div class="floor-stat">
+              <div class="floor-stat-value">8</div>
+              <div class="floor-stat-label">业态类型</div>
+            </div>
+            <div class="floor-stat">
+              <div class="floor-stat-value">12</div>
+              <div class="floor-stat-label">优惠活动</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="floor-card" style="background: linear-gradient(135deg, #4361EE 0%, #3A0CA3 100%);">
+          <div class="floor-header">
+            <div>
+              <div class="floor-name">F1 时尚精品</div>
+              <div class="floor-desc">国际大牌，潮流时尚</div>
+            </div>
+            <div class="action-btns">
+              <button class="action-btn btn-secondary" onclick="editFloor('F1')">编辑</button>
+              <button class="action-btn btn-danger">删除</button>
+            </div>
+          </div>
+          <div class="floor-stats">
+            <div class="floor-stat">
+              <div class="floor-stat-value" style="color: #F72585;">32</div>
+              <div class="floor-stat-label">入驻门店</div>
+            </div>
+            <div class="floor-stat">
+              <div class="floor-stat-value" style="color: #F72585;">6</div>
+              <div class="floor-stat-label">业态类型</div>
+            </div>
+            <div class="floor-stat">
+              <div class="floor-stat-value" style="color: #F72585;">8</div>
+              <div class="floor-stat-label">优惠活动</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="floor-card" style="background: linear-gradient(135deg, #06D6A0 0%, #118AB2 100%);">
+          <div class="floor-header">
+            <div>
+              <div class="floor-name">F2 潮流服饰</div>
+              <div class="floor-desc">年轻时尚，个性穿搭</div>
+            </div>
+            <div class="action-btns">
+              <button class="action-btn btn-secondary" onclick="editFloor('F2')">编辑</button>
+              <button class="action-btn btn-danger">删除</button>
+            </div>
+          </div>
+          <div class="floor-stats">
+            <div class="floor-stat">
+              <div class="floor-stat-value" style="color: #FFD700;">35</div>
+              <div class="floor-stat-label">入驻门店</div>
+            </div>
+            <div class="floor-stat">
+              <div class="floor-stat-value" style="color: #FFD700;">5</div>
+              <div class="floor-stat-label">业态类型</div>
+            </div>
+            <div class="floor-stat">
+              <div class="floor-stat-value" style="color: #FFD700;">10</div>
+              <div class="floor-stat-label">优惠活动</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 门店列表 -->
+    <div id="tab-stores" class="tab-content" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">门店列表</h3>
+          <div style="display: flex; gap: 12px;">
+            <select class="form-input" style="width: 120px;">
+              <option>全部楼层</option>
+              <option>B1 美食天地</option>
+              <option>F1 时尚精品</option>
+              <option>F2 潮流服饰</option>
+            </select>
+            <select class="form-input" style="width: 120px;">
+              <option>全部业态</option>
+              <option>餐饮美食</option>
+              <option>服装服饰</option>
+              <option>数码电器</option>
+            </select>
+            <button class="btn btn-primary" onclick="openStoreModal()">
+              <i class="fas fa-plus"></i> 新增门店
+            </button>
+          </div>
+        </div>
+        
+        <div class="store-grid">
+          <div class="store-card">
+            <div class="store-header">
+              <div class="store-logo">优</div>
+              <div class="store-info">
+                <div class="store-name">优衣库</div>
+                <div class="store-category">服装服饰 · F1</div>
+              </div>
+            </div>
+            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+              <i class="fas fa-map-marker-alt"></i> F1-A05
+            </div>
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+              <span class="tag tag-success">营业中</span>
+              <span class="tag tag-info">有优惠</span>
+            </div>
+            <div class="store-actions">
+              <button class="action-btn btn-secondary" onclick="editStore('1')">编辑</button>
+              <button class="action-btn btn-primary" onclick="addPromotion('1')">添加优惠</button>
+            </div>
+          </div>
+
+          <div class="store-card">
+            <div class="store-header">
+              <div class="store-logo" style="background: linear-gradient(135deg, #06D6A0, #118AB2);">星</div>
+              <div class="store-info">
+                <div class="store-name">星巴克</div>
+                <div class="store-category">餐饮美食 · B1</div>
+              </div>
+            </div>
+            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+              <i class="fas fa-map-marker-alt"></i> B1-C12
+            </div>
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+              <span class="tag tag-success">营业中</span>
+              <span class="tag tag-info">有优惠</span>
+            </div>
+            <div class="store-actions">
+              <button class="action-btn btn-secondary" onclick="editStore('2')">编辑</button>
+              <button class="action-btn btn-primary" onclick="addPromotion('2')">添加优惠</button>
+            </div>
+          </div>
+
+          <div class="store-card">
+            <div class="store-header">
+              <div class="store-logo" style="background: linear-gradient(135deg, #4361EE, #3A0CA3);">苹</div>
+              <div class="store-info">
+                <div class="store-name">Apple Store</div>
+                <div class="store-category">数码电器 · F1</div>
+              </div>
+            </div>
+            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+              <i class="fas fa-map-marker-alt"></i> F1-A01
+            </div>
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+              <span class="tag tag-success">营业中</span>
+            </div>
+            <div class="store-actions">
+              <button class="action-btn btn-secondary" onclick="editStore('3')">编辑</button>
+              <button class="action-btn btn-primary" onclick="addPromotion('3')">添加优惠</button>
+            </div>
+          </div>
+
+          <div class="store-card">
+            <div class="store-header">
+              <div class="store-logo" style="background: linear-gradient(135deg, #F72585, #B5179E);">海</div>
+              <div class="store-info">
+                <div class="store-name">海底捞</div>
+                <div class="store-category">餐饮美食 · B1</div>
+              </div>
+            </div>
+            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+              <i class="fas fa-map-marker-alt"></i> B1-D08
+            </div>
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+              <span class="tag tag-success">营业中</span>
+              <span class="tag tag-info">有优惠</span>
+            </div>
+            <div class="store-actions">
+              <button class="action-btn btn-secondary" onclick="editStore('4')">编辑</button>
+              <button class="action-btn btn-primary" onclick="addPromotion('4')">添加优惠</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 门店优惠 -->
+    <div id="tab-promotions" class="tab-content" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">门店优惠活动</h3>
+          <button class="btn btn-primary" onclick="openPromotionModal()">
+            <i class="fas fa-plus"></i> 上架优惠
+          </button>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>门店</th>
+              <th>优惠名称</th>
+              <th>优惠内容</th>
+              <th>有效期</th>
+              <th>状态</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>优衣库</td>
+              <td>新年特惠</td>
+              <td>全场满300减50</td>
+              <td>2024.01.20 - 2024.02.29</td>
+              <td><span class="tag tag-success">进行中</span></td>
+              <td>
+                <div class="action-btns">
+                  <button class="action-btn btn-secondary">编辑</button>
+                  <button class="action-btn btn-danger">下架</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>星巴克</td>
+              <td>会员专享</td>
+              <td>饮品买一送一</td>
+              <td>2024.01.15 - 2024.01.31</td>
+              <td><span class="tag tag-success">进行中</span></td>
+              <td>
+                <div class="action-btns">
+                  <button class="action-btn btn-secondary">编辑</button>
+                  <button class="action-btn btn-danger">下架</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>海底捞</td>
+              <td>生日特权</td>
+              <td>生日当月8.8折</td>
+              <td>长期有效</td>
+              <td><span class="tag tag-success">进行中</span></td>
+              <td>
+                <div class="action-btns">
+                  <button class="action-btn btn-secondary">编辑</button>
+                  <button class="action-btn btn-danger">下架</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- 楼层弹窗 -->
+  <div id="floorModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">新增楼层</h3>
+        <button class="modal-close" onclick="closeModal('floorModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">楼层编号</label>
+          <input type="text" class="form-input" placeholder="如：B1、F1、F2">
+        </div>
+        <div class="form-group">
+          <label class="form-label">楼层名称</label>
+          <input type="text" class="form-input" placeholder="如：美食天地、时尚精品">
+        </div>
+        <div class="form-group">
+          <label class="form-label">楼层描述</label>
+          <textarea class="form-input" rows="3" placeholder="请输入楼层描述"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('floorModal')">取消</button>
+        <button class="btn btn-primary" onclick="saveFloor()">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 门店弹窗 -->
+  <div id="storeModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">新增门店</h3>
+        <button class="modal-close" onclick="closeModal('storeModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">门店名称</label>
+            <input type="text" class="form-input" placeholder="请输入门店名称">
+          </div>
+          <div class="form-group">
+            <label class="form-label">所属楼层</label>
+            <select class="form-input">
+              <option>B1 美食天地</option>
+              <option>F1 时尚精品</option>
+              <option>F2 潮流服饰</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">业态类型</label>
+            <select class="form-input">
+              <option>餐饮美食</option>
+              <option>服装服饰</option>
+              <option>数码电器</option>
+              <option>美妆护肤</option>
+              <option>珠宝首饰</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">铺位号</label>
+            <input type="text" class="form-input" placeholder="如：F1-A05">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">门店介绍</label>
+          <textarea class="form-input" rows="3" placeholder="请输入门店介绍"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('storeModal')">取消</button>
+        <button class="btn btn-primary" onclick="saveStore()">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 优惠弹窗 -->
+  <div id="promotionModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">上架门店优惠</h3>
+        <button class="modal-close" onclick="closeModal('promotionModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">选择门店</label>
+          <select class="form-input">
+            <option>优衣库</option>
+            <option>星巴克</option>
+            <option>Apple Store</option>
+            <option>海底捞</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">优惠名称</label>
+          <input type="text" class="form-input" placeholder="如：新年特惠、会员专享">
+        </div>
+        <div class="form-group">
+          <label class="form-label">优惠内容</label>
+          <input type="text" class="form-input" placeholder="如：全场满300减50">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">开始时间</label>
+            <input type="date" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">结束时间</label>
+            <input type="date" class="form-input">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('promotionModal')">取消</button>
+        <button class="btn btn-primary" onclick="savePromotion()">上架</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function logout() { localStorage.removeItem('adminLoggedIn'); window.location.href = 'index.html'; }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+    function openFloorModal() { document.getElementById('floorModal').classList.add('active'); }
+    function openStoreModal() { document.getElementById('storeModal').classList.add('active'); }
+    function openPromotionModal() { document.getElementById('promotionModal').classList.add('active'); }
+    function saveFloor() { alert('保存成功！'); closeModal('floorModal'); }
+    function saveStore() { alert('保存成功！'); closeModal('storeModal'); }
+    function savePromotion() { alert('上架成功！'); closeModal('promotionModal'); }
+    function editFloor(id) { alert('编辑楼层：' + id); }
+    function editStore(id) { alert('编辑门店：' + id); }
+    function addPromotion(id) { openPromotionModal(); }
+    
+    function switchTab(el, tabId) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+      document.getElementById('tab-' + tabId).style.display = 'block';
+    }
+  </script>
+</body>
+</html>
