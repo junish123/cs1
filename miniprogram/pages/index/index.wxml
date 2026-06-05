@@ -1,25 +1,137 @@
+<!-- 首页 - 会员中心概览 -->
 <view class="container">
-  <view class="header">
-    <text class="title">CloudBase 小程序模板</text>
-    <text class="subtitle">基于微信云开发的小程序应用</text>
-  </view>
-  
-  <view class="content">
-    <view class="info-card">
-      <text class="label">您的OpenID：</text>
-      <text class="value">{{openid || '获取中...'}}</text>
+  <!-- 会员卡片 -->
+  <view class="member-card">
+    <view class="member-header">
+      <image class="avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"/>
+      <view class="member-info">
+        <text class="nickname">{{userInfo.nickName || '游客'}}</text>
+        <view class="level-badge level-{{memberInfo.level || 1}}">
+          <text class="level-text">{{memberInfo.levelName || '普通会员'}}</text>
+        </view>
+      </view>
+      <view class="qr-code" bindtap="showQRCode">
+        <text class="iconfont icon-qrcode">会员码</text>
+      </view>
     </view>
     
-    <view class="features">
-      <text class="features-title">✨ 项目特点</text>
-      <view class="feature-item">🔐 云开发身份认证</view>
-      <view class="feature-item">☁️ 云函数调用能力</view>
-      <view class="feature-item">📱 原生小程序开发</view>
-      <view class="feature-item">🚀 一键部署上线</view>
+    <view class="stats-row">
+      <view class="stat-item" bindtap="goToPoints">
+        <text class="stat-value">{{memberInfo.points || 0}}</text>
+        <text class="stat-label">积分</text>
+      </view>
+      <view class="stat-item" bindtap="goToCoupons">
+        <text class="stat-value">{{couponCount || 0}}</text>
+        <text class="stat-label">优惠券</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{memberInfo.balance || 0}}</text>
+        <text class="stat-label">余额(元)</text>
+      </view>
     </view>
   </view>
   
-  <view class="footer">
-    <cloudbase-badge show-text="{{true}}" />
+  <!-- 会员等级进度 -->
+  <view class="card level-progress">
+    <view class="card-header">
+      <text class="card-title">会员等级</text>
+      <text class="card-subtitle">再消费 {{nextLevelNeed}} 元升级{{nextLevelName}}</text>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{levelProgress}}%"></view>
+    </view>
+    <view class="level-list">
+      <view class="level-item {{memberInfo.level >= 1 ? 'active' : ''}}">
+        <text class="level-dot"></text>
+        <text class="level-name">普通</text>
+      </view>
+      <view class="level-item {{memberInfo.level >= 2 ? 'active' : ''}}">
+        <text class="level-dot"></text>
+        <text class="level-name">银卡</text>
+      </view>
+      <view class="level-item {{memberInfo.level >= 3 ? 'active' : ''}}">
+        <text class="level-dot"></text>
+        <text class="level-name">金卡</text>
+      </view>
+      <view class="level-item {{memberInfo.level >= 4 ? 'active' : ''}}">
+        <text class="level-dot"></text>
+        <text class="level-name">钻石</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 快捷入口 -->
+  <view class="card quick-actions">
+    <view class="card-header">
+      <text class="card-title">快捷服务</text>
+    </view>
+    <view class="action-grid">
+      <view class="action-item" bindtap="goToPoints">
+        <view class="action-icon points-icon">
+          <text>积分</text>
+        </view>
+        <text class="action-text">积分商城</text>
+      </view>
+      <view class="action-item" bindtap="goToCoupons">
+        <view class="action-icon coupon-icon">
+          <text>领券</text>
+        </view>
+        <text class="action-text">领券中心</text>
+      </view>
+      <view class="action-item" bindtap="goToRecords">
+        <view class="action-icon record-icon">
+          <text>记录</text>
+        </view>
+        <text class="action-text">消费记录</text>
+      </view>
+      <view class="action-item" bindtap="scanCode">
+        <view class="action-icon scan-icon">
+          <text>扫码</text>
+        </view>
+        <text class="action-text">扫码买单</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 最新优惠券 -->
+  <view class="card" wx:if="{{latestCoupons.length > 0}}">
+    <view class="card-header flex-between">
+      <text class="card-title">最新优惠券</text>
+      <text class="more" bindtap="goToCoupons">查看更多 ></text>
+    </view>
+    <view class="coupon-list">
+      <view class="coupon-item" wx:for="{{latestCoupons}}" wx:key="_id" bindtap="receiveCoupon" data-id="{{item._id}}">
+        <view class="coupon-left">
+          <text class="coupon-value">{{item.type === 'discount' ? item.discount + '折' : '¥' + item.amount}}</text>
+          <text class="coupon-condition">{{item.minAmount > 0 ? '满' + item.minAmount + '可用' : '无门槛'}}</text>
+        </view>
+        <view class="coupon-right">
+          <text class="coupon-title">{{item.title}}</text>
+          <text class="coupon-desc">{{item.description}}</text>
+          <text class="coupon-time">{{item.endDate}}到期</text>
+        </view>
+        <view class="coupon-btn">
+          <text>领取</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 积分商城推荐 -->
+  <view class="card" wx:if="{{pointProducts.length > 0}}">
+    <view class="card-header flex-between">
+      <text class="card-title">积分兑换</text>
+      <text class="more" bindtap="goToPoints">更多 ></text>
+    </view>
+    <view class="product-grid">
+      <view class="product-item" wx:for="{{pointProducts}}" wx:key="_id" bindtap="exchangeProduct" data-id="{{item._id}}">
+        <image class="product-image" src="{{item.image}}" mode="aspectFill"/>
+        <text class="product-name">{{item.name}}</text>
+        <view class="product-points">
+          <text class="points-value">{{item.points}}</text>
+          <text class="points-label">积分</text>
+        </view>
+      </view>
+    </view>
   </view>
 </view>

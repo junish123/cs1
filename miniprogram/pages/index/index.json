@@ -1,6 +1,4 @@
 {
-  "navigationBarTitleText": "CloudBase 小程序模板",
-  "usingComponents": {
-    "cloudbase-badge": "/components/cloudbase-badge/index"
-  }
+  "usingComponents": {},
+  "navigationBarTitleText": "会员中心"
 }

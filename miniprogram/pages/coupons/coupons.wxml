@@ -1,0 +1,88 @@
+<!-- 优惠券页面 -->
+<view class="container">
+  <!-- 标签切换 -->
+  <view class="tab-bar">
+    <view class="tab-item {{currentTab === 'available' ? 'active' : ''}}" bindtap="switchTab" data-tab="available">
+      <text>可领取</text>
+    </view>
+    <view class="tab-item {{currentTab === 'my' ? 'active' : ''}}" bindtap="switchTab" data-tab="my">
+      <text>我的优惠券</text>
+    </view>
+  </view>
+  
+  <!-- 可领取的优惠券 -->
+  <view class="coupon-section" wx:if="{{currentTab === 'available'}}">
+    <view class="coupon-list">
+      <view class="coupon-card" wx:for="{{availableCoupons}}" wx:key="_id">
+        <view class="coupon-bg">
+          <view class="coupon-left">
+            <view class="coupon-amount">
+              <text class="currency" wx:if="{{item.type === 'cash'}}">¥</text>
+              <text class="amount">{{item.type === 'discount' ? item.discount : item.amount}}</text>
+              <text class="unit" wx:if="{{item.type === 'discount'}}">折</text>
+            </view>
+            <text class="coupon-condition">{{item.minAmount > 0 ? '满' + item.minAmount + '元可用' : '无门槛'}}</text>
+          </view>
+          <view class="coupon-right">
+            <text class="coupon-title">{{item.title}}</text>
+            <text class="coupon-desc">{{item.description}}</text>
+            <text class="coupon-valid">有效期至 {{item.endDate}}</text>
+            <text class="coupon-stock">剩余 {{item.stock}} 张</text>
+          </view>
+        </view>
+        <view class="receive-btn {{item.stock <= 0 ? 'disabled' : ''}}" bindtap="receiveCoupon" data-id="{{item._id}}">
+          <text>{{item.stock > 0 ? '立即领取' : '已领完'}}</text>
+        </view>
+      </view>
+    </view>
+    
+    <view class="empty" wx:if="{{availableCoupons.length === 0}}">
+      <text>暂无可用优惠券</text>
+    </view>
+  </view>
+  
+  <!-- 我的优惠券 -->
+  <view class="coupon-section" wx:if="{{currentTab === 'my'}}">
+    <!-- 状态筛选 -->
+    <view class="status-filter">
+      <view class="filter-item {{statusFilter === 'unused' ? 'active' : ''}}" bindtap="filterStatus" data-status="unused">
+        <text>未使用</text>
+      </view>
+      <view class="filter-item {{statusFilter === 'used' ? 'active' : ''}}" bindtap="filterStatus" data-status="used">
+        <text>已使用</text>
+      </view>
+      <view class="filter-item {{statusFilter === 'expired' ? 'active' : ''}}" bindtap="filterStatus" data-status="expired">
+        <text>已过期</text>
+      </view>
+    </view>
+    
+    <view class="my-coupon-list">
+      <view class="my-coupon-card {{item.status}}" wx:for="{{myCoupons}}" wx:key="_id">
+        <view class="coupon-info">
+          <view class="coupon-amount-small">
+            <text class="currency" wx:if="{{item.couponInfo.type === 'cash'}}">¥</text>
+            <text class="amount">{{item.couponInfo.type === 'discount' ? item.couponInfo.discount : item.couponInfo.amount}}</text>
+            <text class="unit" wx:if="{{item.couponInfo.type === 'discount'}}">折</text>
+          </view>
+          <view class="coupon-detail">
+            <text class="coupon-name">{{item.couponInfo.title}}</text>
+            <text class="coupon-condition-small">{{item.couponInfo.minAmount > 0 ? '满' + item.couponInfo.minAmount + '元可用' : '无门槛'}}</text>
+            <text class="coupon-time">有效期至 {{item.expireDate}}</text>
+          </view>
+        </view>
+        <view class="coupon-status">
+          <text wx:if="{{item.status === 'unused'}}" class="status-unused">未使用</text>
+          <text wx:if="{{item.status === 'used'}}" class="status-used">已使用</text>
+          <text wx:if="{{item.status === 'expired'}}" class="status-expired">已过期</text>
+        </view>
+        <view class="use-btn" wx:if="{{item.status === 'unused'}}" bindtap="useCoupon" data-id="{{item._id}}">
+          <text>去使用</text>
+        </view>
+      </view>
+    </view>
+    
+    <view class="empty" wx:if="{{myCoupons.length === 0}}">
+      <text>暂无{{statusFilter === 'unused' ? '未使用' : statusFilter === 'used' ? '已使用' : '已过期'}}的优惠券</text>
+    </view>
+  </view>
+</view>

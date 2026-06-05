@@ -1,14 +1,44 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/index/index",
+    "pages/member/member",
+    "pages/coupons/coupons",
+    "pages/points/points",
+    "pages/records/records"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#6A5ACD",
-    "navigationBarTitleText": "小程序+云开发空白项目",
+    "navigationBarBackgroundColor": "#FF6B6B",
+    "navigationBarTitleText": "商场会员",
     "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#FF6B6B",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-active.png"
+      },
+      {
+        "pagePath": "pages/coupons/coupons",
+        "text": "优惠券",
+        "iconPath": "images/coupon.png",
+        "selectedIconPath": "images/coupon-active.png"
+      },
+      {
+        "pagePath": "pages/member/member",
+        "text": "我的",
+        "iconPath": "images/user.png",
+        "selectedIconPath": "images/user-active.png"
+      }
+    ]
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",
   "lazyCodeLoading": "requiredComponents"
-} 
+}
