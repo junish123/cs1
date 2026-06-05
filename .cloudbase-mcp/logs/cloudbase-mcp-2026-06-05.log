@@ -494,3 +494,209 @@
   "eventCode": "toolkit_lifecycle",
   "deviceId": "d788dda8..."
 }
+[2026-06-05T11:59:55.614+00:00] [DEBUG] [cache] Using default TTL {
+  "ttlMs": 86400000
+}
+[2026-06-05T11:59:55.646+00:00] [DEBUG] report_init {
+  "enabled": true,
+  "deviceId": "d788dda8...",
+  "ide": "none"
+}
+[2026-06-05T11:59:55.670+00:00] [DEBUG] [cache] evaluated cache meta {
+  "ageMs": 3177874,
+  "ttlMs": 86400000,
+  "valid": true
+}
+[2026-06-05T11:59:55.671+00:00] [DEBUG] [downloadResources] 使用缓存（快速路径）
+[2026-06-05T11:59:55.685+00:00] [INFO] TencentCloudBase MCP Server running on stdio
+[2026-06-05T11:59:55.685+00:00] [DEBUG] [telemetry] 生命周期事件 envId 获取结果 {
+  "event": "start",
+  "envId": "cs20260605-d7ge3qv3adead64a3",
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T11:59:55.686+00:00] [DEBUG] [telemetry] 生命周期事件上报参数 {
+  "event": "start",
+  "eventData": {
+    "event": "start",
+    "envId": "cs20260605-d7ge3qv3adead64a3",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2"
+  },
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID"
+}
+[2026-06-05T11:59:55.764+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_lifecycle",
+  "deviceId": "d788dda8..."
+}
+[2026-06-05T11:59:57.248+00:00] [DEBUG] [cache] Using default TTL {
+  "ttlMs": 86400000
+}
+[2026-06-05T11:59:57.281+00:00] [DEBUG] report_init {
+  "enabled": true,
+  "deviceId": "d788dda8...",
+  "ide": "none"
+}
+[2026-06-05T11:59:57.305+00:00] [DEBUG] [cache] evaluated cache meta {
+  "ageMs": 3179509,
+  "ttlMs": 86400000,
+  "valid": true
+}
+[2026-06-05T11:59:57.306+00:00] [DEBUG] [downloadResources] 使用缓存（快速路径）
+[2026-06-05T11:59:57.321+00:00] [INFO] TencentCloudBase MCP Server running on stdio
+[2026-06-05T11:59:57.321+00:00] [DEBUG] [telemetry] 生命周期事件 envId 获取结果 {
+  "event": "start",
+  "envId": "cs20260605-d7ge3qv3adead64a3",
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T11:59:57.321+00:00] [DEBUG] [telemetry] 生命周期事件上报参数 {
+  "event": "start",
+  "eventData": {
+    "event": "start",
+    "envId": "cs20260605-d7ge3qv3adead64a3",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2"
+  },
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID"
+}
+[2026-06-05T11:59:57.348+00:00] [DEBUG] 开始执行工具: createFunction {
+  "args": {
+    "func": {
+      "name": "receiveCoupon",
+      "type": "Event",
+      "timeout": 10,
+      "runtime": "Nodejs18.15",
+      "handler": "index.main"
+    },
+    "functionRootPath": "/tmp/workspace/682880f0-0e39-4f06-847c-dcfc4c2a649f/cloudfunctions",
+    "force": true
+  }
+}
+[2026-06-05T11:59:57.348+00:00] [DEBUG] [createFunction] name=receiveCoupon, type=Event
+[2026-06-05T11:59:57.349+00:00] [DEBUG] loginByApiSecret
+[2026-06-05T11:59:57.349+00:00] [DEBUG] 使用 envManager 缓存的环境ID: {
+  "cachedEnvId": "cs20260605-d7ge3qv3adead64a3"
+}
+[2026-06-05T11:59:57.389+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_lifecycle",
+  "deviceId": "d788dda8..."
+}
+[2026-06-05T11:59:57.508+00:00] [INFO] [receiveCoupon] 部署方式: COS 上传
+[2026-06-05T11:59:58.242+00:00] [INFO] [receiveCoupon] 部署方式: COS 上传
+[2026-06-05T12:00:17.365+00:00] [DEBUG] 工具执行成功: createFunction {
+  "duration": 20017
+}
+[2026-06-05T12:00:17.365+00:00] [DEBUG] [telemetry] 工具调用 envId 获取结果 {
+  "toolName": "createFunction",
+  "envId": "cs20260605-d7ge3qv3adead64a3",
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T12:00:17.366+00:00] [DEBUG] [telemetry] 工具调用上报参数 {
+  "toolName": "createFunction",
+  "eventData": {
+    "toolName": "createFunction",
+    "success": "true",
+    "duration": 20018,
+    "envId": "cs20260605-d7ge3qv3adead64a3",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2",
+    "inputParams": "[已包含]"
+  },
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID"
+}
+[2026-06-05T12:00:17.409+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_tool_call",
+  "deviceId": "d788dda8..."
+}
+[2026-06-05T12:00:36.677+00:00] [DEBUG] [cache] Using default TTL {
+  "ttlMs": 86400000
+}
+[2026-06-05T12:00:36.710+00:00] [DEBUG] report_init {
+  "enabled": true,
+  "deviceId": "d788dda8...",
+  "ide": "none"
+}
+[2026-06-05T12:00:36.734+00:00] [DEBUG] [cache] evaluated cache meta {
+  "ageMs": 3218938,
+  "ttlMs": 86400000,
+  "valid": true
+}
+[2026-06-05T12:00:36.736+00:00] [DEBUG] [downloadResources] 使用缓存（快速路径）
+[2026-06-05T12:00:36.752+00:00] [INFO] TencentCloudBase MCP Server running on stdio
+[2026-06-05T12:00:36.753+00:00] [DEBUG] [telemetry] 生命周期事件 envId 获取结果 {
+  "event": "start",
+  "envId": "cs20260605-d7ge3qv3adead64a3",
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T12:00:36.753+00:00] [DEBUG] [telemetry] 生命周期事件上报参数 {
+  "event": "start",
+  "eventData": {
+    "event": "start",
+    "envId": "cs20260605-d7ge3qv3adead64a3",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2"
+  },
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID"
+}
+[2026-06-05T12:00:36.779+00:00] [DEBUG] 开始执行工具: getFunctionList {
+  "args": {
+    "action": "list"
+  }
+}
+[2026-06-05T12:00:36.780+00:00] [DEBUG] loginByApiSecret
+[2026-06-05T12:00:36.781+00:00] [DEBUG] 使用 envManager 缓存的环境ID: {
+  "cachedEnvId": "cs20260605-d7ge3qv3adead64a3"
+}
+[2026-06-05T12:00:36.829+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_lifecycle",
+  "deviceId": "d788dda8..."
+}
+[2026-06-05T12:00:37.172+00:00] [DEBUG] 工具执行成功: getFunctionList {
+  "duration": 393
+}
+[2026-06-05T12:00:37.173+00:00] [DEBUG] [telemetry] 工具调用 envId 获取结果 {
+  "toolName": "getFunctionList",
+  "envId": "cs20260605-d7ge3qv3adead64a3",
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T12:00:37.173+00:00] [DEBUG] [telemetry] 工具调用上报参数 {
+  "toolName": "getFunctionList",
+  "eventData": {
+    "toolName": "getFunctionList",
+    "success": "true",
+    "duration": 393,
+    "envId": "cs20260605-d7ge3qv3adead64a3",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2",
+    "inputParams": "[已包含]"
+  },
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID"
+}
+[2026-06-05T12:00:37.186+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_tool_call",
+  "deviceId": "d788dda8..."
+}
