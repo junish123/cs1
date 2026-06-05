@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商场会员管理系统</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://static.cloudbase.net/cloudbase-js-sdk/1.3.3/cloudbase.full.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#1a1a2e',
+                        'secondary-dark': '#16213e',
+                        'accent-gold': '#d4af37',
+                        'accent-gold-light': '#f4e4c1',
+                    },
+                    fontFamily: {
+                        'display': ['Playfair Display', 'serif'],
+                        'body': ['Source Sans Pro', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+        }
+        .glass-card {
+            background: rgba(22, 33, 62, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+        .nav-item.active {
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.2) 0%, transparent 100%);
+            border-left: 3px solid #d4af37;
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="text-white">
+    <!-- 登录页面 -->
+    <div id="loginPage" class="fixed inset-0 z-50 flex items-center justify-center bg-primary-dark">
+        <div class="glass-card rounded-2xl p-8 w-full max-w-md mx-4">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-accent-gold to-accent-gold-light flex items-center justify-center">
+                    <i class="fas fa-crown text-2xl text-primary-dark"></i>
+                </div>
+                <h1 class="font-display text-3xl font-bold gold-gradient-text mb-2">商场会员管理</h1>
+                <p class="text-gray-400">后台管理系统</p>
+            </div>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">管理员账号</label>
+                    <input type="text" id="adminUsername" class="w-full px-4 py-3 rounded-lg bg-primary-dark border border-gray-700 text-white focus:border-accent-gold focus:outline-none transition-colors" placeholder="请输入账号">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">密码</label>
+                    <input type="password" id="adminPassword" class="w-full px-4 py-3 rounded-lg bg-primary-dark border border-gray-700 text-white focus:border-accent-gold focus:outline-none transition-colors" placeholder="请输入密码">
+                </div>
+                <button type="submit" class="w-full py-3 rounded-lg bg-gradient-to-r from-accent-gold to-accent-gold-light text-primary-dark font-semibold hover:opacity-90 transition-opacity">
+                    <i class="fas fa-sign-in-alt mr-2"></i>登录
+                </button>
+            </form>
+            <p class="text-center text-gray-500 text-sm mt-6">默认账号: admin / 密码: admin123</p>
+        </div>
+    </div>
+
+    <!-- 主应用 -->
+    <div id="mainApp" class="hidden flex h-screen overflow-hidden">
+        <!-- 侧边栏 -->
+        <aside class="w-64 bg-secondary-dark border-r border-gray-800 flex flex-col">
+            <div class="p-6 border-b border-gray-800">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-accent-gold to-accent-gold-light flex items-center justify-center">
+                        <i class="fas fa-crown text-primary-dark"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-display font-bold text-lg">会员管理</h1>
+                        <p class="text-xs text-gray-400">后台系统</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="flex-1 py-4 custom-scrollbar overflow-y-auto">
+                <a href="#" class="nav-item active flex items-center px-6 py-3 text-gray-300 hover:text-white transition-colors" data-page="dashboard">
+                    <i class="fas fa-chart-line w-6"></i>
+                    <span>数据概览</span>
+                </a>
+                <a href="#" class="nav-item flex items-center px-6 py-3 text-gray-300 hover:text-white transition-colors" data-page="members">
+                    <i class="fas fa-users w-6"></i>
+                    <span>会员管理</span>
+                </a>
+                <a href="#" class="nav-item flex items-center px-6 py-3 text-gray-300 hover:text-white transition-colors" data-page="coupons">
+                    <i class="fas fa-ticket-alt w-6"></i>
+                    <span>优惠券管理</span>
+                </a>
+                <a href="#" class="nav-item flex items-center px-6 py-3 text-gray-300 hover:text-white transition-colors" data-page="products">
+                    <i class="fas fa-gift w-6"></i>
+                    <span>积分商品</span>
+                </a>
+                <a href="#" class="nav-item flex items-center px-6 py-3 text-gray-300 hover:text-white transition-colors" data-page="records">
+                    <i class="fas fa-history w-6"></i>
+                    <span>交易记录</span>
+                </a>
+            </nav>
+            
+            <div class="p-4 border-t border-gray-800">
+                <button id="logoutBtn" class="flex items-center px-4 py-2 text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-sign-out-alt w-6"></i>
+                    <span>退出登录</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="flex-1 overflow-y-auto custom-scrollbar">
+            <!-- 顶部栏 -->
+            <header class="bg-secondary-dark/50 backdrop-blur-lg border-b border-gray-800 px-8 py-4 sticky top-0 z-10">
+                <div class="flex items-center justify-between">
+                    <h2 id="pageTitle" class="font-display text-2xl font-bold">数据概览</h2>
+                    <div class="flex items-center space-x-4">
+                        <span id="currentTime" class="text-gray-400 font-mono"></span>
+                        <div class="flex items-center space-x-2 text-gray-400">
+                            <i class="fas fa-user-circle"></i>
+                            <span>管理员</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 页面内容 -->
+            <div class="p-8">
+                <!-- 数据概览页 -->
+                <div id="dashboardPage" class="page-content">
+                    <!-- 统计卡片 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="stat-card glass-card rounded-xl p-6 transition-all duration-300">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                                    <i class="fas fa-users text-blue-400 text-xl"></i>
+                                </div>
+                                <span class="text-green-400 text-sm font-mono">+12%</span>
+                            </div>
+                            <h3 class="text-gray-400 text-sm mb-1">总会员数</h3>
+                            <p id="totalMembers" class="font-display text-3xl font-bold gold-gradient-text">0</p>
+                        </div>
+                        
+                        <div class="stat-card glass-card rounded-xl p-6 transition-all duration-300">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-lg bg-amber-500/20 flex items-center justify-center">
+                                    <i class="fas fa-coins text-amber-400 text-xl"></i>
+                                </div>
+                                <span class="text-green-400 text-sm font-mono">+8%</span>
+                            </div>
+                            <h3 class="text-gray-400 text-sm mb-1">总积分发放</h3>
+                            <p id="totalPoints" class="font-display text-3xl font-bold gold-gradient-text">0</p>
+                        </div>
+                        
+                        <div class="stat-card glass-card rounded-xl p-6 transition-all duration-300">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center">
+                                    <i class="fas fa-ticket-alt text-purple-400 text-xl"></i>
+                                </div>
+                                <span class="text-red-400 text-sm font-mono">-5%</span>
+                            </div>
+                            <h3 class="text-gray-400 text-sm mb-1">优惠券领取</h3>
+                            <p id="totalCoupons" class="font-display text-3xl font-bold gold-gradient-text">0</p>
+                        </div>
+                        
+                        <div class="stat-card glass-card rounded-xl p-6 transition-all duration-300">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+                                    <i class="fas fa-shopping-cart text-emerald-400 text-xl"></i>
+                                </div>
+                                <span class="text-green-400 text-sm font-mono">+23%</span>
+                            </div>
+                            <h3 class="text-gray-400 text-sm mb-1">今日兑换</h3>
+                            <p id="todayExchanges" class="font-display text-3xl font-bold gold-gradient-text">0</p>
+                        </div>
+                    </div>
+
+                    <!-- 图表区域 -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <div class="glass-card rounded-xl p-6">
+                            <h3 class="font-display text-lg font-semibold mb-4">会员增长趋势</h3>
+                            <canvas id="memberChart" height="200"></canvas>
+                        </div>
+                        <div class="glass-card rounded-xl p-6">
+                            <h3 class="font-display text-lg font-semibold mb-4">积分使用情况</h3>
+                            <canvas id="pointsChart" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- 最近活动 -->
+                    <div class="glass-card rounded-xl p-6">
+                        <h3 class="font-display text-lg font-semibold mb-4">最近活动</h3>
+                        <div id="recentActivities" class="space-y-3">
+                            <!-- 动态生成 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 会员管理页 -->
+                <div id="membersPage" class="page-content hidden">
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center space-x-4">
+                                <input type="text" id="memberSearch" placeholder="搜索会员昵称或ID..." class="px-4 py-2 rounded-lg bg-primary-dark border border-gray-700 text-white focus:border-accent-gold focus:outline-none w-64">
+                                <select id="memberLevelFilter" class="px-4 py-2 rounded-lg bg-primary-dark border border-gray-700 text-white focus:border-accent-gold focus:outline-none">
+                                    <option value="">所有等级</option>
+                                    <option value="1">普通会员</option>
+                                    <option value="2">银卡会员</option>
+                                    <option value="3">金卡会员</option>
+                                    <option value="4">钻石会员</option>
+                                </select>
+                            </div>
+                            <button id="exportMembers" class="px-4 py-2 rounded-lg bg-accent-gold/20 text-accent-gold hover:bg-accent-gold/30 transition-colors">
+                                <i class="fas fa-download mr-2"></i>导出数据
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-700">
+                                        <th class="text-left py-3 px-4 text-gray-400 font-medium">会员信息</th>
+                                        <th class="text-left py-3 px-4 text-gray-400 font-medium">等级</th>
+                                        <th class="text-left py-3 px-4 text-gray-400 font-medium">积分</th>
+                                        <th class="text-left py-3 px-4 text-gray-400 font-medium">累计消费</th>
+                                        <th class="text-left py-3 px-4 text-gray-400 font-medium">注册时间</th>
+                                        <th class="text-left py-3 px-4 text-gray-400 font-medium">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="membersTable">
+                                    <!-- 动态生成 -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="flex items-center justify-between mt-6">
+                            <span id="membersPagination" class="text-gray-400 text-sm"></span>
+                            <div class="flex space-x-2">
+                                <button id="prevPage" class="px-4 py-2 rounded-lg bg-primary-dark border border-gray-700 hover:border-accent-gold transition-colors disabled:opacity-50">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button id="nextPage" class="px-4 py-2 rounded-lg bg-primary-dark border border-gray-700 hover:border-accent-gold transition-colors disabled:opacity-50">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 优惠券管理页 -->
+                <div id="couponsPage" class="page-content hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-display text-xl font-semibold">优惠券列表</h3>
+                        <button id="addCouponBtn" class="px-6 py-2 rounded-lg bg-gradient-to-r from-accent-gold to-accent-gold-light text-primary-dark font-semibold hover:opacity-90 transition-opacity">
+                            <i class="fas fa-plus mr-2"></i>新建优惠券
+                        </button>
+                    </div>
+                    <div id="couponsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- 动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 积分商品页 -->
+                <div id="productsPage" class="page-content hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-display text-xl font-semibold">积分商品</h3>
+                        <button id="addProductBtn" class="px-6 py-2 rounded-lg bg-gradient-to-r from-accent-gold to-accent-gold-light text-primary-dark font-semibold hover:opacity-90 transition-opacity">
+                            <i class="fas fa-plus mr-2"></i>添加商品
+                        </button>
+                    </div>
+                    <div id="productsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- 动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 交易记录页 -->
+                <div id="recordsPage" class="page-content hidden">
+                    <div class="glass-card rounded-xl p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-display text-xl font-semibold">交易记录</h3>
+                            <div class="flex items-center space-x-4">
+                                <select id="recordTypeFilter" class="px-4 py-2 rounded-lg bg-primary-dark border border-gray-700 text-white focus:border-accent-gold focus:outline-none">
+                                    <option value="">所有类型</option>
+                                    <option value="points_add">积分增加</option>
+                                    <option value="points_deduct">积分扣除</option>
+                                    <option value="coupon_receive">领取优惠券</option>
+                                    <option value="product_exchange">商品兑换</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-700">
+                                        <th class="text-left py-3 px-4 text-gray-400 font-medium">时间</th>
+                                        <th class="text-left py-3 px-4 text-gray-400 font-medium">会员</th>
+                                        <th class="text-left py-3 px-4 text-gray-400 font-medium">类型</th>
+                                        <th class="text-left py-3 px-4 text-gray-400 font-medium">内容</th>
+                                        <th class="text-left py-3 px-4 text-gray-400 font-medium">积分变动</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recordsTable">
+                                    <!-- 动态生成 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 新建优惠券弹窗 -->
+    <div id="couponModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="glass-card rounded-xl p-6 w-full max-w-lg mx-4">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="font-display text-xl font-semibold">新建优惠券</h3>
+                <button id="closeCouponModal" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="couponForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">优惠券名称</label>
+                    <input type="text" name="title" required class="w-full px-4 py-2 rounded-lg bg-primary-dark border border-gray-700 text-white focus:border-accent-gold focus:outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-2">类型</label>
+                        <select name="type" class="w-full px-4 py-2 rounded-lg bg-primary-dark border border-gray-700 text-white focus:border-accent-gold focus:outline-none">
+                            <option value="discount">折扣券</option>
+                            <option value="cash">代金券</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-2">面额/折扣</label>
+                        <input type="number" name="amount" required class="w-full px-4 py-2 rounded-lg bg-primary-dark border border-gray-700 text-white focus:border-accent-gold focus:outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">最低消费金额</label>
+                    <input type="number" name="minAmount" value="0" class="w-full px-4 py-2 rounded-lg bg-primary-dark border border-gray-700 text-white focus:border-accent-gold focus:outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-2">发放数量</label>
+                        <input type="number" name="stock" required class="w-full px-4 py-2 rounded-lg bg-primary-dark border border-gray-700 text-white focus:border-accent-gold focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-2">有效期(天)</label>
+                        <input type="number" name="validDays" value="30" class="w-full px-4 py-2 rounded-lg bg-primary-dark border border-gray-700 text-white focus:border-accent-gold focus:outline-none">
+                    </div>
+                </div>
+                <button type="submit" class="w-full py-3 rounded-lg bg-gradient-to-r from-accent-gold to-accent-gold-light text-primary-dark font-semibold hover:opacity-90 transition-opacity">
+                    创建优惠券
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 添加商品弹窗 -->
+    <div id="productModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="glass-card rounded-xl p-6 w-full max-w-lg mx-4">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="font-display text-xl font-semibold">添加积分商品</h3>
+                <button id="closeProductModal" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="productForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">商品名称</label>
+                    <input type="text" name="name" required class="w-full px-4 py-2 rounded-lg bg-primary-dark border border-gray-700 text-white focus:border-accent-gold focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">商品描述</label>
+                    <textarea name="description" rows="3" class="w-full px-4 py-2 rounded-lg bg-primary-dark border border-gray-700 text-white focus:border-accent-gold focus:outline-none resize-none"></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-2">所需积分</label>
+                        <input type="number" name="points" required class="w-full px-4 py-2 rounded-lg bg-primary-dark border border-gray-700 text-white focus:border-accent-gold focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-2">库存数量</label>
+                        <input type="number" name="stock" required class="w-full px-4 py-2 rounded-lg bg-primary-dark border border-gray-700 text-white focus:border-accent-gold focus:outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">商品图片URL</label>
+                    <input type="url" name="image" placeholder="https://example.com/image.jpg" class="w-full px-4 py-2 rounded-lg bg-primary-dark border border-gray-700 text-white focus:border-accent-gold focus:outline-none">
+                </div>
+                <button type="submit" class="w-full py-3 rounded-lg bg-gradient-to-r from-accent-gold to-accent-gold-light text-primary-dark font-semibold hover:opacity-90 transition-opacity">
+                    添加商品
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
