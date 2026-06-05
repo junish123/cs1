@@ -1,0 +1,85 @@
+<view class="container">
+  <!-- 当前等级卡片 -->
+  <view class="current-level-card" style="background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);">
+    <view class="level-header">
+      <text class="level-title">当前等级</text>
+      <view class="level-badge">
+        <text class="level-name">{{currentLevel.name}}</text>
+      </view>
+    </view>
+    <view class="level-progress-section">
+      <view class="progress-info">
+        <text class="progress-text">距下一等级还需消费</text>
+        <text class="progress-amount">¥{{needAmount}}</text>
+      </view>
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: {{progress}}%;"></view>
+      </view>
+      <view class="progress-labels">
+        <text>{{currentLevel.name}}</text>
+        <text>{{nextLevel.name}}</text>
+      </view>
+    </view>
+    <view class="level-stats">
+      <view class="level-stat">
+        <text class="stat-label">积分倍数</text>
+        <text class="stat-value">x{{currentLevel.multiplier}}</text>
+      </view>
+      <view class="level-stat">
+        <text class="stat-label">生日礼券</text>
+        <text class="stat-value">¥{{currentLevel.birthdayGift}}</text>
+      </view>
+      <view class="level-stat">
+        <text class="stat-label">停车时长</text>
+        <text class="stat-value">{{currentLevel.parkingHours}}h</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 等级列表 -->
+  <view class="level-list-section">
+    <view class="section-title">会员等级</view>
+    <view class="level-list">
+      <view class="level-item {{item.current ? 'current' : ''}}" wx:for="{{levels}}" wx:key="level">
+        <view class="level-icon-wrapper">
+          <view class="level-icon" style="background: {{item.color}};">
+            <text class="iconfont {{item.icon}}"></text>
+          </view>
+          <view class="level-connector" wx:if="{{index < levels.length - 1}}"></view>
+        </view>
+        <view class="level-content">
+          <view class="level-content-header">
+            <text class="level-content-name">{{item.name}}</text>
+            <text class="level-tag" wx:if="{{item.current}}">当前等级</text>
+          </view>
+          <text class="level-condition">{{item.condition}}</text>
+          <view class="level-benefits">
+            <view class="benefit-item" wx:for="{{item.benefits}}" wx:for-item="benefit" wx:key="*this">
+              <text class="iconfont icon-check"></text>
+              <text class="benefit-text">{{benefit}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 权益对比 -->
+  <view class="compare-section">
+    <view class="section-title">权益对比</view>
+    <view class="compare-table">
+      <view class="compare-header">
+        <text class="compare-cell">权益项目</text>
+        <text class="compare-cell" wx:for="{{levels}}" wx:key="level">{{item.shortName}}</text>
+      </view>
+      <view class="compare-row" wx:for="{{benefitsList}}" wx:key="name">
+        <text class="compare-cell benefit-name">{{item.name}}</text>
+        <view class="compare-cell" wx:for="{{item.values}}" wx:for-index="idx" wx:for-item="val" wx:key="idx">
+          <text class="iconfont icon-check" wx:if="{{val === true}}"></text>
+          <text class="benefit-value" wx:elif="{{val}}">{{val}}</text>
+          <text class="iconfont icon-minus" wx:else></text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -4,31 +4,47 @@
     "pages/member/member",
     "pages/coupons/coupons",
     "pages/points/points",
-    "pages/records/records"
+    "pages/records/records",
+    "pages/discover/discover",
+    "pages/pointDetail/pointDetail",
+    "pages/vipLevel/vipLevel",
+    "pages/mallGuide/mallGuide"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#FF6B6B",
+    "navigationBarBackgroundColor": "#1A1A2E",
     "navigationBarTitleText": "商场会员",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
     "color": "#999999",
-    "selectedColor": "#FF6B6B",
+    "selectedColor": "#E94560",
     "backgroundColor": "#ffffff",
     "borderStyle": "black",
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页"
+        "text": "首页",
+        "iconPath": "images/tab-home.png",
+        "selectedIconPath": "images/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/discover/discover",
+        "text": "发现",
+        "iconPath": "images/tab-discover.png",
+        "selectedIconPath": "images/tab-discover-active.png"
       },
       {
         "pagePath": "pages/coupons/coupons",
-        "text": "优惠券"
+        "text": "优惠",
+        "iconPath": "images/tab-coupon.png",
+        "selectedIconPath": "images/tab-coupon-active.png"
       },
       {
         "pagePath": "pages/member/member",
-        "text": "我的"
+        "text": "我的",
+        "iconPath": "images/tab-user.png",
+        "selectedIconPath": "images/tab-user-active.png"
       }
     ]
   },

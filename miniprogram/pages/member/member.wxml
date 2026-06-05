@@ -1,100 +1,166 @@
-<!-- 会员中心页面 -->
 <view class="container">
-  <!-- 会员信息卡片 -->
-  <view class="member-header">
-    <view class="member-profile">
-      <image class="avatar-large" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"/>
-      <view class="profile-info">
-        <text class="nickname">{{userInfo.nickName || '游客'}}</text>
-        <view class="member-tag level-{{memberInfo.level}}">
-          <text>{{memberInfo.levelName || '普通会员'}}</text>
-        </view>
+  <!-- 会员卡片 -->
+  <view class="member-card">
+    <view class="card-bg"></view>
+    <view class="member-info">
+      <view class="avatar-wrapper">
+        <image class="avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+        <view class="level-tag">{{memberInfo.levelName || '普通会员'}}</view>
+      </view>
+      <view class="info-content">
+        <text class="nickname">{{userInfo.nickName || '微信用户'}}</text>
+        <text class="member-no">会员号: {{memberInfo.memberNo || '000001'}}</text>
+      </view>
+      <view class="qr-btn" bindtap="showMemberCode">
+        <text class="iconfont icon-qrcode"></text>
+        <text class="qr-text">会员码</text>
       </view>
     </view>
-    <view class="member-stats">
-      <view class="stat-box">
-        <text class="stat-num">{{memberInfo.points || 0}}</text>
+    
+    <view class="stats-row">
+      <view class="stat-item" bindtap="goToPoints">
+        <text class="stat-value">{{memberInfo.points || 0}}</text>
         <text class="stat-label">积分</text>
       </view>
-      <view class="stat-box">
-        <text class="stat-num">{{memberInfo.balance || 0}}</text>
+      <view class="stat-item" bindtap="goToBalance">
+        <text class="stat-value">{{memberInfo.balance || 0}}</text>
         <text class="stat-label">余额</text>
       </view>
-      <view class="stat-box">
-        <text class="stat-num">{{memberInfo.totalSpend || 0}}</text>
-        <text class="stat-label">累计消费</text>
+      <view class="stat-item" bindtap="goToCoupons">
+        <text class="stat-value">{{couponCount || 0}}</text>
+        <text class="stat-label">优惠券</text>
+      </view>
+      <view class="stat-item" bindtap="goToCollect">
+        <text class="stat-value">{{collectCount || 0}}</text>
+        <text class="stat-label">收藏</text>
       </view>
     </view>
   </view>
-  
-  <!-- 会员等级 -->
-  <view class="card">
-    <view class="card-title">会员等级特权</view>
-    <view class="privilege-list">
-      <view class="privilege-item">
-        <view class="privilege-icon">积分</view>
-        <text class="privilege-name">积分加速</text>
-        <text class="privilege-desc">消费享{{memberInfo.level >= 3 ? '2' : memberInfo.level >= 2 ? '1.5' : '1'}}倍积分</text>
+
+  <!-- 我的订单 -->
+  <view class="section">
+    <view class="section-header" bindtap="goToOrders">
+      <text class="section-title">我的订单</text>
+      <text class="section-more">查看全部 ></text>
+    </view>
+    <view class="order-types">
+      <view class="order-item" bindtap="goToOrders" data-type="unpaid">
+        <view class="order-icon-wrapper">
+          <text class="iconfont icon-wallet"></text>
+          <text class="badge" wx:if="{{unpaidCount > 0}}">{{unpaidCount}}</text>
+        </view>
+        <text class="order-label">待付款</text>
       </view>
-      <view class="privilege-item">
-        <view class="privilege-icon">生日</view>
-        <text class="privilege-name">生日礼包</text>
-        <text class="privilege-desc">生日当月送优惠券</text>
+      <view class="order-item" bindtap="goToOrders" data-type="unshipped">
+        <view class="order-icon-wrapper">
+          <text class="iconfont icon-box"></text>
+          <text class="badge" wx:if="{{unshippedCount > 0}}">{{unshippedCount}}</text>
+        </view>
+        <text class="order-label">待发货</text>
       </view>
-      <view class="privilege-item">
-        <view class="privilege-icon">专属</view>
-        <text class="privilege-name">专属优惠</text>
-        <text class="privilege-desc">会员专享折扣</text>
+      <view class="order-item" bindtap="goToOrders" data-type="unreceived">
+        <view class="order-icon-wrapper">
+          <text class="iconfont icon-truck"></text>
+          <text class="badge" wx:if="{{unreceivedCount > 0}}">{{unreceivedCount}}</text>
+        </view>
+        <text class="order-label">待收货</text>
       </view>
-      <view class="privilege-item">
-        <view class="privilege-icon">优先</view>
-        <text class="privilege-name">优先服务</text>
-        <text class="privilege-desc">尊享优先通道</text>
+      <view class="order-item" bindtap="goToOrders" data-type="unreviewed">
+        <view class="order-icon-wrapper">
+          <text class="iconfont icon-comment"></text>
+          <text class="badge" wx:if="{{unreviewedCount > 0}}">{{unreviewedCount}}</text>
+        </view>
+        <text class="order-label">待评价</text>
+      </view>
+      <view class="order-item" bindtap="goToAfterSale">
+        <view class="order-icon-wrapper">
+          <text class="iconfont icon-service"></text>
+        </view>
+        <text class="order-label">退款/售后</text>
       </view>
     </view>
   </view>
-  
-  <!-- 功能菜单 -->
-  <view class="menu-list">
-    <view class="menu-item" bindtap="goToRecords">
-      <view class="menu-icon record-icon">
-        <text>记录</text>
+
+  <!-- 功能列表 -->
+  <view class="section">
+    <view class="menu-list">
+      <view class="menu-item" bindtap="goToVipLevel">
+        <view class="menu-icon" style="background: linear-gradient(135deg, #FFD700, #FFA500);">
+          <text class="iconfont icon-crown"></text>
+        </view>
+        <view class="menu-content">
+          <text class="menu-title">会员等级</text>
+          <text class="menu-desc">当前等级特权</text>
+        </view>
+        <text class="iconfont icon-arrow-right"></text>
       </view>
-      <text class="menu-text">消费记录</text>
-      <text class="menu-arrow">></text>
-    </view>
-    <view class="menu-item" bindtap="goToPoints">
-      <view class="menu-icon points-icon">
-        <text>积分</text>
+      
+      <view class="menu-item" bindtap="goToPointDetail">
+        <view class="menu-icon" style="background: linear-gradient(135deg, #E94560, #FF6B6B);">
+          <text class="iconfont icon-points"></text>
+        </view>
+        <view class="menu-content">
+          <text class="menu-title">积分明细</text>
+          <text class="menu-desc">查看积分记录</text>
+        </view>
+        <text class="iconfont icon-arrow-right"></text>
       </view>
-      <text class="menu-text">积分明细</text>
-      <text class="menu-arrow">></text>
-    </view>
-    <view class="menu-item" bindtap="goToCoupons">
-      <view class="menu-icon coupon-icon">
-        <text>领券</text>
+      
+      <view class="menu-item" bindtap="goToAddress">
+        <view class="menu-icon" style="background: linear-gradient(135deg, #4361EE, #3A0CA3);">
+          <text class="iconfont icon-location"></text>
+        </view>
+        <view class="menu-content">
+          <text class="menu-title">收货地址</text>
+          <text class="menu-desc">管理收货地址</text>
+        </view>
+        <text class="iconfont icon-arrow-right"></text>
       </view>
-      <text class="menu-text">领券中心</text>
-      <text class="menu-arrow">></text>
-    </view>
-    <view class="menu-item" bindtap="showMemberCode">
-      <view class="menu-icon code-icon">
-        <text>会员</text>
+      
+      <view class="menu-item" bindtap="goToParking">
+        <view class="menu-icon" style="background: linear-gradient(135deg, #06D6A0, #118AB2);">
+          <text class="iconfont icon-parking"></text>
+        </view>
+        <view class="menu-content">
+          <text class="menu-title">停车缴费</text>
+          <text class="menu-desc">快速缴费离场</text>
+        </view>
+        <text class="iconfont icon-arrow-right"></text>
       </view>
-      <text class="menu-text">会员二维码</text>
-      <text class="menu-arrow">></text>
-    </view>
-    <view class="menu-item" bindtap="contactService">
-      <view class="menu-icon service-icon">
-        <text>客服</text>
+      
+      <view class="menu-item" bindtap="goToFamily">
+        <view class="menu-icon" style="background: linear-gradient(135deg, #F72585, #B5179E);">
+          <text class="iconfont icon-family"></text>
+        </view>
+        <view class="menu-content">
+          <text class="menu-title">亲友圈</text>
+          <text class="menu-desc">共享会员权益</text>
+        </view>
+        <text class="iconfont icon-arrow-right"></text>
       </view>
-      <text class="menu-text">联系客服</text>
-      <text class="menu-arrow">></text>
     </view>
   </view>
-  
-  <!-- 退出登录 -->
-  <view class="logout-btn" bindtap="logout">
-    <text>退出登录</text>
+
+  <!-- 更多服务 -->
+  <view class="section">
+    <view class="section-title">更多服务</view>
+    <view class="service-grid">
+      <view class="service-item" bindtap="goToFeedback">
+        <text class="iconfont icon-feedback"></text>
+        <text class="service-name">意见反馈</text>
+      </view>
+      <view class="service-item" bindtap="goToHelp">
+        <text class="iconfont icon-help"></text>
+        <text class="service-name">帮助中心</text>
+      </view>
+      <view class="service-item" bindtap="goToSetting">
+        <text class="iconfont icon-setting"></text>
+        <text class="service-name">设置</text>
+      </view>
+      <view class="service-item" bindtap="goToAbout">
+        <text class="iconfont icon-info"></text>
+        <text class="service-name">关于我们</text>
+      </view>
+    </view>
   </view>
 </view>

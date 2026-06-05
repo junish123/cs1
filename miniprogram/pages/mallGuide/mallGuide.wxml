@@ -1,0 +1,74 @@
+<view class="container">
+  <!-- 商场信息 -->
+  <view class="mall-header">
+    <image class="mall-cover" src="https://picsum.photos/800/400?random=1" mode="aspectFill"></image>
+    <view class="mall-info">
+      <text class="mall-name">印象城购物中心</text>
+      <view class="mall-meta">
+        <text class="meta-item">营业时间: 10:00-22:00</text>
+        <text class="meta-item">|</text>
+        <text class="meta-item">共5层</text>
+      </view>
+      <view class="mall-location">
+        <text class="iconfont icon-location"></text>
+        <text class="location-text">XX市XX区XX路XX号</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 楼层选择 -->
+  <view class="floor-tabs">
+    <scroll-view scroll-x="true" class="floor-scroll">
+      <view class="floor-list">
+        <view class="floor-item {{currentFloor === item ? 'active' : ''}}" wx:for="{{floors}}" wx:key="*this" bindtap="switchFloor" data-floor="{{item}}">
+          <text class="floor-text">{{item}}F</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 楼层业态 -->
+  <view class="floor-categories">
+    <view class="category-item" wx:for="{{categories}}" wx:key="id">
+      <view class="category-icon" style="background: {{item.color}};">
+        <text class="iconfont {{item.icon}}"></text>
+      </view>
+      <text class="category-name">{{item.name}}</text>
+    </view>
+  </view>
+
+  <!-- 店铺列表 -->
+  <view class="shop-section">
+    <view class="section-title">{{currentFloor}}F 店铺</view>
+    <view class="shop-list">
+      <view class="shop-card" wx:for="{{shops}}" wx:key="id">
+        <image class="shop-logo" src="{{item.logo}}" mode="aspectFill"></image>
+        <view class="shop-info">
+          <text class="shop-name">{{item.name}}</text>
+          <text class="shop-category">{{item.category}}</text>
+          <view class="shop-tags">
+            <text class="shop-tag" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</text>
+          </view>
+        </view>
+        <view class="shop-action">
+          <text class="shop-location">{{item.location}}</text>
+          <button class="nav-btn" bindtap="navigateToShop" data-id="{{item.id}}">导航</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 设施服务 -->
+  <view class="facility-section">
+    <view class="section-title">设施服务</view>
+    <view class="facility-grid">
+      <view class="facility-item" wx:for="{{facilities}}" wx:key="id">
+        <view class="facility-icon">
+          <text class="iconfont {{item.icon}}"></text>
+        </view>
+        <text class="facility-name">{{item.name}}</text>
+        <text class="facility-location">{{item.location}}</text>
+      </view>
+    </view>
+  </view>
+</view>
