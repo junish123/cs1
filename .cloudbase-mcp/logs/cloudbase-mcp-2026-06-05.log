@@ -700,3 +700,122 @@
   "eventCode": "toolkit_tool_call",
   "deviceId": "d788dda8..."
 }
+[2026-06-05T12:00:52.471+00:00] [DEBUG] [cache] Using default TTL {
+  "ttlMs": 86400000
+}
+[2026-06-05T12:00:52.503+00:00] [DEBUG] report_init {
+  "enabled": true,
+  "deviceId": "d788dda8...",
+  "ide": "none"
+}
+[2026-06-05T12:00:52.528+00:00] [DEBUG] [cache] evaluated cache meta {
+  "ageMs": 3234732,
+  "ttlMs": 86400000,
+  "valid": true
+}
+[2026-06-05T12:00:52.529+00:00] [DEBUG] [downloadResources] 使用缓存（快速路径）
+[2026-06-05T12:00:52.545+00:00] [INFO] TencentCloudBase MCP Server running on stdio
+[2026-06-05T12:00:52.545+00:00] [DEBUG] [telemetry] 生命周期事件 envId 获取结果 {
+  "event": "start",
+  "envId": "cs20260605-d7ge3qv3adead64a3",
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T12:00:52.546+00:00] [DEBUG] [telemetry] 生命周期事件上报参数 {
+  "event": "start",
+  "eventData": {
+    "event": "start",
+    "envId": "cs20260605-d7ge3qv3adead64a3",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2"
+  },
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID"
+}
+[2026-06-05T12:00:52.622+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_lifecycle",
+  "deviceId": "d788dda8..."
+}
+[2026-06-05T12:00:54.061+00:00] [DEBUG] [cache] Using default TTL {
+  "ttlMs": 86400000
+}
+[2026-06-05T12:00:54.093+00:00] [DEBUG] report_init {
+  "enabled": true,
+  "deviceId": "d788dda8...",
+  "ide": "none"
+}
+[2026-06-05T12:00:54.115+00:00] [DEBUG] [cache] evaluated cache meta {
+  "ageMs": 3236318,
+  "ttlMs": 86400000,
+  "valid": true
+}
+[2026-06-05T12:00:54.116+00:00] [DEBUG] [downloadResources] 使用缓存（快速路径）
+[2026-06-05T12:00:54.129+00:00] [INFO] TencentCloudBase MCP Server running on stdio
+[2026-06-05T12:00:54.129+00:00] [DEBUG] [telemetry] 生命周期事件 envId 获取结果 {
+  "event": "start",
+  "envId": "cs20260605-d7ge3qv3adead64a3",
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T12:00:54.129+00:00] [DEBUG] [telemetry] 生命周期事件上报参数 {
+  "event": "start",
+  "eventData": {
+    "event": "start",
+    "envId": "cs20260605-d7ge3qv3adead64a3",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2"
+  },
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID"
+}
+[2026-06-05T12:00:54.154+00:00] [DEBUG] 开始执行工具: updateFunctionCode {
+  "args": {
+    "name": "receiveCoupon",
+    "functionRootPath": "/tmp/workspace/682880f0-0e39-4f06-847c-dcfc4c2a649f/cloudfunctions"
+  }
+}
+[2026-06-05T12:00:54.155+00:00] [DEBUG] loginByApiSecret
+[2026-06-05T12:00:54.155+00:00] [DEBUG] 使用 envManager 缓存的环境ID: {
+  "cachedEnvId": "cs20260605-d7ge3qv3adead64a3"
+}
+[2026-06-05T12:00:54.198+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_lifecycle",
+  "deviceId": "d788dda8..."
+}
+[2026-06-05T12:00:54.319+00:00] [INFO] [receiveCoupon] 部署方式: COS 上传
+[2026-06-05T12:00:56.658+00:00] [DEBUG] 工具执行成功: updateFunctionCode {
+  "duration": 2505
+}
+[2026-06-05T12:00:56.659+00:00] [DEBUG] [telemetry] 工具调用 envId 获取结果 {
+  "toolName": "updateFunctionCode",
+  "envId": "cs20260605-d7ge3qv3adead64a3",
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T12:00:56.659+00:00] [DEBUG] [telemetry] 工具调用上报参数 {
+  "toolName": "updateFunctionCode",
+  "eventData": {
+    "toolName": "updateFunctionCode",
+    "success": "true",
+    "duration": 2505,
+    "envId": "cs20260605-d7ge3qv3adead64a3",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2",
+    "inputParams": "[已包含]"
+  },
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID"
+}
+[2026-06-05T12:00:56.672+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_tool_call",
+  "deviceId": "d788dda8..."
+}
