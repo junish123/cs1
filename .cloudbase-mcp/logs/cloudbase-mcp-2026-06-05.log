@@ -2365,3 +2365,47 @@
   "eventCode": "toolkit_tool_call",
   "deviceId": "1c95ff9f..."
 }
+[2026-06-05T14:51:25.865+00:00] [DEBUG] [cache] Using default TTL {
+  "ttlMs": 86400000
+}
+[2026-06-05T14:51:25.896+00:00] [DEBUG] 检测到 IDE 集成环境 {
+  "ide": "codebuddy"
+}
+[2026-06-05T14:51:25.897+00:00] [DEBUG] report_init {
+  "enabled": true,
+  "deviceId": "1c95ff9f...",
+  "ide": "codebuddy"
+}
+[2026-06-05T14:51:25.904+00:00] [INFO] Integration IDE: codebuddy
+[2026-06-05T14:51:25.920+00:00] [DEBUG] [cache] evaluated cache meta {
+  "ageMs": 13468124,
+  "ttlMs": 86400000,
+  "valid": true
+}
+[2026-06-05T14:51:25.921+00:00] [DEBUG] [downloadResources] 使用缓存（快速路径）
+[2026-06-05T14:51:25.936+00:00] [INFO] TencentCloudBase MCP Server running on stdio
+[2026-06-05T14:51:25.936+00:00] [DEBUG] [telemetry] 生命周期事件 envId 获取结果 {
+  "event": "start",
+  "envId": "cs20260605-d7ge3qv3adead64a3",
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T14:51:25.937+00:00] [DEBUG] [telemetry] 生命周期事件上报参数 {
+  "event": "start",
+  "eventData": {
+    "event": "start",
+    "envId": "cs20260605-d7ge3qv3adead64a3",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2",
+    "ide": "codebuddy"
+  },
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID"
+}
+[2026-06-05T14:51:26.008+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_lifecycle",
+  "deviceId": "1c95ff9f..."
+}
