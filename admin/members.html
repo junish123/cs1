@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>会员管理 - 商场会员管理系统</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root { --primary: #E94560; --secondary: #1A1A2E; --accent: #FFD700; }
+    body { font-family: 'Source Sans Pro', sans-serif; background: #F5F7FA; }
+    .sidebar { background: linear-gradient(180deg, var(--secondary) 0%, #16213E 100%); }
+    .nav-item:hover, .nav-item.active { background: rgba(233, 69, 96, 0.2); border-left: 4px solid var(--primary); }
+    .card { background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+    .btn-primary { background: linear-gradient(135deg, var(--primary) 0%, #FF6B6B 100%); }
+    .level-normal { background: #CD7F32; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+    .level-silver { background: #C0C0C0; color: #333; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+    .level-gold { background: linear-gradient(135deg, #FFD700, #FFA500); color: #333; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+    .level-black { background: #1A1A2E; color: #FFD700; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div class="flex h-screen">
+    <aside class="sidebar w-64 text-white flex flex-col">
+      <div class="p-6 border-b border-gray-700">
+        <h1 class="text-2xl font-bold flex items-center">
+          <i class="fas fa-crown mr-3 text-yellow-400"></i>印象城会员管理
+        </h1>
+      </div>
+      <nav class="flex-1 py-4">
+        <a href="index.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-home w-6"></i><span>仪表盘</span></a>
+        <a href="members.html" class="nav-item active flex items-center px-6 py-3 text-gray-300"><i class="fas fa-users w-6"></i><span>会员管理</span></a>
+        <a href="coupons.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-ticket-alt w-6"></i><span>优惠券管理</span></a>
+        <a href="points.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-coins w-6"></i><span>积分管理</span></a>
+        <a href="orders.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-shopping-bag w-6"></i><span>订单管理</span></a>
+        <a href="events.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-calendar-alt w-6"></i><span>活动管理</span></a>
+        <a href="reports.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-chart-bar w-6"></i><span>数据报表</span></a>
+      </nav>
+    </aside>
+
+    <main class="flex-1 overflow-auto">
+      <header class="bg-white shadow-sm px-8 py-4 flex justify-between items-center">
+        <h2 class="text-2xl font-bold text-gray-800">会员管理</h2>
+        <button onclick="exportMembers()" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
+          <i class="fas fa-download mr-2"></i>导出会员
+        </button>
+      </header>
+
+      <div class="p-8 space-y-6">
+        <!-- 筛选栏 -->
+        <div class="card p-4">
+          <div class="flex flex-wrap gap-4 items-center">
+            <div class="flex-1 min-w-[200px]">
+              <input type="text" id="searchInput" placeholder="搜索会员姓名/手机号" 
+                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+            </div>
+            <select id="levelFilter" class="px-4 py-2 border rounded-lg">
+              <option value="">全部等级</option>
+              <option value="1">普通会员</option>
+              <option value="2">银卡会员</option>
+              <option value="3">金卡会员</option>
+              <option value="4">黑卡会员</option>
+            </select>
+            <button onclick="searchMembers()" class="btn-primary text-white px-6 py-2 rounded-lg">
+              <i class="fas fa-search mr-2"></i>搜索
+            </button>
+          </div>
+        </div>
+
+        <!-- 会员统计 -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div class="card p-6 bg-gradient-to-r from-gray-800 to-gray-900 text-white">
+            <p class="text-gray-400 text-sm">总会员数</p>
+            <p class="text-3xl font-bold mt-2">12,580</p>
+          </div>
+          <div class="card p-6 bg-gradient-to-r from-yellow-500 to-orange-500 text-white">
+            <p class="text-white/80 text-sm">今日新增</p>
+            <p class="text-3xl font-bold mt-2">+156</p>
+          </div>
+          <div class="card p-6 bg-gradient-to-r from-pink-500 to-red-500 text-white">
+            <p class="text-white/80 text-sm">活跃会员</p>
+            <p class="text-3xl font-bold mt-2">8,420</p>
+          </div>
+          <div class="card p-6 bg-gradient-to-r from-blue-500 to-purple-500 text-white">
+            <p class="text-white/80 text-sm">平均积分</p>
+            <p class="text-3xl font-bold mt-2">3,280</p>
+          </div>
+        </div>
+
+        <!-- 会员列表 -->
+        <div class="card p-6">
+          <h3 class="text-lg font-bold mb-4">会员列表</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-4 py-3 text-left text-sm font-semibold">会员信息</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold">等级</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold">积分</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold">累计消费</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold">注册时间</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold">操作</th>
+                </tr>
+              </thead>
+              <tbody id="membersTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const members = [
+      { id: 1, name: '张三', phone: '138****1234', level: 2, points: 2580, spent: 12800, registerTime: '2024-01-15' },
+      { id: 2, name: '李四', phone: '139****5678', level: 3, points: 8900, spent: 35600, registerTime: '2023-08-20' },
+      { id: 3, name: '王五', phone: '137****9012', level: 1, points: 580, spent: 2300, registerTime: '2026-03-10' },
+      { id: 4, name: '赵六', phone: '136****3456', level: 4, points: 25600, spent: 128000, registerTime: '2022-06-01' },
+      { id: 5, name: '钱七', phone: '135****7890', level: 2, points: 3200, spent: 15600, registerTime: '2024-05-20' },
+    ];
+
+    function getLevelBadge(level) {
+      const levels = { 1: { name: '普通会员', class: 'level-normal' }, 2: { name: '银卡会员', class: 'level-silver' }, 3: { name: '金卡会员', class: 'level-gold' }, 4: { name: '黑卡会员', class: 'level-black' } };
+      const info = levels[level] || levels[1];
+      return `<span class="${info.class}">${info.name}</span>`;
+    }
+
+    function renderMembers(data = members) {
+      const tbody = document.getElementById('membersTable');
+      tbody.innerHTML = data.map(member => `
+        <tr class="border-b hover:bg-gray-50">
+          <td class="px-4 py-3">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center mr-3">
+                <i class="fas fa-user text-gray-500"></i>
+              </div>
+              <div>
+                <p class="font-semibold">${member.name}</p>
+                <p class="text-sm text-gray-500">${member.phone}</p>
+              </div>
+            </div>
+          </td>
+          <td class="px-4 py-3">${getLevelBadge(member.level)}</td>
+          <td class="px-4 py-3 font-semibold text-yellow-600">${member.points.toLocaleString()}</td>
+          <td class="px-4 py-3">¥${member.spent.toLocaleString()}</td>
+          <td class="px-4 py-3 text-gray-500">${member.registerTime}</td>
+          <td class="px-4 py-3">
+            <button class="text-blue-500 hover:text-blue-700 mr-2"><i class="fas fa-edit"></i></button>
+            <button class="text-yellow-500 hover:text-yellow-700 mr-2"><i class="fas fa-plus-circle"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function searchMembers() {
+      const keyword = document.getElementById('searchInput').value.toLowerCase();
+      const level = document.getElementById('levelFilter').value;
+      let filtered = members.filter(m => m.name.includes(keyword) || m.phone.includes(keyword));
+      if (level) filtered = filtered.filter(m => m.level == level);
+      renderMembers(filtered);
+    }
+
+    function exportMembers() {
+      alert('会员导出成功！');
+    }
+
+    renderMembers();
+  </script>
+</body>
+</html>

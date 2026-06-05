@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>积分管理 - 商场会员管理系统</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root { --primary: #E94560; --secondary: #1A1A2E; }
+    body { font-family: 'Source Sans Pro', sans-serif; background: #F5F7FA; }
+    .sidebar { background: linear-gradient(180deg, var(--secondary) 0%, #16213E 100%); }
+    .nav-item:hover, .nav-item.active { background: rgba(233, 69, 96, 0.2); border-left: 4px solid var(--primary); }
+    .card { background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+    .btn-primary { background: linear-gradient(135deg, var(--primary) 0%, #FF6B6B 100%); }
+    .income { color: #10B981; }
+    .expense { color: var(--primary); }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div class="flex h-screen">
+    <aside class="sidebar w-64 text-white flex flex-col">
+      <div class="p-6 border-b border-gray-700">
+        <h1 class="text-2xl font-bold flex items-center">
+          <i class="fas fa-crown mr-3 text-yellow-400"></i>印象城会员管理
+        </h1>
+      </div>
+      <nav class="flex-1 py-4">
+        <a href="index.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-home w-6"></i><span>仪表盘</span></a>
+        <a href="members.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-users w-6"></i><span>会员管理</span></a>
+        <a href="coupons.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-ticket-alt w-6"></i><span>优惠券管理</span></a>
+        <a href="points.html" class="nav-item active flex items-center px-6 py-3 text-gray-300"><i class="fas fa-coins w-6"></i><span>积分管理</span></a>
+        <a href="orders.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-shopping-bag w-6"></i><span>订单管理</span></a>
+        <a href="events.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-calendar-alt w-6"></i><span>活动管理</span></a>
+        <a href="reports.html" class="nav-item flex items-center px-6 py-3 text-gray-300"><i class="fas fa-chart-bar w-6"></i><span>数据报表</span></a>
+      </nav>
+    </aside>
+
+    <main class="flex-1 overflow-auto">
+      <header class="bg-white shadow-sm px-8 py-4 flex justify-between items-center">
+        <h2 class="text-2xl font-bold text-gray-800">积分管理</h2>
+        <button onclick="manualAdjust()" class="btn-primary text-white px-4 py-2 rounded-lg">
+          <i class="fas fa-sliders-h mr-2"></i>手动调整
+        </button>
+      </header>
+
+      <div class="p-8 space-y-6">
+        <!-- 积分统计 -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div class="card p-6">
+            <p class="text-gray-500 text-sm">积分池总量</p>
+            <p class="text-3xl font-bold text-yellow-600 mt-2">45.2M</p>
+          </div>
+          <div class="card p-6">
+            <p class="text-gray-500 text-sm">今日发放</p>
+            <p class="text-3xl font-bold text-green-600 mt-2">+28,560</p>
+          </div>
+          <div class="card p-6">
+            <p class="text-gray-500 text-sm">今日消耗</p>
+            <p class="text-3xl font-bold text-red-600 mt-2">-15,230</p>
+          </div>
+          <div class="card p-6">
+            <p class="text-gray-500 text-sm">积分兑换率</p>
+            <p class="text-3xl font-bold text-blue-600 mt-2">68.5%</p>
+          </div>
+        </div>
+
+        <!-- 积分趋势 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="card p-6">
+            <h3 class="text-lg font-bold mb-4">积分收支趋势</h3>
+            <canvas id="pointsTrendChart" height="200"></canvas>
+          </div>
+          <div class="card p-6">
+            <h3 class="text-lg font-bold mb-4">积分来源分布</h3>
+            <canvas id="pointsSourceChart" height="200"></canvas>
+          </div>
+        </div>
+
+        <!-- 积分流水 -->
+        <div class="card p-6">
+          <h3 class="text-lg font-bold mb-4">积分流水</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-4 py-3 text-left text-sm font-semibold">时间</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold">会员</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold">类型</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold">积分变动</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold">余额</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold">来源/用途</th>
+                </tr>
+              </thead>
+              <tbody id="pointsTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const pointsRecords = [
+      { id: 1, time: '2026-06-06 14:30:25', member: '张三', type: 'income', change: 299, balance: 2879, source: '消费奖励 - 优衣库' },
+      { id: 2, time: '2026-06-06 13:15:10', member: '李四', type: 'expense', change: -500, balance: 8400, source: '积分兑换 - 50元优惠券' },
+      { id: 3, time: '2026-06-06 12:00:00', member: '王五', type: 'income', change: 10, balance: 590, source: '每日签到' },
+      { id: 4, time: '2026-06-06 11:30:45', member: '赵六', type: 'income', change: 1500, balance: 27100, source: '消费奖励 - 金卡双倍' },
+      { id: 5, time: '2026-06-06 10:20:15', member: '钱七', type: 'expense', change: -200, balance: 3000, source: '积分商城 - 兑换礼品' },
+    ];
+
+    function renderPointsTable() {
+      const tbody = document.getElementById('pointsTable');
+      tbody.innerHTML = pointsRecords.map(record => `
+        <tr class="border-b hover:bg-gray-50">
+          <td class="px-4 py-3 text-gray-500">${record.time}</td>
+          <td class="px-4 py-3 font-semibold">${record.member}</td>
+          <td class="px-4 py-3">
+            <span class="px-2 py-1 rounded text-xs ${record.type === 'income' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}">
+              ${record.type === 'income' ? '收入' : '支出'}
+            </span>
+          </td>
+          <td class="px-4 py-3 font-bold ${record.type}">${record.type === 'income' ? '+' : ''}${record.change}</td>
+          <td class="px-4 py-3 text-yellow-600 font-semibold">${record.balance}</td>
+          <td class="px-4 py-3 text-gray-600">${record.source}</td>
+        </tr>
+      `).join('');
+    }
+
+    function initCharts() {
+      new Chart(document.getElementById('pointsTrendChart'), {
+        type: 'line',
+        data: {
+          labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+          datasets: [{
+            label: '发放', data: [15000, 18000, 22000, 19000, 25000, 35000, 28000],
+            borderColor: '#10B981', backgroundColor: 'rgba(16, 185, 129, 0.1)', fill: true
+          }, {
+            label: '消耗', data: [8000, 10000, 12000, 11000, 15000, 22000, 18000],
+            borderColor: '#E94560', backgroundColor: 'rgba(233, 69, 96, 0.1)', fill: true
+          }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+      });
+
+      new Chart(document.getElementById('pointsSourceChart'), {
+        type: 'doughnut',
+        data: {
+          labels: ['消费奖励', '签到奖励', '活动赠送', '邀请奖励', '其他'],
+          datasets: [{
+            data: [45, 20, 18, 12, 5],
+            backgroundColor: ['#E94560', '#FFD700', '#4361EE', '#10B981', '#9CA3AF']
+          }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+      });
+    }
+
+    function manualAdjust() {
+      alert('手动调整积分功能');
+    }
+
+    renderPointsTable();
+    initCharts();
+  </script>
+</body>
+</html>
