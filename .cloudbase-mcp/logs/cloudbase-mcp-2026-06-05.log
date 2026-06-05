@@ -1793,3 +1793,177 @@
   "eventCode": "toolkit_tool_call",
   "deviceId": "745c4e42..."
 }
+[2026-06-05T13:58:27.844+00:00] [DEBUG] [cache] Using default TTL {
+  "ttlMs": 86400000
+}
+[2026-06-05T13:58:27.879+00:00] [DEBUG] report_init {
+  "enabled": true,
+  "deviceId": "2f853abe...",
+  "ide": "none"
+}
+[2026-06-05T13:58:27.906+00:00] [DEBUG] [cache] evaluated cache meta {
+  "ageMs": 10290110,
+  "ttlMs": 86400000,
+  "valid": true
+}
+[2026-06-05T13:58:27.907+00:00] [DEBUG] [downloadResources] 使用缓存（快速路径）
+[2026-06-05T13:58:27.921+00:00] [INFO] TencentCloudBase MCP Server running on stdio
+[2026-06-05T13:58:27.922+00:00] [DEBUG] [telemetry] 生命周期事件 envId 获取结果 {
+  "event": "start",
+  "envId": "unknown",
+  "envIdSource": "default",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T13:58:27.922+00:00] [DEBUG] [telemetry] 生命周期事件上报参数 {
+  "event": "start",
+  "eventData": {
+    "event": "start",
+    "envId": "unknown",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2"
+  },
+  "envIdSource": "default"
+}
+[2026-06-05T13:58:27.950+00:00] [DEBUG] 开始执行工具: uploadFiles {
+  "args": {
+    "localPath": "/tmp/workspace/682880f0-0e39-4f06-847c-dcfc4c2a649f/admin",
+    "cloudPath": "admin",
+    "files": []
+  }
+}
+[2026-06-05T13:58:27.968+00:00] [ERROR] Failed to initialize CloudBase Manager: {
+  "error": {
+    "name": "ToolPayloadError",
+    "message": "当前未登录，请先调用 auth 工具完成认证。",
+    "stack": "ToolPayloadError: 当前未登录，请先调用 auth 工具完成认证。\n    at t.throwToolPayloadError (/app/node_modules/.pnpm/@cloudbase+cloudbase-mcp@2.14.2/node_modules/@cloudbase/cloudbase-mcp/dist/cli.cjs:2:402922)\n    at t.getCloudBaseManager (/app/node_modules/.pnpm/@cloudbase+cloudbase-mcp@2.14.2/node_modules/@cloudbase/cloudbase-mcp/dist/cli.cjs:2:163775)\n    at async /app/node_modules/.pnpm/@cloudbase+cloudbase-mcp@2.14.2/node_modules/@cloudbase/cloudbase-mcp/dist/cli.cjs:5:1066464\n    at async /app/node_modules/.pnpm/@cloudbase+cloudbase-mcp@2.14.2/node_modules/@cloudbase/cloudbase-mcp/dist/cli.cjs:5:2416539\n    at async /app/node_modules/.pnpm/@cloudbase+cloudbase-mcp@2.14.2/node_modules/@cloudbase/cloudbase-mcp/dist/cli.cjs:5:876989\n    at async /app/node_modules/.pnpm/@cloudbase+cloudbase-mcp@2.14.2/node_modules/@cloudbase/cloudbase-mcp/dist/cli.cjs:2:313445"
+  }
+}
+[2026-06-05T13:58:27.969+00:00] [DEBUG] 工具执行失败: uploadFiles {
+  "error": "当前未登录，请先调用 auth 工具完成认证。",
+  "duration": 20
+}
+[2026-06-05T13:58:27.970+00:00] [DEBUG] [telemetry] 工具调用 envId 获取结果 {
+  "toolName": "uploadFiles",
+  "envId": "unknown",
+  "envIdSource": "default",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T13:58:27.970+00:00] [DEBUG] [telemetry] 工具调用上报参数 {
+  "toolName": "uploadFiles",
+  "eventData": {
+    "toolName": "uploadFiles",
+    "success": "false",
+    "duration": 20,
+    "error": "当前未登录，请先调用 auth 工具完成认证。",
+    "envId": "unknown",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2",
+    "inputParams": "[已包含]"
+  },
+  "envIdSource": "default"
+}
+[2026-06-05T13:58:28.011+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_lifecycle",
+  "deviceId": "2f853abe..."
+}
+[2026-06-05T13:58:28.026+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_tool_call",
+  "deviceId": "2f853abe..."
+}
+[2026-06-05T13:58:29.544+00:00] [DEBUG] [cache] Using default TTL {
+  "ttlMs": 86400000
+}
+[2026-06-05T13:58:29.579+00:00] [DEBUG] 检测到 IDE 集成环境 {
+  "ide": "codebuddy"
+}
+[2026-06-05T13:58:29.579+00:00] [DEBUG] report_init {
+  "enabled": true,
+  "deviceId": "2f853abe...",
+  "ide": "codebuddy"
+}
+[2026-06-05T13:58:29.587+00:00] [INFO] Integration IDE: codebuddy
+[2026-06-05T13:58:29.604+00:00] [DEBUG] [cache] evaluated cache meta {
+  "ageMs": 10291808,
+  "ttlMs": 86400000,
+  "valid": true
+}
+[2026-06-05T13:58:29.605+00:00] [DEBUG] [downloadResources] 使用缓存（快速路径）
+[2026-06-05T13:58:29.617+00:00] [INFO] TencentCloudBase MCP Server running on stdio
+[2026-06-05T13:58:29.617+00:00] [DEBUG] [telemetry] 生命周期事件 envId 获取结果 {
+  "event": "start",
+  "envId": "cs20260605-d7ge3qv3adead64a3",
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T13:58:29.618+00:00] [DEBUG] [telemetry] 生命周期事件上报参数 {
+  "event": "start",
+  "eventData": {
+    "event": "start",
+    "envId": "cs20260605-d7ge3qv3adead64a3",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2",
+    "ide": "codebuddy"
+  },
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID"
+}
+[2026-06-05T13:58:29.644+00:00] [DEBUG] 开始执行工具: uploadFiles {
+  "args": {
+    "localPath": "/tmp/workspace/682880f0-0e39-4f06-847c-dcfc4c2a649f/admin",
+    "cloudPath": "admin",
+    "files": []
+  }
+}
+[2026-06-05T13:58:29.645+00:00] [DEBUG] loginByApiSecret
+[2026-06-05T13:58:29.645+00:00] [DEBUG] 使用 envManager 缓存的环境ID: {
+  "cachedEnvId": "cs20260605-d7ge3qv3adead64a3"
+}
+[2026-06-05T13:58:29.692+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_lifecycle",
+  "deviceId": "2f853abe..."
+}
+[2026-06-05T13:58:30.335+00:00] [DEBUG] 使用缓存中的 envId: {
+  "envId": "cs20260605-d7ge3qv3adead64a3"
+}
+[2026-06-05T13:58:30.336+00:00] [DEBUG] 工具执行成功: uploadFiles {
+  "duration": 692
+}
+[2026-06-05T13:58:30.336+00:00] [DEBUG] [telemetry] 工具调用 envId 获取结果 {
+  "toolName": "uploadFiles",
+  "envId": "cs20260605-d7ge3qv3adead64a3",
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID",
+  "hasCloudBaseOptions": false,
+  "cloudBaseOptionsEnvId": null
+}
+[2026-06-05T13:58:30.337+00:00] [DEBUG] [telemetry] 工具调用上报参数 {
+  "toolName": "uploadFiles",
+  "eventData": {
+    "toolName": "uploadFiles",
+    "success": "true",
+    "duration": 692,
+    "envId": "cs20260605-d7ge3qv3adead64a3",
+    "nodeVersion": "v22.22.2",
+    "osType": "Linux",
+    "osRelease": "5.4.119-19-0009-03_2.0.1-00029-gee3a514c359c",
+    "arch": "x64",
+    "mcpVersion": "2.14.2",
+    "inputParams": "[已包含]",
+    "ide": "codebuddy"
+  },
+  "envIdSource": "process.env.CLOUDBASE_ENV_ID"
+}
+[2026-06-05T13:58:30.353+00:00] [DEBUG] report_success {
+  "eventCode": "toolkit_tool_call",
+  "deviceId": "2f853abe..."
+}
